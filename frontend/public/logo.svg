@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="512" height="512" viewBox="0 0 512 512">
+
+  <defs>
+    <linearGradient id="blueGreen" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3B82F6"/>
+      <stop offset="100%" stop-color="#22C55E"/>
+    </linearGradient>
+
+    <linearGradient id="greenOrange" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#22C55E"/>
+      <stop offset="100%" stop-color="#F97316"/>
+    </linearGradient>
+
+    <linearGradient id="orangeBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F97316"/>
+      <stop offset="100%" stop-color="#3B82F6"/>
+    </linearGradient>
+  </defs>
+
+
+  <!-- Swirls -->
+  <path d="M256 96
+           C150 96 96 150 96 256
+           C96 362 150 416 256 416
+           C362 416 416 362 416 256
+           C416 150 362 96 256 96 Z"
+        fill="none"
+        stroke="url(#blueGreen)"
+        stroke-width="48"
+        stroke-linecap="round"/>
+
+  <path d="M256 128
+           C180 128 128 180 128 256
+           C128 332 180 384 256 384"
+        fill="none"
+        stroke="url(#greenOrange)"
+        stroke-width="48"
+        stroke-linecap="round"/>
+
+  <path d="M256 384
+           C332 384 384 332 384 256
+           C384 180 332 128 256 128"
+        fill="none"
+        stroke="url(#orangeBlue)"
+        stroke-width="48"
+        stroke-linecap="round"/>
+
+  <!-- Center mark -->
+  <path d="M240 200
+           H280
+           C300 200 320 220 320 240
+           C320 260 300 280 280 280
+           H260
+           V320
+           H240 Z"
+        fill="#FFFFFF"/>
+
+</svg>
