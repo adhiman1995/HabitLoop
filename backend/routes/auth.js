@@ -58,11 +58,19 @@ router.post('/login', async (req, res) => {
     try {
         // Find user
         const user = await User.findOne({ email });
+        console.log('Login attempt for:', email);
+        console.log('User found:', user);
+
         if (!user) {
             return res.status(401).json({ error: 'Invalid credentials' });
         }
 
         // Verify password
+        if (!user.password_hash) {
+            console.error('CRITICAL: User found but has no password_hash!', user);
+            return res.status(500).json({ error: 'User account corrupted' });
+        }
+
         const validPassword = await bcrypt.compare(password, user.password_hash);
         if (!validPassword) {
             return res.status(401).json({ error: 'Invalid credentials' });
