@@ -9,13 +9,14 @@ export const DAYS_OF_WEEK = [
 ];
 
 export const CATEGORIES = [
-    { name: 'Work', color: 'bg-orange-500', textColor: 'text-white', neoColor: 'bg-orange-100 text-orange-800 border-none', softBg: 'bg-orange-50', borderClass: 'border-l-orange-500', pastelBg: 'bg-[#FFF8F0]', pastelBorder: 'border-orange-200', pastelText: 'text-orange-900', pastelIcon: 'text-orange-500', hoverBg: 'hover:bg-[#FFF0E0]' },
-    { name: 'Personal', color: 'bg-violet-500', textColor: 'text-white', neoColor: 'bg-violet-100 text-violet-800 border-none', softBg: 'bg-violet-50', borderClass: 'border-l-violet-500', pastelBg: 'bg-[#F5F3FF]', pastelBorder: 'border-violet-200', pastelText: 'text-violet-900', pastelIcon: 'text-violet-500', hoverBg: 'hover:bg-[#EDE9FE]' },
-    { name: 'Fitness', color: 'bg-emerald-500', textColor: 'text-white', neoColor: 'bg-emerald-100 text-emerald-800 border-none', softBg: 'bg-emerald-50', borderClass: 'border-l-emerald-500', pastelBg: 'bg-[#ECFDF5]', pastelBorder: 'border-emerald-200', pastelText: 'text-emerald-900', pastelIcon: 'text-emerald-600', hoverBg: 'hover:bg-[#D1FAE5]' },
-    { name: 'Learning', color: 'bg-amber-500', textColor: 'text-white', neoColor: 'bg-amber-100 text-amber-800 border-none', softBg: 'bg-amber-50', borderClass: 'border-l-amber-500', pastelBg: 'bg-[#FFFBEB]', pastelBorder: 'border-amber-200', pastelText: 'text-amber-900', pastelIcon: 'text-amber-500', hoverBg: 'hover:bg-[#FEF3C7]' },
-    { name: 'Social', color: 'bg-rose-500', textColor: 'text-white', neoColor: 'bg-rose-100 text-rose-800 border-none', softBg: 'bg-rose-50', borderClass: 'border-l-rose-500', pastelBg: 'bg-[#FFF1F2]', pastelBorder: 'border-rose-200', pastelText: 'text-rose-900', pastelIcon: 'text-rose-500', hoverBg: 'hover:bg-[#FFE4E6]' },
-    { name: 'Health', color: 'bg-cyan-500', textColor: 'text-white', neoColor: 'bg-cyan-100 text-cyan-800 border-none', softBg: 'bg-cyan-50', borderClass: 'border-l-cyan-500', pastelBg: 'bg-[#ECFEFF]', pastelBorder: 'border-cyan-200', pastelText: 'text-cyan-900', pastelIcon: 'text-cyan-600', hoverBg: 'hover:bg-[#CFFAFE]' },
-    { name: 'Other', color: 'bg-slate-500', textColor: 'text-white', neoColor: 'bg-slate-100 text-slate-700 border-none', softBg: 'bg-slate-50', borderClass: 'border-l-slate-500', pastelBg: 'bg-[#F8FAFC]', pastelBorder: 'border-slate-200', pastelText: 'text-slate-800', pastelIcon: 'text-slate-500', hoverBg: 'hover:bg-[#F1F5F9]' },
+    { name: 'Work', color: 'bg-blue-600', textColor: 'text-white', neoColor: 'bg-blue-100 text-blue-800 border-none', softBg: 'bg-blue-50', borderClass: 'border-l-blue-600', pastelBg: 'bg-blue-50', pastelBorder: 'border-blue-200', pastelText: 'text-blue-700', pastelIcon: 'text-blue-600', hoverBg: 'hover:bg-blue-100' },
+    { name: 'Personal', color: 'bg-purple-600', textColor: 'text-white', neoColor: 'bg-purple-100 text-purple-800 border-none', softBg: 'bg-purple-50', borderClass: 'border-l-purple-600', pastelBg: 'bg-purple-50', pastelBorder: 'border-purple-200', pastelText: 'text-purple-700', pastelIcon: 'text-purple-600', hoverBg: 'hover:bg-purple-100' },
+    { name: 'Fitness', color: 'bg-emerald-500', textColor: 'text-white', neoColor: 'bg-emerald-100 text-emerald-800 border-none', softBg: 'bg-emerald-50', borderClass: 'border-l-emerald-500', pastelBg: 'bg-emerald-50', pastelBorder: 'border-emerald-200', pastelText: 'text-emerald-700', pastelIcon: 'text-emerald-600', hoverBg: 'hover:bg-emerald-100' },
+    { name: 'Learning', color: 'bg-amber-500', textColor: 'text-white', neoColor: 'bg-amber-100 text-amber-800 border-none', softBg: 'bg-amber-50', borderClass: 'border-l-amber-500', pastelBg: 'bg-amber-50', pastelBorder: 'border-amber-200', pastelText: 'text-amber-800', pastelIcon: 'text-amber-600', hoverBg: 'hover:bg-amber-100' },
+    { name: 'Social', color: 'bg-rose-500', textColor: 'text-white', neoColor: 'bg-rose-100 text-rose-800 border-none', softBg: 'bg-rose-50', borderClass: 'border-l-rose-500', pastelBg: 'bg-rose-50', pastelBorder: 'border-rose-200', pastelText: 'text-rose-700', pastelIcon: 'text-rose-600', hoverBg: 'hover:bg-rose-100' },
+    { name: 'Health', color: 'bg-cyan-500', textColor: 'text-white', neoColor: 'bg-cyan-100 text-cyan-800 border-none', softBg: 'bg-cyan-50', borderClass: 'border-l-cyan-500', pastelBg: 'bg-cyan-50', pastelBorder: 'border-cyan-200', pastelText: 'text-cyan-700', pastelIcon: 'text-cyan-600', hoverBg: 'hover:bg-cyan-100' },
+    { name: 'Other', color: 'bg-slate-500', textColor: 'text-white', neoColor: 'bg-slate-100 text-slate-700 border-none', softBg: 'bg-slate-50', borderClass: 'border-l-slate-500', pastelBg: 'bg-slate-50', pastelBorder: 'border-slate-300', pastelText: 'text-slate-700', pastelIcon: 'text-slate-500', hoverBg: 'hover:bg-slate-100' },
+    { name: 'Creative', color: 'bg-fuchsia-500', textColor: 'text-white', neoColor: 'bg-fuchsia-100 text-fuchsia-800 border-none', softBg: 'bg-fuchsia-50', borderClass: 'border-l-fuchsia-500', pastelBg: 'bg-fuchsia-50', pastelBorder: 'border-fuchsia-200', pastelText: 'text-fuchsia-700', pastelIcon: 'text-fuchsia-600', hoverBg: 'hover:bg-fuchsia-100' },
 ];
 
 export const getCategoryStyle = (categoryName) => {
@@ -46,6 +47,95 @@ export const formatTimeRange = (startTime, durationMinutes) => {
     const endStr = date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
 
     return `${startStr} - ${endStr}`;
+};
+
+// Helper: Convert "HH:MM" to minutes since midnight
+export const minutesFromTime = (timeStr) => {
+    const [hours, minutes] = timeStr.split(':').map(Number);
+    return hours * 60 + minutes;
+};
+
+// Helper: Check if two activities overlap
+export const doActivitiesOverlap = (newActivity, existingActivity) => {
+    // 1. Check Day
+    if (newActivity.day_of_week !== existingActivity.day_of_week) return false;
+
+    // 2. Check Specific Date vs Recurring Logic
+    // If one is recurring, it conflicts with EVERYTHING on that day (recurring or specific)
+    // If both are specific, they only conflict if dates match
+    if (!newActivity.is_recurring && !existingActivity.is_recurring) {
+        // Both specific: check date match
+        const date1 = newActivity.specific_date ? newActivity.specific_date.split('T')[0] : null;
+        const date2 = existingActivity.specific_date ? existingActivity.specific_date.split('T')[0] : null;
+        if (date1 !== date2) return false;
+    }
+    // If either is recurring, we assume conflict on day match (which we checked in step 1)
+
+    // 3. Check Time Overlap
+    const start1 = minutesFromTime(newActivity.time_slot);
+    const end1 = start1 + Number(newActivity.duration);
+
+    const start2 = minutesFromTime(existingActivity.time_slot);
+    const end2 = start2 + Number(existingActivity.duration);
+
+    return (start1 < end2) && (start2 < end1);
+};
+
+// Helper: Convert minutes back to "HH:MM"
+export const minutesToTimeSlot = (minutes) => {
+    const h = Math.floor(minutes / 60) % 24;
+    const m = minutes % 60;
+    return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
+};
+
+// Helper: Suggest the next available slot after a conflict
+export const suggestNextAvailableSlot = (newActivity, allActivities) => {
+    const conflict = allActivities.find(existing => {
+        if (newActivity.id && existing.id === newActivity.id) return false;
+        return doActivitiesOverlap(newActivity, existing);
+    });
+
+    if (!conflict) return null;
+
+    // Proposed new start time = End time of the conflicting activity
+    const conflictEndMinutes = minutesFromTime(conflict.time_slot) + Number(conflict.duration);
+    const suggestedTimeSlot = minutesToTimeSlot(conflictEndMinutes);
+
+    // Create a temporary activity object with the suggested time to check validity
+    const potentialActivity = { ...newActivity, time_slot: suggestedTimeSlot };
+
+    // Check if this new time is also blocked
+    const isBlocked = allActivities.some(existing => {
+        if (newActivity.id && existing.id === newActivity.id) return false;
+        return doActivitiesOverlap(potentialActivity, existing);
+    });
+
+    if (!isBlocked) {
+        return suggestedTimeSlot;
+    }
+
+    // Recursively try one more time? Or just giving up for now to keep it simple.
+    // Let's try one more jump if the first suggestion is blocked (e.g. back-to-back meetings)
+    // Actually, finding the *conflicting activity at the suggested time* and jumping past THAT is better.
+    const secondaryConflict = allActivities.find(existing => {
+        if (newActivity.id && existing.id === newActivity.id) return false;
+        return doActivitiesOverlap(potentialActivity, existing);
+    });
+
+    if (secondaryConflict) {
+        const secondaryEndMinutes = minutesFromTime(secondaryConflict.time_slot) + Number(secondaryConflict.duration);
+        const secondarySuggestion = minutesToTimeSlot(secondaryEndMinutes);
+
+        // Check final validity
+        const finalCheck = allActivities.some(existing => {
+            if (newActivity.id && existing.id === newActivity.id) return false;
+            return doActivitiesOverlap({ ...newActivity, time_slot: secondarySuggestion }, existing);
+        });
+
+        if (!finalCheck) return secondarySuggestion;
+    }
+
+    return null; // Could not find simple adjacent slot
 };
 
 export const getStartOfWeek = (date = new Date()) => {

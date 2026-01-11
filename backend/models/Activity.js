@@ -31,13 +31,16 @@ const activitySchema = new mongoose.Schema({
         required: true
     },
     completed: {
-        type: Number, // 0 or 1 to match SQLite legacy, or could switch to Boolean. Keeping 0/1 for minimal frontend friction if it relies on numbers. Actually let's check frontend. Frontend checks `activity.completed ? ...`. Boolean is better for Mongo. Let's make it Boolean.
-        // Wait, frontend expects `completed` to be truthy/falsy.
-        // In SQLite it was 0/1. Handlers in frontend might send true/false.
-        // The previous code had: `completed !== undefined ? (completed ? 1 : 0) : existing.completed`
-        // Let's use Boolean in Mongo. When sending generic JSON, 1/0 works fine as truthy/falsy usually, but cleanest is Boolean.
         type: Boolean,
         default: false
+    },
+    is_recurring: {
+        type: Boolean,
+        default: false
+    },
+    specific_date: {
+        type: Date,
+        default: null
     },
     created_at: {
         type: Date,

@@ -6,11 +6,7 @@ dotenv.config();
 
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/habitloop', {
-      // These options are no longer needed in Mongoose 6+, but harmless
-      // useNewUrlParser: true,
-      // useUnifiedTopology: true,
-    });
+    const conn = await mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/habitloop', {});
 
     console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
   } catch (error) {

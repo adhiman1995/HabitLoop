@@ -17,7 +17,15 @@ import StatsOverview from './components/StatsOverview';
 import CategoryBreakdown from './components/CategoryBreakdown';
 import AnalyticsChart from './components/AnalyticsChart';
 import Footer from './components/Footer';
-import { getStartOfWeek, getWeekDates, formatDate } from './utils/helpers';
+import {
+  DAYS_OF_WEEK,
+  getStartOfWeek,
+  getWeekDates,
+  getCategoryStyle,
+  formatDate,
+  formatTimeRange,
+  doActivitiesOverlap
+} from './utils/helpers';
 
 // Main Dashboard Component
 const Dashboard = () => {
@@ -34,6 +42,7 @@ const Dashboard = () => {
 
   // Date State for Navigation
   const [currentWeekStart, setCurrentWeekStart] = useState(getStartOfWeek(new Date()));
+  const [isLoadingWeek, setIsLoadingWeek] = useState(false);
 
   // Derived state for the displayed week's dates
   const weekDates = getWeekDates(currentWeekStart);
@@ -45,6 +54,27 @@ const Dashboard = () => {
   useEffect(() => {
     fetchActivities();
   }, []);
+
+  // ... (existing helper functions)
+
+  const changeWeek = (offset) => {
+    setIsLoadingWeek(true);
+    setTimeout(() => {
+      const newDate = new Date(currentWeekStart);
+      if (offset === 0) {
+        // Reset to today
+        setCurrentWeekStart(getStartOfWeek(new Date()));
+      } else {
+        newDate.setDate(newDate.getDate() + offset);
+        setCurrentWeekStart(newDate);
+      }
+      setIsLoadingWeek(false);
+    }, 500); // 500ms delay to simulate loading
+  };
+
+  const handlePrevWeek = () => changeWeek(-7);
+  const handleNextWeek = () => changeWeek(7);
+  const handleToday = () => changeWeek(0);
 
   // Filter activities when category changes
   useEffect(() => {
@@ -101,25 +131,7 @@ const Dashboard = () => {
 
   const handleSaveActivity = async (activityData) => {
     try {
-      // Check for conflicts (same day and time)
-      const conflictingActivity = activities.find(a =>
-        a.day_of_week === activityData.day_of_week &&
-        a.time_slot === activityData.time_slot &&
-        a.id !== (editingActivity ? editingActivity.id : null)
-      );
-
-      if (conflictingActivity) {
-        const confirmReplace = window.confirm(
-          `An activity "${conflictingActivity.title}" already exists at this time. Do you want to replace it?`
-        );
-
-        if (!confirmReplace) {
-          return; // User cancelled
-        }
-
-        // Delete the conflicting activity first
-        await activityAPI.delete(conflictingActivity.id);
-      }
+      /* Conflict Check Moved to ActivityForm */
 
       if (editingActivity) {
         // Update existing activity
@@ -180,21 +192,7 @@ const Dashboard = () => {
     setFormInitialData(null);
   };
 
-  const handlePrevWeek = () => {
-    const newDate = new Date(currentWeekStart);
-    newDate.setDate(newDate.getDate() - 7);
-    setCurrentWeekStart(newDate);
-  };
 
-  const handleNextWeek = () => {
-    const newDate = new Date(currentWeekStart);
-    newDate.setDate(newDate.getDate() + 7);
-    setCurrentWeekStart(newDate);
-  };
-
-  const handleToday = () => {
-    setCurrentWeekStart(getStartOfWeek(new Date()));
-  };
 
   if (loading) {
     return (
@@ -329,6 +327,7 @@ const Dashboard = () => {
                 onDelete={handleDeleteActivity}
                 onCreate={handleCreateActivity}
                 onView={setViewingActivity}
+                isLoading={isLoadingWeek}
               />
             </div>
           )}
@@ -341,6 +340,8 @@ const Dashboard = () => {
         <ActivityForm
           activity={editingActivity}
           initialData={formInitialData}
+          weekDates={weekDates}
+          activities={activities}
           onSave={handleSaveActivity}
           onCancel={handleCancelForm}
         />
