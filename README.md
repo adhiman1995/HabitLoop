@@ -1,4 +1,4 @@
-# Weekly Activity Tracker 📅
+# Weekly Activity Tracker 
 
 A modern, full-stack web application for tracking your weekly activities. Built with Node.js, Express, React, and TailwindCSS with a beautiful glassmorphism design.
 
