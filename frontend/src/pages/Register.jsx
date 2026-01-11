@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { FiUser, FiMail, FiLock, FiArrowRight } from 'react-icons/fi';
+import Logo from '../components/Logo';
 
 const Register = ({ onSwitchToLogin }) => {
     const [name, setName] = useState('');
@@ -24,60 +25,69 @@ const Register = ({ onSwitchToLogin }) => {
     };
 
     return (
-        <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
-            <div className="max-w-md w-full bg-white rounded-2xl shadow-xl overflow-hidden">
-                <div className="p-8">
+        <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4 relative overflow-hidden">
+            {/* Background Decor */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                <div className="absolute top-0 right-1/4 w-[600px] h-[600px] rounded-full bg-blue-100/40 blur-3xl animate-pulse"></div>
+                <div className="absolute bottom-0 left-1/4 w-[500px] h-[500px] rounded-full bg-purple-100/40 blur-3xl animate-pulse delay-700"></div>
+            </div>
+
+            <div className="max-w-md w-full bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/50 overflow-hidden relative z-10 transition-all hover:shadow-blue-200/20">
+                <div className="p-8 md:p-10">
                     <div className="text-center mb-8">
-                        <h1 className="text-3xl font-bold text-slate-900 mb-2">Create Account</h1>
-                        <p className="text-slate-500">Join HabitLoop effectively today</p>
+                        <div className="w-16 h-16 mx-auto mb-4 bg-white rounded-2xl shadow-lg shadow-blue-100 flex items-center justify-center p-3 ring-1 ring-blue-50">
+                            <Logo className="w-full h-full text-blue-600" />
+                        </div>
+                        <h1 className="text-2xl font-black text-slate-900 tracking-tight mb-2">Start HabitLooping</h1>
+                        <p className="text-slate-500 font-medium">Create your account to unlock your potential</p>
                     </div>
 
                     {error && (
-                        <div className="mb-6 p-4 bg-red-50 text-red-600 text-sm rounded-lg border border-red-100 flex items-center">
+                        <div className="mb-6 p-4 bg-rose-50 text-rose-600 text-sm font-semibold rounded-xl border border-rose-100 flex items-center animate-shake">
                             {error}
                         </div>
                     )}
 
-                    <form onSubmit={handleSubmit} className="space-y-6">
-                        <div>
-                            <label className="block text-sm font-semibold text-slate-700 mb-2">Full Name</label>
+                    <form onSubmit={handleSubmit} className="space-y-5">
+                        <div className="group">
+                            <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5 ml-1">Full Name</label>
                             <div className="relative">
-                                <FiUser className="absolute left-4 top-3.5 text-slate-400 text-lg" />
+                                <FiUser className="absolute left-4 top-3.5 text-slate-400 text-lg transition-colors group-focus-within:text-blue-500" />
                                 <input
                                     type="text"
                                     value={name}
                                     onChange={(e) => setName(e.target.value)}
-                                    className="w-full pl-12 pr-4 py-3 rounded-lg border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition-all text-slate-800 font-medium placeholder-slate-400"
-                                    placeholder="John Doe"
+                                    className="w-full pl-12 pr-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all text-slate-800 font-semibold placeholder-slate-400"
+                                    placeholder="Full Name"
                                     required
                                 />
                             </div>
                         </div>
 
-                        <div>
-                            <label className="block text-sm font-semibold text-slate-700 mb-2">Email Address</label>
+                        <div className="group">
+                            <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5 ml-1">Email Address</label>
                             <div className="relative">
-                                <FiMail className="absolute left-4 top-3.5 text-slate-400 text-lg" />
+                                <FiMail className="absolute left-4 top-3.5 text-slate-400 text-lg transition-colors group-focus-within:text-blue-500" />
                                 <input
                                     type="email"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
-                                    className="w-full pl-12 pr-4 py-3 rounded-lg border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition-all text-slate-800 font-medium placeholder-slate-400"
-                                    placeholder="you@example.com"
+                                    className="w-full pl-12 pr-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all text-slate-800 font-semibold placeholder-slate-400"
+                                    placeholder="name@company.com"
                                     required
                                 />
                             </div>
                         </div>
 
-                        <div>
-                            <label className="block text-sm font-semibold text-slate-700 mb-2">Password</label>
+                        <div className="group">
+                            <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5 ml-1">Password</label>
                             <div className="relative">
-                                <FiLock className="absolute left-4 top-3.5 text-slate-400 text-lg" />
+                                <FiLock className="absolute left-4 top-3.5 text-slate-400 text-lg transition-colors group-focus-within:text-blue-500" />
                                 <input
                                     type="password"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    className="w-full pl-12 pr-4 py-3 rounded-lg border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition-all text-slate-800 font-medium placeholder-slate-400"
+                                    className="w-full pl-12 pr-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all text-slate-800 font-semibold placeholder-slate-400"
                                     placeholder="••••••••"
                                     minLength="6"
                                     required
@@ -88,21 +98,32 @@ const Register = ({ onSwitchToLogin }) => {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="w-full py-3 bg-primary-600 hover:bg-primary-700 text-white font-bold rounded-lg shadow-lg shadow-primary-500/30 transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+                            className="w-full py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-lg shadow-blue-500/30 hover:shadow-blue-600/40 hover:-translate-y-0.5 active:translate-y-0 transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none"
                         >
-                            {loading ? 'Creating Account...' : 'Get Started'}
-                            {!loading && <FiArrowRight />}
+                            {loading ? (
+                                <>
+                                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                                    <span>Creating Account...</span>
+                                </>
+                            ) : (
+                                <>
+                                    <span>Get Started</span>
+                                    <FiArrowRight className="text-lg" />
+                                </>
+                            )}
                         </button>
                     </form>
 
-                    <div className="mt-8 text-center text-sm text-slate-500">
-                        Already have an account?{' '}
-                        <button
-                            onClick={onSwitchToLogin}
-                            className="text-primary-600 font-bold hover:text-primary-700 hover:underline"
-                        >
-                            Sign In
-                        </button>
+                    <div className="mt-8 pt-6 border-t border-slate-100 text-center">
+                        <p className="text-slate-500 text-sm font-medium">
+                            Already have an account?{' '}
+                            <button
+                                onClick={onSwitchToLogin}
+                                className="text-blue-600 font-bold hover:text-blue-700 hover:underline transition-all"
+                            >
+                                Sign In
+                            </button>
+                        </p>
                     </div>
                 </div>
             </div>

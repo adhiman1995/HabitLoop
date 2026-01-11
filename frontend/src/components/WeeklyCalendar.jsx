@@ -99,12 +99,10 @@ const WeeklyCalendar = ({ activities, weekDates, onToggle, onEdit, onDelete, onC
                             return (
                                 <th
                                     key={day}
-                                    className={`p-4 text-center min-w-[160px] sticky top-0 z-20 border-b border-r border-slate-200 last:border-r-0 transition-colors
-                                        ${isPast ? 'bg-slate-100/60' : 'bg-white'}
-                                    `}
+                                    className="p-4 text-center min-w-[160px] sticky top-0 z-20 border-b border-r border-slate-200 last:border-r-0 transition-colors bg-white"
                                 >
                                     <div className={`inline-flex flex-col items-center justify-center py-2 px-4 rounded-2xl transition-all duration-300
-                                        ${isTodayDate ? 'bg-blue-600 shadow-lg shadow-blue-200' : (isPast ? 'opacity-60' : 'hover:bg-slate-50')}
+                                        ${isTodayDate ? 'bg-blue-600 shadow-lg shadow-blue-200' : 'hover:bg-slate-50'}
                                     `}>
                                         <div className={`text-sm font-bold uppercase tracking-wider mb-1 ${isTodayDate ? 'text-blue-200' : 'text-slate-600'}`}>
                                             {day.substring(0, 3)}
@@ -137,10 +135,10 @@ const WeeklyCalendar = ({ activities, weekDates, onToggle, onEdit, onDelete, onC
                                     <td
                                         key={day}
                                         className={`p-2 align-top transition-all duration-300 border-b border-r border-slate-200 last:border-r-0
-                                            ${isPast ? 'bg-slate-50/80 hover:bg-slate-100' : 'hover:bg-slate-50'}
+                                            ${isPast ? 'bg-slate-50' : 'hover:bg-slate-50'}
                                         `}
                                     >
-                                        <div className={`h-full min-h-[110px] ${isPast ? 'opacity-75 grayscale-[0.3]' : ''}`}>
+                                        <div className={`h-full min-h-[110px] ${isPast ? 'opacity-50 grayscale' : ''}`}>
                                             {activity ? (
                                                 <div
                                                     onClick={() => onView(activity)}
@@ -193,12 +191,16 @@ const WeeklyCalendar = ({ activities, weekDates, onToggle, onEdit, onDelete, onC
                                                 </div>
                                             ) : (
                                                 <div
-                                                    onClick={() => onCreate && onCreate({ day_of_week: day, time_slot: timeSlot })}
-                                                    className="w-full h-full min-h-[110px] rounded-[20px] hover:bg-slate-50 transition-all duration-200 group/cell cursor-pointer flex items-center justify-center opacity-0 hover:opacity-100"
+                                                    onClick={() => !isPast && onCreate && onCreate({ day_of_week: day, time_slot: timeSlot })}
+                                                    className={`w-full h-full min-h-[110px] rounded-[20px] transition-all duration-200 group/cell flex items-center justify-center
+                                                        ${isPast ? 'cursor-default' : 'cursor-pointer hover:bg-slate-50 opacity-0 hover:opacity-100'}
+                                                    `}
                                                 >
-                                                    <div className="w-8 h-8 rounded-full bg-blue-500 text-white grid place-items-center shadow-lg transform scale-0 group-hover/cell:scale-100 transition-transform duration-300 leading-none">
-                                                        <FiPlus size={20} className="block" />
-                                                    </div>
+                                                    {!isPast && (
+                                                        <div className="w-8 h-8 rounded-full bg-blue-500 text-white grid place-items-center shadow-lg transform scale-0 group-hover/cell:scale-100 transition-transform duration-300 leading-none">
+                                                            <FiPlus size={20} className="block" />
+                                                        </div>
+                                                    )}
                                                 </div>
                                             )}
                                         </div>

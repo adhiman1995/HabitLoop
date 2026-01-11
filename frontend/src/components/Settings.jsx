@@ -59,7 +59,7 @@ const Settings = ({ user, onRefresh }) => {
                 </div>
             </div>
 
-            {/* Developer Tools */}
+            {/* Developer Tools - Disabled by request
             <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden h-full">
                 <div className="p-6 border-b border-slate-100 flex items-center gap-3">
                     <div className="p-2 bg-amber-50 rounded-lg">
@@ -93,6 +93,7 @@ const Settings = ({ user, onRefresh }) => {
                     </button>
                 </div>
             </div>
+            */}
 
             {/* Appearance (Coming Soon) */}
             <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden opacity-70 h-full relative">

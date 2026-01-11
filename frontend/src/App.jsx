@@ -17,6 +17,7 @@ import StatsOverview from './components/StatsOverview';
 import CategoryBreakdown from './components/CategoryBreakdown';
 import AnalyticsChart from './components/AnalyticsChart';
 import Footer from './components/Footer';
+import SplashScreen from './components/SplashScreen';
 import {
   DAYS_OF_WEEK,
   getStartOfWeek,
@@ -47,13 +48,49 @@ const Dashboard = () => {
   // Derived state for the displayed week's dates
   const weekDates = getWeekDates(currentWeekStart);
 
+  const fetchActivities = async () => {
+    try {
+      setLoading(true); // Initial load only
+      setError(null);
+      const response = await activityAPI.getAll();
+      setActivities(response.data);
+    } catch (err) {
+      console.error('Error fetching activities:', err);
+      setError('Failed to load activities. Make sure the backend server is running.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const refreshActivities = async () => {
+    try {
+      const response = await activityAPI.getAll();
+      setActivities(response.data);
+    } catch (err) {
+      console.error("Silent refresh failed", err);
+    }
+  };
+
   // View State logic
   const [currentView, setCurrentView] = useState('dashboard');
+
+  // Splash Screen State
+  const [showSplash, setShowSplash] = useState(true);
+
+  // Manage Splash Screen Timing
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowSplash(false);
+    }, 2500); // Show splash for at least 2.5 seconds
+    return () => clearTimeout(timer);
+  }, []);
 
   // Fetch activities on mount
   useEffect(() => {
     fetchActivities();
   }, []);
+
+
 
   // ... (existing helper functions)
 
@@ -87,29 +124,7 @@ const Dashboard = () => {
     }
   }, [activities, selectedCategory]);
 
-  const fetchActivities = async () => {
-    try {
-      setLoading(true); // Initial load only
-      setError(null);
-      const response = await activityAPI.getAll();
-      setActivities(response.data);
-    } catch (err) {
-      console.error('Error fetching activities:', err);
-      setError('Failed to load activities. Make sure the backend server is running.');
-    } finally {
-      setLoading(false);
-    }
-  };
 
-  // Reload without full spinner
-  const refreshActivities = async () => {
-    try {
-      const response = await activityAPI.getAll();
-      setActivities(response.data);
-    } catch (err) {
-      console.error("Silent refresh failed", err);
-    }
-  };
 
   const handleAddActivity = () => {
     setEditingActivity(null);
@@ -193,6 +208,10 @@ const Dashboard = () => {
   };
 
 
+
+  if (showSplash) {
+    return <SplashScreen />;
+  }
 
   if (loading) {
     return (
