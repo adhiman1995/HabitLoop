@@ -28,7 +28,7 @@ const WeeklyCalendar = ({ activities, weekDates, onToggle, onEdit, onDelete, onC
     }
 
     return (
-        <div className="bg-white rounded-lg border border-slate-200 shadow-sm overflow-hidden">
+        <div className="bg-white rounded-lg border border-slate-200 shadow-sm overflow-x-auto">
             <table className="w-full text-left border-collapse min-w-[1000px]">
                 <thead>
                     <tr>
