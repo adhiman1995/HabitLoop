@@ -140,11 +140,22 @@ const Dashboard = () => {
   };
 
   const handleToggleComplete = async (id) => {
+    // 1. Optimistic Update: Update UI immediately
+    const previousActivities = [...activities];
+    setActivities(currentActivities =>
+      currentActivities.map(activity =>
+        activity.id === id ? { ...activity, completed: !activity.completed } : activity
+      )
+    );
+
     try {
+      // 2. Make API call
       await activityAPI.toggleComplete(id);
-      await refreshActivities();
+      // No need to refreshActivities() if successful, as local state is already correct
     } catch (err) {
+      // 3. Revert on failure
       console.error('Error toggling activity:', err);
+      setActivities(previousActivities);
       alert('Failed to update activity. Please try again.');
     }
   };

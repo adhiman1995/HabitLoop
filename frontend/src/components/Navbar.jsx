@@ -17,7 +17,7 @@ const Navbar = ({ currentView, onNavigate, user, onLogout }) => {
                     {/* Logo */}
                     <div className="flex items-center gap-3">
                         <div className="bg-white rounded-lg shadow-sm">
-                            <Logo className="w-11 h-11" />
+                            <Logo className="w-11 h-11  " />
                         </div>
                         <span className="text-2xl font-bold text-white tracking-tight">
                             HabitLoop
