@@ -1,7 +1,7 @@
 import express from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import db from '../database.js';
+import User from '../models/User.js';
 
 const router = express.Router();
 const SECRET_KEY = process.env.JWT_SECRET || 'your_secret_key_12345';
@@ -16,7 +16,7 @@ router.post('/register', async (req, res) => {
 
     try {
         // Check if user exists
-        const existingUser = db.prepare('SELECT * FROM users WHERE email = ?').get(email);
+        const existingUser = await User.findOne({ email });
         if (existingUser) {
             return res.status(400).json({ error: 'User already exists' });
         }
@@ -24,17 +24,21 @@ router.post('/register', async (req, res) => {
         // Hash password
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        // Insert user
-        const stmt = db.prepare('INSERT INTO users (name, email, password_hash) VALUES (?, ?, ?)');
-        const result = stmt.run(name || '', email, hashedPassword);
+        // Create user
+        const newUser = await User.create({
+            name: name || '',
+            email,
+            password_hash: hashedPassword
+        });
 
         // Generate Token
-        const token = jwt.sign({ id: result.lastInsertRowid, email }, SECRET_KEY, { expiresIn: '1d' });
+        // Mongoose ids are objects, convert to string
+        const token = jwt.sign({ id: newUser._id.toString(), email }, SECRET_KEY, { expiresIn: '1d' });
 
         res.status(201).json({
             message: 'User registered successfully',
             token,
-            user: { id: result.lastInsertRowid, name, email }
+            user: { id: newUser._id, name, email }
         });
 
     } catch (err) {
@@ -53,7 +57,7 @@ router.post('/login', async (req, res) => {
 
     try {
         // Find user
-        const user = db.prepare('SELECT * FROM users WHERE email = ?').get(email);
+        const user = await User.findOne({ email });
         if (!user) {
             return res.status(401).json({ error: 'Invalid credentials' });
         }
@@ -65,12 +69,12 @@ router.post('/login', async (req, res) => {
         }
 
         // Generate Token
-        const token = jwt.sign({ id: user.id, email: user.email }, SECRET_KEY, { expiresIn: '1d' });
+        const token = jwt.sign({ id: user._id.toString(), email: user.email }, SECRET_KEY, { expiresIn: '1d' });
 
         res.json({
             message: 'Login successful',
             token,
-            user: { id: user.id, name: user.name, email: user.email }
+            user: { id: user._id, name: user.name, email: user.email }
         });
 
     } catch (err) {

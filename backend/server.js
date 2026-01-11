@@ -1,11 +1,14 @@
 import express from 'express';
 import cors from 'cors';
-import activitiesRouter from './routes/activities.js';
-import authRouter from './routes/auth.js';
-import './database.js'; // Initialize database
+import connectDB from './database.js';
+import authRoutes from './routes/auth.js';
+import activityRoutes from './routes/activities.js';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
+
+// Connect to Database
+connectDB();
 
 // Middleware
 app.use(cors());
@@ -19,8 +22,8 @@ app.use((req, res, next) => {
 });
 
 // Routes
-app.use('/api/auth', authRouter);
-app.use('/api/activities', activitiesRouter);
+app.use('/api/auth', authRoutes);
+app.use('/api/activities', activityRoutes);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {

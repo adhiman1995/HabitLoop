@@ -1,6 +1,6 @@
 import express from 'express';
-import db from '../database.js';
 import jwt from 'jsonwebtoken';
+import Activity from '../models/Activity.js';
 
 const router = express.Router();
 const SECRET_KEY = process.env.JWT_SECRET || 'your_secret_key_12345';
@@ -31,32 +31,25 @@ const verifyToken = (req, res, next) => {
 router.use(verifyToken);
 
 // Get all activities for the user
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
     try {
         const { category, day_of_week, completed } = req.query;
 
-        let query = 'SELECT * FROM activities WHERE user_id = ?';
-        const params = [req.userId];
+        const query = { user_id: req.userId };
 
         if (category) {
-            query += ' AND category = ?';
-            params.push(category);
+            query.category = category;
         }
 
         if (day_of_week) {
-            query += ' AND day_of_week = ?';
-            params.push(day_of_week);
+            query.day_of_week = day_of_week;
         }
 
         if (completed !== undefined) {
-            query += ' AND completed = ?';
-            params.push(completed === 'true' ? 1 : 0);
+            query.completed = completed === 'true';
         }
 
-        query += ' ORDER BY day_of_week, time_slot';
-
-        const stmt = db.prepare(query);
-        const activities = stmt.all(...params);
+        const activities = await Activity.find(query).sort({ day_of_week: 1, time_slot: 1 });
 
         res.json(activities);
     } catch (error) {
@@ -66,11 +59,10 @@ router.get('/', (req, res) => {
 });
 
 // Get single activity by ID (scoped to user)
-router.get('/:id', (req, res) => {
+router.get('/:id', async (req, res) => {
     try {
         const { id } = req.params;
-        const stmt = db.prepare('SELECT * FROM activities WHERE id = ? AND user_id = ?');
-        const activity = stmt.get(id, req.userId);
+        const activity = await Activity.findOne({ _id: id, user_id: req.userId });
 
         if (!activity) {
             return res.status(404).json({ error: 'Activity not found' });
@@ -84,7 +76,7 @@ router.get('/:id', (req, res) => {
 });
 
 // Create new activity
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
     try {
         const { title, description, category, day_of_week, time_slot, duration } = req.body;
 
@@ -99,14 +91,16 @@ router.post('/', (req, res) => {
             return res.status(400).json({ error: 'Invalid day_of_week' });
         }
 
-        const stmt = db.prepare(`
-      INSERT INTO activities (user_id, title, description, category, day_of_week, time_slot, duration)
-      VALUES (?, ?, ?, ?, ?, ?, ?)
-    `);
-
-        const result = stmt.run(req.userId, title, description || null, category, day_of_week, time_slot, duration);
-
-        const newActivity = db.prepare('SELECT * FROM activities WHERE id = ?').get(result.lastInsertRowid);
+        const newActivity = await Activity.create({
+            user_id: req.userId,
+            title,
+            description: description || '',
+            category,
+            day_of_week,
+            time_slot,
+            duration,
+            completed: false
+        });
 
         res.status(201).json(newActivity);
     } catch (error) {
@@ -116,37 +110,25 @@ router.post('/', (req, res) => {
 });
 
 // Update activity (scoped to user)
-router.put('/:id', (req, res) => {
+router.put('/:id', async (req, res) => {
     try {
         const { id } = req.params;
-        const { title, description, category, day_of_week, time_slot, duration, completed } = req.body;
+        const updates = req.body;
 
-        const existing = db.prepare('SELECT * FROM activities WHERE id = ? AND user_id = ?').get(id, req.userId);
-        if (!existing) {
+        // Ensure user owns activity before update
+        const activity = await Activity.findOne({ _id: id, user_id: req.userId });
+        if (!activity) {
             return res.status(404).json({ error: 'Activity not found' });
         }
 
-        const stmt = db.prepare(`
-      UPDATE activities 
-      SET title = ?, description = ?, category = ?, day_of_week = ?, 
-          time_slot = ?, duration = ?, completed = ?
-      WHERE id = ? AND user_id = ?
-    `);
-
-        stmt.run(
-            title || existing.title,
-            description !== undefined ? description : existing.description,
-            category || existing.category,
-            day_of_week || existing.day_of_week,
-            time_slot || existing.time_slot,
-            duration || existing.duration,
-            completed !== undefined ? (completed ? 1 : 0) : existing.completed,
+        // Mongo update
+        const updatedActivity = await Activity.findByIdAndUpdate(
             id,
-            req.userId
+            { $set: updates },
+            { new: true, runValidators: true }
         );
 
-        const updated = db.prepare('SELECT * FROM activities WHERE id = ?').get(id);
-        res.json(updated);
+        res.json(updatedActivity);
     } catch (error) {
         console.error('Error updating activity:', error);
         res.status(500).json({ error: 'Failed to update activity' });
@@ -154,21 +136,19 @@ router.put('/:id', (req, res) => {
 });
 
 // Toggle completion status (scoped to user)
-router.patch('/:id/toggle', (req, res) => {
+router.patch('/:id/toggle', async (req, res) => {
     try {
         const { id } = req.params;
 
-        const existing = db.prepare('SELECT * FROM activities WHERE id = ? AND user_id = ?').get(id, req.userId);
-        if (!existing) {
+        const activity = await Activity.findOne({ _id: id, user_id: req.userId });
+        if (!activity) {
             return res.status(404).json({ error: 'Activity not found' });
         }
 
-        const newStatus = existing.completed === 1 ? 0 : 1;
-        const stmt = db.prepare('UPDATE activities SET completed = ? WHERE id = ? AND user_id = ?');
-        stmt.run(newStatus, id, req.userId);
+        activity.completed = !activity.completed;
+        await activity.save();
 
-        const updated = db.prepare('SELECT * FROM activities WHERE id = ?').get(id);
-        res.json(updated);
+        res.json(activity);
     } catch (error) {
         console.error('Error toggling activity:', error);
         res.status(500).json({ error: 'Failed to toggle activity' });
@@ -176,17 +156,15 @@ router.patch('/:id/toggle', (req, res) => {
 });
 
 // Delete activity (scoped to user)
-router.delete('/:id', (req, res) => {
+router.delete('/:id', async (req, res) => {
     try {
         const { id } = req.params;
 
-        const existing = db.prepare('SELECT * FROM activities WHERE id = ? AND user_id = ?').get(id, req.userId);
-        if (!existing) {
+        const result = await Activity.findOneAndDelete({ _id: id, user_id: req.userId });
+
+        if (!result) {
             return res.status(404).json({ error: 'Activity not found' });
         }
-
-        const stmt = db.prepare('DELETE FROM activities WHERE id = ? AND user_id = ?');
-        stmt.run(id, req.userId);
 
         res.json({ message: 'Activity deleted successfully' });
     } catch (error) {
