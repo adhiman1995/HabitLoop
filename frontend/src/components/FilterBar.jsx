@@ -4,8 +4,8 @@ import { CATEGORIES } from '../utils/helpers';
 
 const FilterBar = ({ selectedCategory, onCategoryChange }) => {
     return (
-        <div className="bg-white rounded-lg border border-slate-200 shadow-sm p-2 mb-8 flex flex-col sm:flex-row items-center gap-4 animate-fadeIn">
-            <div className="flex items-center gap-2 pl-4 py-2 text-slate-400 font-bold uppercase tracking-wider text-xs whitespace-nowrap border-b sm:border-b-0 sm:border-r border-slate-100 sm:pr-4 w-full sm:w-auto">
+        <div className="bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 shadow-sm p-2 mb-8 flex flex-col sm:flex-row items-center gap-4 transition-colors">
+            <div className="flex items-center gap-2 pl-4 py-2 text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider text-xs whitespace-nowrap border-b sm:border-b-0 sm:border-r border-slate-100 dark:border-slate-700 sm:pr-4 w-full sm:w-auto">
                 <FiFilter className="text-lg text-blue-500" />
                 <span>Filter by</span>
             </div>
@@ -13,9 +13,9 @@ const FilterBar = ({ selectedCategory, onCategoryChange }) => {
             <div className="flex flex-wrap gap-2 p-1 w-full sm:w-auto">
                 <button
                     onClick={() => onCategoryChange(null)}
-                    className={`px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wide transition-all flex items-center gap-2 ${selectedCategory === null
-                        ? 'bg-blue-600 text-white shadow-md shadow-blue-200 scale-105'
-                        : 'bg-white text-slate-500 hover:bg-slate-50 hover:text-blue-600'
+                    className={`px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wide transition-colors flex items-center gap-2 ${selectedCategory === null
+                        ? 'bg-blue-600 text-white shadow-md shadow-blue-200 dark:shadow-blue-900/20'
+                        : 'bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-blue-600 dark:hover:text-blue-400'
                         }`}
                 >
                     {selectedCategory === null && <FiCheck />}
@@ -26,9 +26,9 @@ const FilterBar = ({ selectedCategory, onCategoryChange }) => {
                     <button
                         key={category.name}
                         onClick={() => onCategoryChange(category.name)}
-                        className={`px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wide transition-all flex items-center gap-2 ${selectedCategory === category.name
-                            ? 'bg-blue-600 text-white shadow-md shadow-blue-200 scale-105'
-                            : 'bg-white text-slate-500 hover:bg-slate-50 hover:text-blue-600'
+                        className={`px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wide transition-colors flex items-center gap-2 ${selectedCategory === category.name
+                            ? 'bg-blue-600 text-white shadow-md shadow-blue-200 dark:shadow-blue-900/20'
+                            : 'bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-blue-600 dark:hover:text-blue-400'
                             }`}
                     >
                         {selectedCategory === category.name && <FiCheck />}
@@ -36,16 +36,6 @@ const FilterBar = ({ selectedCategory, onCategoryChange }) => {
                     </button>
                 ))}
             </div>
-
-            <style jsx>{`
-                @keyframes fadeIn {
-                    from { opacity: 0; transform: translateY(-10px); }
-                    to { opacity: 1; transform: translateY(0); }
-                }
-                .animate-fadeIn {
-                    animation: fadeIn 0.4s ease-out forwards;
-                }
-            `}</style>
         </div>
     );
 };

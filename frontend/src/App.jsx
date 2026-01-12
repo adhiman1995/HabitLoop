@@ -48,6 +48,28 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // Dark Mode State
+  const [darkMode, setDarkMode] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('theme') === 'dark' ||
+        (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    }
+    return false;
+  });
+
+  // Apply Dark Mode Class
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    }
+  }, [darkMode]);
+
+  const toggleDarkMode = () => setDarkMode(prev => !prev);
+
   // Date State for Navigation
   const [currentWeekStart, setCurrentWeekStart] = useState(getStartOfWeek(new Date()));
   const [isLoadingWeek, setIsLoadingWeek] = useState(false);
@@ -276,7 +298,7 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="h-screen bg-slate-50 flex flex-col overflow-hidden">
+    <div className="h-screen bg-slate-50 dark:bg-slate-900 flex flex-col overflow-hidden transition-colors duration-300">
       {/* Top Navigation Bar */}
       <Navbar
         currentView={currentView}
@@ -291,10 +313,10 @@ const Dashboard = () => {
           {/* Header Section */}
           <div className="mb-10 flex flex-col xl:flex-row xl:items-end justify-between gap-6 pb-2 animate-fadeIn">
             <div>
-              <h1 className="text-2xl md:text-3xl font-bold text-slate-800 tracking-tight mb-2">
+              <h1 className="text-2xl md:text-2xl font-bold text-slate-800 tracking-tight mb-2">
                 {getPageTitle()}
               </h1>
-              <p className="text-lg text-slate-500 font-medium max-w-2xl">
+              <p className="text-md text-slate-500 font-medium max-w-2xl">
                 {getPageSubtitle()}
               </p>
             </div>
@@ -368,7 +390,12 @@ const Dashboard = () => {
           ) : currentView === 'tasks' ? (
             <TasksPage />
           ) : currentView === 'settings' ? (
-            <Settings user={user} onRefresh={refreshActivities} />
+            <Settings
+              user={user}
+              onRefresh={refreshActivities}
+              isDarkMode={darkMode}
+              toggleTheme={toggleDarkMode}
+            />
           ) : (
             <div className="space-y-6">
               {/* Schedule View: Calendar & Filters */}

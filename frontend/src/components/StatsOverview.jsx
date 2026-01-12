@@ -30,8 +30,8 @@ const StatsOverview = ({ activities }) => {
             value: totalActivities,
             subtext: `/ ${weeklyGoal} Goal`,
             icon: FiActivity,
-            color: 'text-blue-600',
-            bg: 'bg-blue-50',
+            color: 'text-blue-600 dark:text-blue-400',
+            bg: 'bg-blue-50 dark:bg-blue-900/20',
             progress: goalProgress
         },
         {
@@ -39,8 +39,8 @@ const StatsOverview = ({ activities }) => {
             value: totalHours,
             subtext: `Avg ${avgDuration}m/session`,
             icon: FiClock,
-            color: 'text-sky-600',
-            bg: 'bg-sky-50',
+            color: 'text-sky-600 dark:text-sky-400',
+            bg: 'bg-sky-50 dark:bg-sky-900/20',
             progress: null
         },
         {
@@ -48,8 +48,8 @@ const StatsOverview = ({ activities }) => {
             value: `${completionRate}%`,
             subtext: `${completedActivities} finished`,
             icon: FiCheckCircle,
-            color: 'text-green-600',
-            bg: 'bg-green-50',
+            color: 'text-green-600 dark:text-green-400',
+            bg: 'bg-green-50 dark:bg-green-900/20',
             progress: completionRate
         },
         {
@@ -57,8 +57,8 @@ const StatsOverview = ({ activities }) => {
             value: topCategory,
             subtext: `${categoryCounts[topCategory] || 0} sessions`,
             icon: FiTrendingUp,
-            color: 'text-amber-600',
-            bg: 'bg-amber-50',
+            color: 'text-amber-600 dark:text-amber-400',
+            bg: 'bg-amber-50 dark:bg-amber-900/20',
             progress: null
         }
     ];
@@ -66,14 +66,14 @@ const StatsOverview = ({ activities }) => {
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {stats.map((stat) => (
-                <div key={stat.label} className="bg-white rounded-lg p-5 border border-slate-200 shadow-sm transition-all hover:shadow-md hover:-translate-y-1 relative overflow-hidden group">
+                <div key={stat.label} className="bg-white dark:bg-slate-800 rounded-lg p-5 border border-slate-200 dark:border-slate-700 shadow-sm transition-all hover:shadow-md hover:-translate-y-1 relative overflow-hidden group">
                     <div className="flex items-start justify-between relative z-10">
                         <div>
-                            <p className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">{stat.label}</p>
+                            <p className="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-1">{stat.label}</p>
                             <div className="flex items-baseline gap-2">
-                                <h3 className="text-2xl font-bold text-slate-800">{stat.value}</h3>
+                                <h3 className="text-2xl font-bold text-slate-800 dark:text-white">{stat.value}</h3>
                             </div>
-                            <p className="text-xs text-slate-500 mt-1 font-medium">{stat.subtext}</p>
+                            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 font-medium">{stat.subtext}</p>
                         </div>
                         <div className={`p-3 rounded-lg ${stat.bg} group-hover:scale-110 transition-transform duration-300`}>
                             <stat.icon className={`text-xl ${stat.color}`} />
@@ -81,9 +81,9 @@ const StatsOverview = ({ activities }) => {
                     </div>
 
                     {stat.progress !== null && (
-                        <div className="mt-4 h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
+                        <div className="mt-4 h-1.5 w-full bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
                             <div
-                                className={`h-full ${stat.color.replace('text-', 'bg-')} transition-all duration-1000 ease-out`}
+                                className={`h-full ${stat.color.replace('text-', 'bg-').split(' ')[0]} transition-all duration-1000 ease-out`}
                                 style={{ width: `${stat.progress}%` }}
                             ></div>
                         </div>

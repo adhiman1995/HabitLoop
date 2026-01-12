@@ -62,44 +62,44 @@ const TaskFormModal = ({ isOpen, onClose, activities, initialActivityId, taskToE
 
     return createPortal(
         <div
-            className="fixed top-0 left-0 w-screen h-screen bg-black/60 backdrop-blur-sm flex items-center justify-center z-[9999] p-4 animate-fadeIn"
+            className="fixed top-0 left-0 w-screen h-screen bg-black/60 backdrop-blur-sm flex items-center justify-center z-[9999] p-4 animate-fadeIn transition-colors"
             onClick={onClose}
         >
             <div
-                className="bg-white rounded-lg shadow-2xl max-w-2xl w-full p-8 animate-slideUp relative overflow-hidden"
+                className="bg-white dark:bg-slate-800 rounded-lg shadow-2xl max-w-2xl w-full p-8 animate-slideUp relative overflow-hidden transition-colors"
                 onClick={(e) => e.stopPropagation()}
             >
                 {/* Decorative background blob */}
-                <div className="absolute top-0 right-0 w-64 h-64 bg-blue-50 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
+                <div className="absolute top-0 right-0 w-64 h-64 bg-blue-50 dark:bg-blue-900/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
 
                 <div className="flex items-center justify-between mb-8 relative">
                     <div>
-                        <h2 className="text-3xl font-bold text-slate-800">
+                        <h2 className="text-3xl font-bold text-slate-800 dark:text-white">
                             {taskToEdit ? 'Edit Task' : 'New Task'}
                         </h2>
-                        <p className="text-slate-500 mt-1">
+                        <p className="text-slate-500 dark:text-slate-400 mt-1">
                             {taskToEdit ? 'Update task details below' : 'Create a new task to stay organized'}
                         </p>
                     </div>
                     <button
                         onClick={onClose}
-                        className="p-3 hover:bg-slate-100 rounded-lg transition-colors group"
+                        className="p-3 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors group"
                     >
-                        <FiX className="text-xl text-slate-400 group-hover:text-slate-700 transition-colors" />
+                        <FiX className="text-xl text-slate-400 dark:text-slate-500 group-hover:text-slate-700 dark:group-hover:text-slate-300 transition-colors" />
                     </button>
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-6 relative">
                     {/* Task Name */}
                     <div className="space-y-2">
-                        <label className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-2">
+                        <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider flex items-center gap-2">
                             <FiType /> Task Name <span className="text-rose-500">*</span>
                         </label>
                         <input
                             type="text"
                             value={formData.title}
                             onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                            className="w-full px-5 py-4 bg-slate-50 border-2 border-slate-100 rounded-lg focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all text-lg font-medium placeholder:text-slate-400"
+                            className="w-full px-5 py-4 bg-slate-50 dark:bg-slate-900 border-2 border-slate-100 dark:border-slate-700 rounded-lg focus:bg-white dark:focus:bg-slate-800 focus:border-blue-500 dark:focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all text-lg font-medium placeholder:text-slate-400 dark:placeholder:text-slate-600 dark:text-white"
                             placeholder="What needs to be done?"
                             required
                             autoFocus
@@ -110,18 +110,18 @@ const TaskFormModal = ({ isOpen, onClose, activities, initialActivityId, taskToE
 
                     {/* Status Selection */}
                     <div className="space-y-2">
-                        <label className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-2">
+                        <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider flex items-center gap-2">
                             <FiCheckCircle /> Status
                         </label>
-                        <div className="grid grid-cols-3 gap-3 p-1.5 bg-slate-100 rounded-lg">
+                        <div className="grid grid-cols-3 gap-3 p-1.5 bg-slate-100 dark:bg-slate-700 rounded-lg">
                             {['Pending', 'In Progress', 'Completed'].map(status => (
                                 <button
                                     type="button"
                                     key={status}
                                     onClick={() => setFormData({ ...formData, status })}
                                     className={`py-3 text-sm font-bold rounded-lg transition-all flex items-center justify-center gap-2 ${formData.status === status
-                                        ? 'bg-white text-blue-600 shadow-md scale-100'
-                                        : 'text-slate-500 hover:text-slate-700 hover:bg-slate-200/50'
+                                        ? 'bg-white dark:bg-slate-600 text-blue-600 dark:text-white shadow-md scale-100'
+                                        : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-200/50 dark:hover:bg-slate-600/50'
                                         }`}
                                 >
                                     {status}
@@ -133,14 +133,14 @@ const TaskFormModal = ({ isOpen, onClose, activities, initialActivityId, taskToE
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {/* Linked Activity */}
                         <div className="space-y-2 md:col-span-2">
-                            <label className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-2">
+                            <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider flex items-center gap-2">
                                 <FiActivity /> Linked Activity
                             </label>
                             <div className="relative">
                                 <select
                                     value={formData.activity_id}
                                     onChange={(e) => setFormData({ ...formData, activity_id: e.target.value })}
-                                    className="w-full px-5 py-3 bg-slate-50 border-2 border-slate-100 rounded-lg appearance-none focus:bg-white focus:border-blue-500 outline-none transition-all text-slate-700 font-medium"
+                                    className="w-full px-5 py-3 bg-slate-50 dark:bg-slate-900 border-2 border-slate-100 dark:border-slate-700 rounded-lg appearance-none focus:bg-white dark:focus:bg-slate-800 focus:border-blue-500 dark:focus:border-blue-500 outline-none transition-all text-slate-700 dark:text-white font-medium"
                                 >
                                     <option value="">No linked activity</option>
                                     {activities.map(act => (
@@ -158,24 +158,24 @@ const TaskFormModal = ({ isOpen, onClose, activities, initialActivityId, taskToE
 
                     {/* Description */}
                     <div className="space-y-2">
-                        <label className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-2">
+                        <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider flex items-center gap-2">
                             <FiAlignLeft /> Description
                         </label>
                         <textarea
                             value={formData.description}
                             onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                            className="w-full px-5 py-4 bg-slate-50 border-2 border-slate-100 rounded-lg focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all resize-none text-slate-600"
+                            className="w-full px-5 py-4 bg-slate-50 dark:bg-slate-900 border-2 border-slate-100 dark:border-slate-700 rounded-lg focus:bg-white dark:focus:bg-slate-800 focus:border-blue-500 dark:focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all resize-none text-slate-600 dark:text-slate-300"
                             placeholder="Add details, subtasks, or notes..."
                             rows="3"
                         />
                     </div>
 
                     {/* Footer Buttons */}
-                    <div className="flex gap-4 pt-4 border-t border-slate-100 mt-8">
+                    <div className="flex gap-4 pt-4 border-t border-slate-100 dark:border-slate-700 mt-8">
                         <button
                             type="button"
                             onClick={onClose}
-                            className="flex-1 px-6 py-4 border-2 border-slate-200 text-slate-600 rounded-lg hover:bg-slate-50 hover:border-slate-300 transition-all font-bold text-sm uppercase tracking-wide"
+                            className="flex-1 px-6 py-4 border-2 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 hover:border-slate-300 dark:hover:border-slate-600 transition-all font-bold text-sm uppercase tracking-wide"
                         >
                             Cancel
                         </button>

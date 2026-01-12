@@ -14,15 +14,15 @@ const RecentActivityLog = ({ activities }) => {
         .slice(0, 5);
 
     return (
-        <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
-            <h3 className="font-bold text-lg text-slate-800 mb-4 flex items-center gap-2">
+        <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 p-6 transition-colors">
+            <h3 className="font-bold text-lg text-slate-800 dark:text-white mb-4 flex items-center gap-2">
                 <FiCheckCircle className="text-emerald-500" />
                 Recent Completions
             </h3>
 
             <div className="overflow-x-auto">
-                <table className="w-full text-left text-sm text-slate-600">
-                    <thead className="bg-slate-50 text-slate-500 uppercase font-medium text-xs">
+                <table className="w-full text-left text-sm text-slate-600 dark:text-slate-300">
+                    <thead className="bg-slate-50 dark:bg-slate-700/50 text-slate-500 dark:text-slate-400 uppercase font-medium text-xs">
                         <tr>
                             <th className="px-4 py-3 rounded-l-lg">Activity</th>
                             <th className="px-4 py-3">Category</th>
@@ -30,15 +30,15 @@ const RecentActivityLog = ({ activities }) => {
                             <th className="px-4 py-3 rounded-r-lg text-right">Duration</th>
                         </tr>
                     </thead>
-                    <tbody className="divide-y divide-slate-100">
+                    <tbody className="divide-y divide-slate-100 dark:divide-slate-700">
                         {recentActivities.length > 0 ? (
                             recentActivities.map((activity) => (
-                                <tr key={activity.id} className="hover:bg-slate-50 transition-colors">
-                                    <td className="px-4 py-3 font-medium text-slate-900">
+                                <tr key={activity.id} className="hover:bg-slate-50 dark:hover:bg-slate-700/30 transition-colors">
+                                    <td className="px-4 py-3 font-medium text-slate-900 dark:text-white">
                                         {activity.title}
                                     </td>
                                     <td className="px-4 py-3">
-                                        <span className="inline-block px-2 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-600">
+                                        <span className="inline-block px-2 py-1 rounded-full text-xs font-semibold bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300">
                                             {activity.category}
                                         </span>
                                     </td>

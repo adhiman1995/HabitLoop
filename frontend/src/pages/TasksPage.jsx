@@ -102,16 +102,7 @@ const TasksPage = ({ initialActivityId, onClearActivity }) => {
         return activity ? activity.title : null;
     };
 
-    if (loading) {
-        return (
-            <div className="flex items-center justify-center h-96">
-                <div className="text-center">
-                    <div className="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-                    <p className="text-slate-500 font-medium text-lg">Loading your tasks...</p>
-                </div>
-            </div>
-        );
-    }
+
 
     const pendingCount = tasks.filter(t => t.status !== 'Completed').length;
     const completedCount = tasks.filter(t => t.status === 'Completed').length;
@@ -153,7 +144,7 @@ const TasksPage = ({ initialActivityId, onClearActivity }) => {
                 {/* Create Task Button (Resized) */}
                 <button
                     onClick={handleAddRow}
-                    className="px-6 py-3 bg-blue-600 text-white rounded-lg font-bold shadow-lg shadow-blue-200 hover:bg-blue-700 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2 group whitespace-nowrap w-full xl:w-auto"
+                    className="px-5 py-2.5 bg-blue-600 text-white rounded-lg font-bold shadow-lg shadow-blue-200 hover:bg-blue-700 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2 group whitespace-nowrap w-full xl:w-auto text-sm"
                 >
                     <FiPlus className="text-xl group-hover:rotate-90 transition-transform" />
                     <span>Create New Task</span>
@@ -161,30 +152,63 @@ const TasksPage = ({ initialActivityId, onClearActivity }) => {
             </div>
 
             {/* Tasks Table */}
-            <div className="bg-white rounded-lg shadow-xl ring-1 ring-slate-200 overflow-hidden animate-slideUp">
+            <div className="bg-white dark:bg-slate-800 rounded-lg shadow-xl ring-1 ring-slate-200 dark:ring-slate-700 overflow-hidden animate-slideUp transition-colors">
                 <div className="overflow-x-auto custom-scrollbar">
                     <table className="w-full border-collapse">
                         <thead>
-                            <tr className="bg-white/95 backdrop-blur-sm sticky top-0 z-10">
-                                <th className="px-6 py-5 text-left text-xs font-bold text-slate-400 uppercase tracking-widest min-w-[120px] border-b border-r border-slate-200">
+                            <tr className="bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm sticky top-0 z-10 transition-colors">
+                                <th className="px-5 py-4 text-left text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest min-w-[120px] border-b border-r border-slate-200 dark:border-slate-700">
                                     Created
                                 </th>
-                                <th className="px-6 py-5 text-left text-xs font-bold text-slate-400 uppercase tracking-widest w-full min-w-[300px] border-b border-r border-slate-200">
+                                <th className="px-5 py-4 text-left text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest w-full min-w-[300px] border-b border-r border-slate-200 dark:border-slate-700">
                                     Task Details
                                 </th>
-                                <th className="px-6 py-5 text-left text-xs font-bold text-slate-400 uppercase tracking-widest min-w-[140px] border-b border-r border-slate-200">
+                                <th className="px-5 py-4 text-left text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest min-w-[140px] border-b border-r border-slate-200 dark:border-slate-700">
                                     Status
                                 </th>
-                                <th className="px-6 py-5 text-left text-xs font-bold text-slate-400 uppercase tracking-widest min-w-[200px] border-b border-r border-slate-200">
+                                <th className="px-5 py-4 text-left text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest min-w-[200px] border-b border-r border-slate-200 dark:border-slate-700">
                                     Linked Activity
                                 </th>
-                                <th className="px-6 py-5 text-center text-xs font-bold text-slate-400 uppercase tracking-widest w-32 border-b border-slate-200">
+                                <th className="px-5 py-4 text-center text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest w-32 border-b border-slate-200 dark:border-slate-700">
                                     Actions
                                 </th>
                             </tr>
                         </thead>
-                        <tbody className="bg-white">
-                            {filteredTasks.length === 0 ? (
+                        <tbody className="bg-white dark:bg-slate-800">
+                            {loading ? (
+                                // Skeleton Loader Rows
+                                Array.from({ length: 5 }).map((_, index) => (
+                                    <tr key={`skeleton-${index}`} className="animate-pulse border-b border-r border-slate-200 dark:border-slate-700 last:border-b-0">
+                                        {/* Date Skeleton */}
+                                        <td className="px-5 py-4 border-r border-slate-200 dark:border-slate-700">
+                                            <div className="h-6 w-16 bg-slate-100 dark:bg-slate-700 rounded-lg"></div>
+                                        </td>
+                                        {/* Details Skeleton */}
+                                        <td className="px-5 py-4 w-full border-r border-slate-200 dark:border-slate-700">
+                                            <div className="space-y-2">
+                                                <div className="h-4 w-3/4 bg-slate-100 dark:bg-slate-700 rounded"></div>
+                                                <div className="h-3 w-1/2 bg-slate-50 dark:bg-slate-800 rounded"></div>
+                                            </div>
+                                        </td>
+                                        {/* Status Skeleton */}
+                                        <td className="px-5 py-4 border-r border-slate-200 dark:border-slate-700">
+                                            <div className="h-6 w-20 bg-slate-100 dark:bg-slate-700 rounded-lg"></div>
+                                        </td>
+                                        {/* Linked Activity Skeleton */}
+                                        <td className="px-5 py-4 border-r border-slate-200 dark:border-slate-700">
+                                            <div className="h-6 w-24 bg-slate-100 dark:bg-slate-700 rounded-lg"></div>
+                                        </td>
+                                        {/* Actions Skeleton */}
+                                        <td className="px-5 py-4">
+                                            <div className="flex justify-center gap-2">
+                                                <div className="h-8 w-8 bg-slate-100 dark:bg-slate-700 rounded-lg"></div>
+                                                <div className="h-8 w-8 bg-slate-100 dark:bg-slate-700 rounded-lg"></div>
+                                                <div className="h-8 w-8 bg-slate-100 dark:bg-slate-700 rounded-lg"></div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))
+                            ) : filteredTasks.length === 0 ? (
                                 <tr>
                                     <td colSpan="5" className="px-6 py-24 text-center">
                                         <div className="flex flex-col items-center justify-center gap-6 opacity-60">
@@ -210,11 +234,11 @@ const TasksPage = ({ initialActivityId, onClearActivity }) => {
                                     return (
                                         <tr
                                             key={taskId}
-                                            className={`group transition-all duration-200 hover:bg-slate-50/80`}
+                                            className={`group transition-all duration-200 hover:bg-slate-50/80 dark:hover:bg-slate-700/30`}
                                         >
                                             {/* Date */}
-                                            <td className="px-6 py-4 align-top border-b border-r border-slate-200">
-                                                <span className="text-slate-500 font-bold text-sm whitespace-nowrap bg-slate-100/50 px-2 py-1 rounded-lg">
+                                            <td className="px-5 py-3 align-top border-b border-r border-slate-200 dark:border-slate-700">
+                                                <span className="text-slate-500 dark:text-slate-400 font-bold text-sm whitespace-nowrap bg-slate-100/50 dark:bg-slate-700/50 px-2 py-1 rounded-lg">
                                                     {new Date(task.created_at || Date.now()).toLocaleDateString('en-US', {
                                                         month: 'short',
                                                         day: 'numeric'
@@ -223,9 +247,9 @@ const TasksPage = ({ initialActivityId, onClearActivity }) => {
                                             </td>
 
                                             {/* Task Name & Desc */}
-                                            <td className="px-6 py-4 border-b border-r border-slate-200">
+                                            <td className="px-5 py-3 border-b border-r border-slate-200 dark:border-slate-700">
                                                 <div className="flex flex-col gap-1">
-                                                    <span className={`text-base font-bold transition-colors ${task.status === 'Completed' ? 'line-through text-slate-400 decoration-slate-300 decoration-2' : 'text-slate-800 group-hover:text-blue-900'
+                                                    <span className={`text-sm font-bold transition-colors ${task.status === 'Completed' ? 'line-through text-slate-400 dark:text-slate-600 decoration-slate-300 dark:decoration-slate-700 decoration-2' : 'text-slate-800 dark:text-white group-hover:text-blue-900 dark:group-hover:text-blue-400'
                                                         }`}>
                                                         {task.title}
                                                     </span>
@@ -238,7 +262,7 @@ const TasksPage = ({ initialActivityId, onClearActivity }) => {
                                             </td>
 
                                             {/* Status */}
-                                            <td className="px-6 py-4 align-top pt-5 border-b border-r border-slate-200">
+                                            <td className="px-5 py-3 align-top pt-4 border-b border-r border-slate-200">
                                                 <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-[10px] font-black uppercase tracking-wider rounded-lg border ${task.status === 'Completed'
                                                     ? 'bg-emerald-50 text-emerald-600 border-emerald-100'
                                                     : task.status === 'In Progress'
@@ -251,7 +275,7 @@ const TasksPage = ({ initialActivityId, onClearActivity }) => {
                                             </td>
 
                                             {/* Linked Activity */}
-                                            <td className="px-6 py-4 align-top pt-5 border-b border-r border-slate-200">
+                                            <td className="px-5 py-3 align-top pt-4 border-b border-r border-slate-200">
                                                 {activityName ? (
                                                     <span className="inline-flex items-center gap-2 px-3 py-1.5 bg-white border border-slate-200 text-slate-600 rounded-lg text-xs font-bold shadow-sm group-hover:border-blue-200 group-hover:text-blue-600 transition-colors">
                                                         <FiActivity />
@@ -263,7 +287,7 @@ const TasksPage = ({ initialActivityId, onClearActivity }) => {
                                             </td>
 
                                             {/* Actions */}
-                                            <td className="px-6 py-4 align-top pt-4 border-b border-slate-200">
+                                            <td className="px-5 py-3 align-top pt-4 border-b border-slate-200">
                                                 <div className="flex items-center justify-center gap-1">
                                                     <button
                                                         onClick={() => handleToggleComplete(task)}

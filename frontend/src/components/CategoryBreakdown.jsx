@@ -23,8 +23,8 @@ const CategoryBreakdown = ({ activities }) => {
         }));
 
     return (
-        <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-6 flex flex-col h-full">
-            <h3 className="font-bold text-lg text-slate-800 mb-4">Time Distribution</h3>
+        <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 p-6 flex flex-col h-full transition-colors">
+            <h3 className="font-bold text-lg text-slate-800 dark:text-white mb-4">Time Distribution</h3>
 
             <div className="space-y-4 flex-1 overflow-y-auto pr-2 custom-scrollbar">
                 {sortedCategories.length > 0 ? (
@@ -34,12 +34,12 @@ const CategoryBreakdown = ({ activities }) => {
                         return (
                             <div key={key} className="space-y-1">
                                 <div className="flex justify-between text-sm font-medium">
-                                    <span className="text-slate-700">{categoryConfig.label}</span>
-                                    <span className="text-slate-500">{percentage}% ({value}m)</span>
+                                    <span className="text-slate-700 dark:text-slate-300">{categoryConfig.label}</span>
+                                    <span className="text-slate-500 dark:text-slate-400">{percentage}% ({value}m)</span>
                                 </div>
-                                <div className="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden">
+                                <div className="w-full bg-slate-100 dark:bg-slate-700 rounded-full h-2.5 overflow-hidden">
                                     <div
-                                        className={`h-full rounded-full ${categoryConfig.color.replace('text-', 'bg-')} transition-all duration-500`}
+                                        className={`h-full rounded-full ${categoryConfig.color.replace('text-', 'bg-').split(' ')[0]} transition-all duration-500`}
                                         style={{ width: `${percentage}%` }}
                                     ></div>
                                 </div>
@@ -52,7 +52,7 @@ const CategoryBreakdown = ({ activities }) => {
                     </div>
                 )}
             </div>
-            <p className="text-xs text-slate-400 mt-4 pt-4 border-t border-slate-100 text-center">
+            <p className="text-xs text-slate-400 dark:text-slate-500 mt-4 pt-4 border-t border-slate-100 dark:border-slate-700 text-center">
                 Based on your total logged activity time.
             </p>
         </div>

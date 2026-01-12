@@ -3,7 +3,7 @@ import { FiTrendingUp } from 'react-icons/fi';
 
 const StreakWidget = ({ streak = 0 }) => {
     return (
-        <div className="bg-white rounded-lg p-8 shadow-sm border border-slate-100 flex flex-col items-center justify-center text-center h-full min-h-[240px]">
+        <div className="bg-white dark:bg-slate-800 rounded-lg p-8 shadow-sm border border-slate-100 dark:border-slate-700 flex flex-col items-center justify-center text-center h-full min-h-[240px] transition-colors">
             <div className="flex items-center gap-4 mb-6">
                 <div className="relative w-16 h-16 flex items-center justify-center">
                     {/* Flame Icon SVG - Custom matching the image style */}
@@ -16,13 +16,13 @@ const StreakWidget = ({ streak = 0 }) => {
                 </div>
                 <div className="text-left">
                     <p className="text-slate-400 text-sm font-medium mb-1">Streak progress</p>
-                    <h2 className="text-4xl font-extrabold text-orange-400 leading-none">
-                        {streak} <span className="text-3xl font-bold text-orange-300">day streak</span>
+                    <h2 className="text-3xl font-extrabold text-orange-400 leading-none">
+                        {streak} <span className="text-2xl font-bold text-orange-300">day streak</span>
                     </h2>
                 </div>
             </div>
 
-            <p className="text-slate-500 font-medium">
+            <p className="text-slate-500 dark:text-slate-400 font-medium">
                 Do any habit each day to grow your streak.
             </p>
         </div>

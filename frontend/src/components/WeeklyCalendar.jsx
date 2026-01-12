@@ -7,11 +7,11 @@ const WeeklyCalendar = ({ activities, weekDates, onToggle, onEdit, onDelete, onC
     // Show Skeleton Loader if loading week
     if (isLoading) {
         return (
-            <div className="bg-white rounded-lg shadow-xl border border-slate-100 overflow-hidden animate-pulse">
-                <div className="flex border-b border-slate-100">
+            <div className="bg-white dark:bg-slate-800 rounded-lg shadow-xl border border-slate-100 dark:border-slate-700 overflow-hidden animate-pulse">
+                <div className="flex border-b border-slate-100 dark:border-slate-700">
                     {DAYS_OF_WEEK.map((day) => (
-                        <div key={day} className="flex-1 p-6 text-center border-r border-slate-100 last:border-r-0">
-                            <div className="h-14 w-20 bg-slate-100 rounded-lg mx-auto mb-2"></div>
+                        <div key={day} className="flex-1 p-6 text-center border-r border-slate-100 dark:border-slate-700 last:border-r-0">
+                            <div className="h-14 w-20 bg-slate-100 dark:bg-slate-700 rounded-lg mx-auto mb-2"></div>
                         </div>
                     ))}
                 </div>
@@ -59,13 +59,13 @@ const WeeklyCalendar = ({ activities, weekDates, onToggle, onEdit, onDelete, onC
 
     if (activities.length === 0) {
         return (
-            <div className="bg-white rounded-lg shadow-xl border border-slate-100 p-20 text-center animate-fadeIn">
-                <div className="text-slate-400 mb-6">
-                    <div className="w-24 h-24 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <FiClock className="text-4xl text-slate-300" />
+            <div className="bg-white dark:bg-slate-800 rounded-lg shadow-xl border border-slate-100 dark:border-slate-700 p-20 text-center animate-fadeIn">
+                <div className="text-slate-400 dark:text-slate-500 mb-6">
+                    <div className="w-24 h-24 bg-slate-50 dark:bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <FiClock className="text-4xl text-slate-300 dark:text-slate-500" />
                     </div>
-                    <p className="text-2xl text-slate-800 font-bold mb-3 tracking-tight">Schedule is empty</p>
-                    <p className="text-base text-slate-500 font-medium max-w-sm mx-auto">
+                    <p className="text-2xl text-slate-800 dark:text-white font-bold mb-3 tracking-tight">Schedule is empty</p>
+                    <p className="text-base text-slate-500 dark:text-slate-400 font-medium max-w-sm mx-auto">
                         Your week is wide open. Click the "Add New Activity" button above or tap on a time slot to get started.
                     </p>
                 </div>
@@ -74,7 +74,7 @@ const WeeklyCalendar = ({ activities, weekDates, onToggle, onEdit, onDelete, onC
     }
 
     return (
-        <div className="bg-white rounded-lg shadow-xl ring-1 ring-slate-100 overflow-hidden animate-slideUp">
+        <div className="bg-white dark:bg-slate-800 rounded-lg shadow-xl ring-1 ring-slate-100 dark:ring-slate-700 overflow-hidden animate-slideUp transition-colors">
             <div className="overflow-x-auto custom-scrollbar">
                 <table className="w-full text-left border-collapse min-w-[1000px] table-fixed">
                     <thead>
@@ -86,7 +86,7 @@ const WeeklyCalendar = ({ activities, weekDates, onToggle, onEdit, onDelete, onC
                                 return (
                                     <th
                                         key={day}
-                                        className="p-4 text-center sticky top-0 z-20 border-b border-r border-slate-200 last:border-r-0 bg-white/95 backdrop-blur-sm w-1/7 group"
+                                        className="p-4 text-center sticky top-0 z-20 border-b border-r border-slate-200 dark:border-slate-700 last:border-r-0 bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm w-1/7 group"
                                     >
                                         <div className={`inline-flex flex-col items-center justify-center py-3 px-6 rounded-lg transition-all duration-300
                                             ${isTodayDate
@@ -94,10 +94,10 @@ const WeeklyCalendar = ({ activities, weekDates, onToggle, onEdit, onDelete, onC
                                                 : 'bg-slate-50 text-slate-500 group-hover:bg-blue-50 group-hover:text-blue-600'
                                             }
                                         `}>
-                                            <div className={`text-[10px] font-black uppercase tracking-widest mb-1 ${isTodayDate ? 'text-blue-200' : 'text-slate-400 group-hover:text-blue-400'}`}>
+                                            <div className={`text-[10px] font-black uppercase tracking-widest mb-1 ${isTodayDate ? 'text-blue-200' : 'text-slate-400 dark:text-slate-500 group-hover:text-blue-400'}`}>
                                                 {day.substring(0, 3)}
                                             </div>
-                                            <div className={`text-2xl font-black ${isTodayDate ? 'text-white' : 'text-slate-800 group-hover:text-blue-700'}`}>
+                                            <div className={`text-2xl font-black ${isTodayDate ? 'text-white' : 'text-slate-800 dark:text-white group-hover:text-blue-700 dark:group-hover:text-blue-400'}`}>
                                                 {date.getDate()}
                                             </div>
                                         </div>
@@ -123,8 +123,8 @@ const WeeklyCalendar = ({ activities, weekDates, onToggle, onEdit, onDelete, onC
                                     return (
                                         <td
                                             key={day}
-                                            className={`p-3 align-top transition-all duration-300 border-b border-r border-slate-200 last:border-r-0
-                                                ${isPast ? 'bg-slate-50/50' : 'hover:bg-slate-50'}
+                                            className={`p-3 align-top transition-all duration-300 border-b border-r border-slate-200 dark:border-slate-700 last:border-r-0
+                                                ${isPast ? 'bg-slate-50/50 dark:bg-slate-900/50' : 'hover:bg-slate-50 dark:hover:bg-slate-700/20'}
                                             `}
                                         >
                                             <div className={`h-[140px] ${isPast ? 'opacity-60 grayscale-[0.3]' : ''}`}>
@@ -132,11 +132,11 @@ const WeeklyCalendar = ({ activities, weekDates, onToggle, onEdit, onDelete, onC
                                                     <div
                                                         onClick={() => onView(activity)}
                                                         className={`group relative p-4 h-full rounded-lg transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1 cursor-pointer border-2 shadow-sm hover:shadow-xl flex flex-col hover:z-30
-                                                            ${activity.completed ? 'opacity-70 bg-slate-50 border-slate-200' : `${style.pastelBg} ${style.hoverBg} ${style.pastelBorder}`}
+                                                            ${activity.completed ? 'opacity-70 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700' : `${style.pastelBg} ${style.hoverBg} ${style.pastelBorder}`}
                                                         `}
                                                     >
                                                         <div className="flex justify-between items-start mb-2 shrink-0">
-                                                            <span className={`text-[10px] font-black uppercase tracking-wider px-2 py-1 rounded-lg bg-white/60 backdrop-blur-sm ${style.pastelText}`}>
+                                                            <span className={`text-[10px] font-black uppercase tracking-wider px-2 py-1 rounded-lg bg-white/60 dark:bg-slate-900/40 backdrop-blur-sm ${style.pastelText}`}>
                                                                 {activity.category}
                                                             </span>
                                                         </div>
@@ -177,7 +177,7 @@ const WeeklyCalendar = ({ activities, weekDates, onToggle, onEdit, onDelete, onC
                                                     <div
                                                         onClick={() => !isPast && onCreate && onCreate({ day_of_week: day, time_slot: timeSlot })}
                                                         className={`w-full h-full rounded-lg transition-all duration-200 group/cell flex items-center justify-center
-                                                            ${isPast ? 'cursor-default bg-slate-50/50' : 'cursor-pointer hover:bg-blue-50/50'}
+                                                            ${isPast ? 'cursor-default bg-slate-50/50 dark:bg-slate-900/50' : 'cursor-pointer hover:bg-blue-50/50 dark:hover:bg-blue-900/10'}
                                                         `}
                                                     >
                                                         {!isPast && (
