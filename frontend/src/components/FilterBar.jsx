@@ -4,8 +4,8 @@ import { CATEGORIES } from '../utils/helpers';
 
 const FilterBar = ({ selectedCategory, onCategoryChange }) => {
     return (
-        <div className="bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 shadow-sm p-2 mb-8 flex flex-col sm:flex-row items-center gap-4 transition-colors">
-            <div className="flex items-center gap-2 pl-4 py-2 text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider text-xs whitespace-nowrap border-b sm:border-b-0 sm:border-r border-slate-100 dark:border-slate-700 sm:pr-4 w-full sm:w-auto">
+        <div className="bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm p-2 mb-8 flex flex-col sm:flex-row items-center gap-4 transition-colors">
+            <div className="flex items-center gap-2 pl-4 py-2 text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider text-xs whitespace-nowrap border-b sm:border-b-0 sm:border-r border-slate-100 dark:border-slate-800 sm:pr-4 w-full sm:w-auto">
                 <FiFilter className="text-lg text-blue-500" />
                 <span>Filter by</span>
             </div>

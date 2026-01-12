@@ -1,16 +1,18 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { FiCheck, FiEdit2, FiTrash2, FiClock, FiPlus, FiMoreHorizontal } from 'react-icons/fi';
-import { DAYS_OF_WEEK, formatDate, isToday, getCategoryStyle, formatTime, formatTimeRange } from '../utils/helpers';
+import { getDaysOfWeek, formatDate, isToday, getCategoryStyle, formatTime, formatTimeRange } from '../utils/helpers';
 
 const WeeklyCalendar = ({ activities, weekDates, onToggle, onEdit, onDelete, onCreate, onView, isLoading }) => {
+    // Get days of week based on user preference
+    const DAYS_OF_WEEK = useMemo(() => getDaysOfWeek(), []);
 
     // Show Skeleton Loader if loading week
     if (isLoading) {
         return (
-            <div className="bg-white dark:bg-slate-800 rounded-lg shadow-xl border border-slate-100 dark:border-slate-700 overflow-hidden animate-pulse">
-                <div className="flex border-b border-slate-100 dark:border-slate-700">
+            <div className="bg-white dark:bg-slate-800 rounded-lg shadow-xl border border-slate-100 dark:border-slate-800 overflow-hidden animate-pulse">
+                <div className="flex border-b border-slate-100 dark:border-slate-800">
                     {DAYS_OF_WEEK.map((day) => (
-                        <div key={day} className="flex-1 p-6 text-center border-r border-slate-100 dark:border-slate-700 last:border-r-0">
+                        <div key={day} className="flex-1 p-6 text-center border-r border-slate-100 dark:border-slate-800 last:border-r-0">
                             <div className="h-14 w-20 bg-slate-100 dark:bg-slate-700 rounded-lg mx-auto mb-2"></div>
                         </div>
                     ))}
@@ -59,7 +61,7 @@ const WeeklyCalendar = ({ activities, weekDates, onToggle, onEdit, onDelete, onC
 
     if (activities.length === 0) {
         return (
-            <div className="bg-white dark:bg-slate-800 rounded-lg shadow-xl border border-slate-100 dark:border-slate-700 p-20 text-center animate-fadeIn">
+            <div className="bg-white dark:bg-slate-800 rounded-lg shadow-xl border border-slate-100 dark:border-slate-800 p-20 text-center animate-fadeIn">
                 <div className="text-slate-400 dark:text-slate-500 mb-6">
                     <div className="w-24 h-24 bg-slate-50 dark:bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-6">
                         <FiClock className="text-4xl text-slate-300 dark:text-slate-500" />
@@ -86,12 +88,12 @@ const WeeklyCalendar = ({ activities, weekDates, onToggle, onEdit, onDelete, onC
                                 return (
                                     <th
                                         key={day}
-                                        className="p-4 text-center sticky top-0 z-20 border-b border-r border-slate-200 dark:border-slate-700 last:border-r-0 bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm w-1/7 group"
+                                        className="p-3 text-center sticky top-0 z-20 border-b border-r border-slate-200 dark:border-slate-700 last:border-r-0 bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm w-1/7 group"
                                     >
-                                        <div className={`inline-flex flex-col items-center justify-center py-3 px-6 rounded-lg transition-all duration-300
+                                        <div className={`inline-flex flex-col items-center justify-center py-2 px-5 rounded-lg transition-all duration-300
                                             ${isTodayDate
                                                 ? 'bg-blue-600'
-                                                : 'bg-slate-50 text-slate-500 group-hover:bg-blue-50 group-hover:text-blue-600'
+                                                : 'bg-slate-50 dark:bg-slate-700 text-slate-500 dark:text-slate-300 group-hover:bg-blue-50 dark:group-hover:bg-blue-900/30 group-hover:text-blue-600 dark:group-hover:text-blue-400'
                                             }
                                         `}>
                                             <div className={`text-[10px] font-black uppercase tracking-widest mb-1 ${isTodayDate ? 'text-blue-200' : 'text-slate-400 dark:text-slate-500 group-hover:text-blue-400'}`}>
@@ -127,7 +129,7 @@ const WeeklyCalendar = ({ activities, weekDates, onToggle, onEdit, onDelete, onC
                                                 ${isPast ? 'bg-slate-50/50 dark:bg-slate-900/50' : 'hover:bg-slate-50 dark:hover:bg-slate-700/20'}
                                             `}
                                         >
-                                            <div className={`h-[140px] ${isPast ? 'opacity-60 grayscale-[0.3]' : ''}`}>
+                                            <div className={`h-[120px] ${isPast ? 'opacity-60 grayscale-[0.3]' : ''}`}>
                                                 {activity ? (
                                                     <div
                                                         onClick={() => onView(activity)}
@@ -136,7 +138,7 @@ const WeeklyCalendar = ({ activities, weekDates, onToggle, onEdit, onDelete, onC
                                                         `}
                                                     >
                                                         <div className="flex justify-between items-start mb-2 shrink-0">
-                                                            <span className={`text-[10px] font-black uppercase tracking-wider px-2 py-1 rounded-lg bg-white/60 dark:bg-slate-900/40 backdrop-blur-sm ${style.pastelText}`}>
+                                                            <span className={`text-[10px] font-black uppercase tracking-wider px-2 py-1 rounded-lg bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm ${style.pastelText}`}>
                                                                 {activity.category}
                                                             </span>
                                                         </div>
@@ -146,8 +148,8 @@ const WeeklyCalendar = ({ activities, weekDates, onToggle, onEdit, onDelete, onC
                                                                 {activity.title}
                                                             </h4>
 
-                                                            <div className={`flex items-center gap-1.5 text-[10px] font-bold opacity-80 ${style.pastelText} mt-auto`}>
-                                                                <FiClock size={10} className="shrink-0" />
+                                                            <div className={`flex items-center gap-1.5 text-xs font-bold opacity-90 ${style.pastelText} mt-auto`}>
+                                                                <FiClock size={12} className="shrink-0" />
                                                                 <span>{formatTimeRange(activity.time_slot, activity.duration)}</span>
                                                             </div>
                                                         </div>

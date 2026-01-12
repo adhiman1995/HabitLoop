@@ -1,3 +1,13 @@
+// Dynamic DAYS_OF_WEEK based on user preference
+export const getDaysOfWeek = () => {
+    const weekStartDay = typeof window !== 'undefined' ? localStorage.getItem('weekStartDay') : 'Sunday';
+    if (weekStartDay === 'Monday') {
+        return ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    }
+    return ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+};
+
+// Keep static version for backward compatibility
 export const DAYS_OF_WEEK = [
     'Monday',
     'Tuesday',
@@ -28,6 +38,14 @@ export const formatTime = (timeSlot) => {
     if (!timeSlot) return '';
     const [hours, minutes] = timeSlot.split(':');
     const hour = parseInt(hours);
+
+    // Check user's time format preference
+    const timeFormat = typeof window !== 'undefined' ? localStorage.getItem('timeFormat') : '12h';
+
+    if (timeFormat === '24h') {
+        return `${hours}:${minutes}`;
+    }
+
     const ampm = hour >= 12 ? 'PM' : 'AM';
     const displayHour = hour % 12 || 12;
     return `${displayHour}:${minutes} ${ampm}`;
@@ -39,12 +57,18 @@ export const formatTimeRange = (startTime, durationMinutes) => {
     const date = new Date();
     date.setHours(hours, minutes, 0, 0);
 
+    // Check user's time format preference
+    const timeFormat = typeof window !== 'undefined' ? localStorage.getItem('timeFormat') : '12h';
+    const formatOptions = timeFormat === '24h'
+        ? { hour: '2-digit', minute: '2-digit', hour12: false }
+        : { hour: 'numeric', minute: '2-digit' };
+
     // Format Start
-    const startStr = date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+    const startStr = date.toLocaleTimeString('en-US', formatOptions);
 
     // Add duration
     date.setMinutes(date.getMinutes() + parseInt(durationMinutes));
-    const endStr = date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+    const endStr = date.toLocaleTimeString('en-US', formatOptions);
 
     return `${startStr} - ${endStr}`;
 };
@@ -140,11 +164,23 @@ export const suggestNextAvailableSlot = (newActivity, allActivities) => {
 
 export const getStartOfWeek = (date = new Date()) => {
     const d = new Date(date);
-    const day = d.getDay();
-    const diff = d.getDate() - day + (day === 0 ? -6 : 1); // Adjust when day is Sunday
-    const monday = new Date(d.setDate(diff));
-    monday.setHours(0, 0, 0, 0);
-    return monday;
+    const day = d.getDay(); // 0 = Sunday, 1 = Monday, ...
+
+    // Check user's week start preference
+    const weekStartDay = typeof window !== 'undefined' ? localStorage.getItem('weekStartDay') : 'Sunday';
+
+    let diff;
+    if (weekStartDay === 'Monday') {
+        // Monday start: adjust to find Monday
+        diff = d.getDate() - day + (day === 0 ? -6 : 1);
+    } else {
+        // Sunday start: day is already the offset from Sunday
+        diff = d.getDate() - day;
+    }
+
+    const startDay = new Date(d.setDate(diff));
+    startDay.setHours(0, 0, 0, 0);
+    return startDay;
 };
 
 export const getWeekDates = (startDate) => {

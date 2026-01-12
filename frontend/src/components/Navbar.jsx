@@ -14,7 +14,7 @@ const Navbar = ({ currentView, onNavigate, user, onLogout }) => {
     return (
         <nav className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 shadow-sm sticky top-0 z-40 transition-all">
             <div className="max-w-[1600px] mx-auto px-4 md:px-8 lg:px-10">
-                <div className="flex items-center justify-between h-20">
+                <div className="flex items-center justify-between h-16">
 
                     <div className="flex items-center gap-3">
                         <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-1">
@@ -59,7 +59,7 @@ const Navbar = ({ currentView, onNavigate, user, onLogout }) => {
                         </div>
                         <button
                             onClick={onLogout}
-                            className="flex items-center gap-2 px-4 py-2 border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 font-bold text-sm rounded-lg hover:bg-rose-50 dark:hover:bg-rose-900/20 hover:text-rose-600 dark:hover:text-rose-400 hover:border-rose-200 dark:hover:border-rose-900 transition-all group"
+                            className="flex items-center gap-2 px-4 py-2 border border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 font-bold text-sm rounded-lg hover:bg-rose-50 dark:hover:bg-rose-900/20 hover:text-rose-600 dark:hover:text-rose-400 hover:border-rose-200 dark:hover:border-rose-900 transition-all group"
                             title="Sign Out"
                         >
                             <span className="hidden sm:inline">Log Out</span>

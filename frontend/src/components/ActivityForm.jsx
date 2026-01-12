@@ -117,7 +117,7 @@ const ActivityForm = ({ activity, initialData, weekDates, activities, onSave, on
             onClick={onCancel}
         >
             <div
-                className="bg-white dark:bg-slate-800 rounded-lg shadow-2xl max-w-2xl w-full p-8 animate-slideUp relative overflow-hidden max-h-[90vh] overflow-y-auto transition-colors"
+                className="bg-white dark:bg-slate-800 rounded-lg shadow-2xl max-w-2xl w-full p-6 animate-slideUp relative overflow-hidden max-h-[90vh] overflow-y-auto transition-colors"
                 onClick={(e) => e.stopPropagation()}
             >
                 {/* Decorative background blob */}
@@ -125,7 +125,7 @@ const ActivityForm = ({ activity, initialData, weekDates, activities, onSave, on
 
                 <div className="flex items-center justify-between mb-8 relative">
                     <div>
-                        <h2 className="text-3xl font-bold text-slate-800 dark:text-white">
+                        <h2 className="text-2xl font-bold text-slate-800 dark:text-white">
                             {activity ? 'Edit Activity' : 'New Activity'}
                         </h2>
                         <p className="text-slate-500 dark:text-slate-400 mt-1">
@@ -140,7 +140,7 @@ const ActivityForm = ({ activity, initialData, weekDates, activities, onSave, on
                     </button>
                 </div>
 
-                <form onSubmit={handleSubmit} className="space-y-6 relative">
+                <form onSubmit={handleSubmit} className="space-y-5 relative">
                     {/* Conflict Warning */}
                     {conflict && (
                         <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 flex items-start gap-4 animate-fadeIn">
@@ -181,7 +181,7 @@ const ActivityForm = ({ activity, initialData, weekDates, activities, onSave, on
                             name="title"
                             value={formData.title}
                             onChange={handleChange}
-                            className="w-full px-5 py-4 bg-slate-50 dark:bg-slate-900 border-2 border-slate-100 dark:border-slate-700 rounded-lg focus:bg-white dark:focus:bg-slate-800 focus:border-blue-500 dark:focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all text-lg font-medium placeholder:text-slate-400 dark:placeholder:text-slate-600 dark:text-white"
+                            className="w-full px-5 py-3 bg-slate-50 dark:bg-slate-900 border-2 border-slate-100 dark:border-slate-800 rounded-lg focus:bg-white dark:focus:bg-slate-800 focus:border-blue-500 dark:focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all text-base font-medium placeholder:text-slate-400 dark:placeholder:text-slate-600 dark:text-white"
                             placeholder="What are you doing?"
                             required
                             autoFocus
@@ -193,7 +193,7 @@ const ActivityForm = ({ activity, initialData, weekDates, activities, onSave, on
                         <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider flex items-center gap-2">
                             <FiFolder /> Category
                         </label>
-                        <div className="flex flex-wrap gap-2 p-2 bg-slate-50 dark:bg-slate-700/50 border-2 border-slate-100 dark:border-slate-700 rounded-lg">
+                        <div className="flex flex-wrap gap-2 p-2 bg-slate-50 dark:bg-slate-700/50 border-2 border-slate-100 dark:border-slate-800 rounded-lg">
                             {categories.map(cat => (
                                 <button
                                     key={cat}
@@ -271,7 +271,7 @@ const ActivityForm = ({ activity, initialData, weekDates, activities, onSave, on
                                         name="day_of_week"
                                         value={formData.day_of_week}
                                         onChange={handleChange}
-                                        className="w-full px-5 py-3 bg-slate-50 dark:bg-slate-900 border-2 border-slate-100 dark:border-slate-700 rounded-lg appearance-none focus:bg-white dark:focus:bg-slate-800 focus:border-blue-500 dark:focus:border-blue-500 outline-none transition-all text-slate-700 dark:text-white font-medium"
+                                        className="w-full px-5 py-2.5 bg-slate-50 dark:bg-slate-900 border-2 border-slate-100 dark:border-slate-800 rounded-lg appearance-none focus:bg-white dark:focus:bg-slate-800 focus:border-blue-500 dark:focus:border-blue-500 outline-none transition-all text-slate-700 dark:text-white font-medium"
                                     >
                                         {DAYS_OF_WEEK.map(day => (
                                             <option key={day} value={day}>{day}</option>
@@ -294,7 +294,7 @@ const ActivityForm = ({ activity, initialData, weekDates, activities, onSave, on
                                     name="time_slot"
                                     value={formData.time_slot}
                                     onChange={handleChange}
-                                    className="w-full px-5 py-3 bg-slate-50 dark:bg-slate-900 border-2 border-slate-100 dark:border-slate-700 rounded-lg focus:bg-white dark:focus:bg-slate-800 focus:border-blue-500 dark:focus:border-blue-500 outline-none transition-all text-slate-700 dark:text-white font-mono"
+                                    className="w-full px-5 py-2.5 bg-slate-50 dark:bg-slate-900 border-2 border-slate-100 dark:border-slate-800 rounded-lg focus:bg-white dark:focus:bg-slate-800 focus:border-blue-500 dark:focus:border-blue-500 outline-none transition-all text-slate-700 dark:text-white font-mono"
                                     required
                                 />
                             </div>
@@ -304,7 +304,7 @@ const ActivityForm = ({ activity, initialData, weekDates, activities, onSave, on
                                     <span>Duration</span>
                                     <span className="text-blue-600 bg-blue-50 px-2 py-0.5 rounded text-[10px]">{formData.duration} min</span>
                                 </label>
-                                <div className="flex items-center gap-3 bg-slate-50 dark:bg-slate-900 p-3 rounded-lg border-2 border-slate-100 dark:border-slate-700">
+                                <div className="flex items-center gap-3 bg-slate-50 dark:bg-slate-900 p-3 rounded-lg border-2 border-slate-100 dark:border-slate-800">
                                     <input
                                         type="range"
                                         min="15"
@@ -328,25 +328,25 @@ const ActivityForm = ({ activity, initialData, weekDates, activities, onSave, on
                             name="description"
                             value={formData.description}
                             onChange={handleChange}
-                            className="w-full px-5 py-4 bg-slate-50 dark:bg-slate-900 border-2 border-slate-100 dark:border-slate-700 rounded-lg focus:bg-white dark:focus:bg-slate-800 focus:border-blue-500 dark:focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all resize-none text-slate-600 dark:text-slate-300"
+                            className="w-full px-5 py-3 bg-slate-50 dark:bg-slate-900 border-2 border-slate-100 dark:border-slate-800 rounded-lg focus:bg-white dark:focus:bg-slate-800 focus:border-blue-500 dark:focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all resize-none text-slate-600 dark:text-slate-300"
                             rows="2"
                             placeholder="Add locations, notes, or details..."
                         />
                     </div>
 
                     {/* Footer Buttons */}
-                    <div className="flex gap-4 pt-4 border-t border-slate-100 dark:border-slate-700 mt-8">
+                    <div className="flex gap-4 pt-4 border-t border-slate-100 dark:border-slate-800 mt-8">
                         <button
                             type="button"
                             onClick={onCancel}
-                            className="flex-1 px-6 py-4 border-2 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 hover:border-slate-300 dark:hover:border-slate-600 transition-all font-bold text-sm uppercase tracking-wide"
+                            className="flex-1 px-6 py-3 border-2 border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 hover:border-slate-300 dark:hover:border-slate-600 transition-all font-bold text-sm uppercase tracking-wide"
                         >
                             Cancel
                         </button>
                         <button
                             type="submit"
                             disabled={isSubmitting || !!conflict}
-                            className={`flex-[2] px-6 py-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all font-bold text-sm uppercase tracking-wide flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed`}
+                            className={`flex-[2] px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all font-bold text-sm uppercase tracking-wide flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed`}
                         >
                             {isSubmitting ? <FiLoader className="animate-spin text-lg" /> : <FiSave className="text-lg" />}
                             <span>{isSubmitting ? 'Saving...' : (activity ? 'Save Changes' : 'Schedule Activity')}</span>

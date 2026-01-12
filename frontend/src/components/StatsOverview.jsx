@@ -66,7 +66,7 @@ const StatsOverview = ({ activities }) => {
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {stats.map((stat) => (
-                <div key={stat.label} className="bg-white dark:bg-slate-800 rounded-lg p-5 border border-slate-200 dark:border-slate-700 shadow-sm transition-all hover:shadow-md hover:-translate-y-1 relative overflow-hidden group">
+                <div key={stat.label} className="bg-white dark:bg-slate-800 rounded-lg p-4 border border-slate-200 dark:border-slate-800 shadow-sm transition-all hover:shadow-md hover:-translate-y-1 relative overflow-hidden group">
                     <div className="flex items-start justify-between relative z-10">
                         <div>
                             <p className="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-1">{stat.label}</p>

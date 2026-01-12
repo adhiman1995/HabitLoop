@@ -23,14 +23,14 @@ const AnalyticsChart = ({ activities }) => {
 
     if (data.length === 0) {
         return (
-            <div className="bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 shadow-sm p-6 flex items-center justify-center h-[300px] transition-colors">
+            <div className="bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm p-6 flex items-center justify-center h-[300px] transition-colors">
                 <p className="text-slate-400 dark:text-slate-500">Add activities to see your analytics</p>
             </div>
         );
     }
 
     return (
-        <div className="bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 shadow-sm p-6 h-full transition-colors">
+        <div className="bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm p-6 h-full transition-colors">
             <h3 className="text-lg font-bold text-slate-800 dark:text-white mb-6">Activities by Category</h3>
             <div className="h-[300px] w-full">
                 <ResponsiveContainer width="100%" height="100%">

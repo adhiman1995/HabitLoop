@@ -75,7 +75,7 @@ const HeatmapWidget = () => {
     }
 
     return (
-        <div className="bg-white dark:bg-slate-800 rounded-lg p-8 shadow-sm border border-slate-200 dark:border-slate-700 h-full min-h-[240px] flex flex-col justify-center overflow-hidden transition-colors">
+        <div className="bg-white dark:bg-slate-800 rounded-lg p-8 shadow-sm border border-slate-200 dark:border-slate-800 h-full min-h-[240px] flex flex-col justify-center overflow-hidden transition-colors">
             <div className="flex flex-wrap md:flex-nowrap gap-8 justify-center items-start">
                 {monthsData.map((month) => (
                     <div key={`${month.name}-${month.year}`} className="flex flex-col gap-3">

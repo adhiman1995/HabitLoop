@@ -51,7 +51,11 @@ const Dashboard = () => {
   // Dark Mode State
   const [darkMode, setDarkMode] = useState(() => {
     if (typeof window !== 'undefined') {
-      return localStorage.getItem('theme') === 'dark';
+      const storedTheme = localStorage.getItem('theme');
+      if (storedTheme) {
+        return storedTheme === 'dark';
+      }
+      return window.matchMedia('(prefers-color-scheme: dark)').matches;
     }
     return false;
   });
@@ -100,7 +104,9 @@ const Dashboard = () => {
   };
 
   // View State logic
-  const [currentView, setCurrentView] = useState('dashboard');
+  const [currentView, setCurrentView] = useState(() => {
+    return localStorage.getItem('defaultView') || 'dashboard';
+  });
 
   // Splash Screen State
   const [showSplash, setShowSplash] = useState(true);
@@ -307,15 +313,15 @@ const Dashboard = () => {
       />
 
       {/* Main Content Area */}
-      <div className="flex-1 overflow-y-auto relative bg-slate-50/50 flex flex-col">
+      <div className="flex-1 overflow-y-auto relative bg-slate-50/50 dark:bg-slate-900 flex flex-col">
         <main className="flex-1 p-4 md:p-8 lg:p-10 max-w-[1600px] w-full mx-auto">
           {/* Header Section */}
           <div className="mb-10 flex flex-col xl:flex-row xl:items-end justify-between gap-6 pb-2 animate-fadeIn">
             <div>
-              <h1 className="text-2xl md:text-2xl font-bold text-slate-800 tracking-tight mb-2">
+              <h1 className="text-2xl md:text-2xl font-bold text-slate-800 dark:text-white tracking-tight mb-2">
                 {getPageTitle()}
               </h1>
-              <p className="text-md text-slate-500 font-medium max-w-2xl">
+              <p className="text-md text-slate-500 dark:text-slate-400 font-medium max-w-2xl">
                 {getPageSubtitle()}
               </p>
             </div>
@@ -323,31 +329,31 @@ const Dashboard = () => {
             <div className="flex flex-col sm:flex-row items-stretch gap-4">
               {/* Week Navigation - Only Show in Activities Tab */}
               {currentView === 'activities' && (
-                <div className="flex items-center bg-white rounded-lg border border-slate-200 p-1.5 shadow-sm">
+                <div className="flex items-center bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-800 p-1.5 shadow-sm transition-colors">
                   <button
                     onClick={handlePrevWeek}
-                    className="p-3 hover:bg-slate-50 rounded-lg text-slate-400 hover:text-blue-600 transition-all active:scale-95"
+                    className="p-3 hover:bg-slate-50 dark:hover:bg-slate-700 rounded-lg text-slate-400 dark:text-slate-500 hover:text-blue-600 dark:hover:text-blue-400 transition-all active:scale-95"
                     title="Previous Week"
                   >
                     <FiChevronLeft className="text-xl" />
                   </button>
-                  <div className="px-6 flex items-center gap-3 font-bold text-slate-700 min-w-[200px] justify-center text-sm uppercase tracking-wide">
-                    <FiCalendar className="text-blue-500 text-lg" />
+                  <div className="px-6 flex items-center gap-3 font-bold text-slate-700 dark:text-white min-w-[200px] justify-center text-sm uppercase tracking-wide">
+                    <FiCalendar className="text-blue-500 dark:text-blue-400 text-lg" />
                     <span>{formatDate(weekDates[0])} - {formatDate(weekDates[6])}</span>
                   </div>
                   <button
                     onClick={handleNextWeek}
-                    className="p-3 hover:bg-slate-50 rounded-lg text-slate-400 hover:text-blue-600 transition-all active:scale-95"
+                    className="p-3 hover:bg-slate-50 dark:hover:bg-slate-700 rounded-lg text-slate-400 dark:text-slate-500 hover:text-blue-600 dark:hover:text-blue-400 transition-all active:scale-95"
                     title="Next Week"
                   >
                     <FiChevronRight className="text-xl" />
                   </button>
 
-                  <div className="w-px h-8 bg-slate-100 mx-2"></div>
+                  <div className="w-px h-8 bg-slate-100 dark:bg-slate-700 mx-2"></div>
 
                   <button
                     onClick={handleToday}
-                    className="px-4 py-2 text-sm font-bold text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg transition-all active:scale-95"
+                    className="px-4 py-2 text-sm font-bold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 hover:bg-blue-100 dark:hover:bg-blue-900/50 rounded-lg transition-all active:scale-95"
                   >
                     Today
                   </button>

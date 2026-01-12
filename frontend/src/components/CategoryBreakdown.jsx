@@ -23,7 +23,7 @@ const CategoryBreakdown = ({ activities }) => {
         }));
 
     return (
-        <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 p-6 flex flex-col h-full transition-colors">
+        <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-slate-200 dark:border-slate-800 p-6 flex flex-col h-full transition-colors">
             <h3 className="font-bold text-lg text-slate-800 dark:text-white mb-4">Time Distribution</h3>
 
             <div className="space-y-4 flex-1 overflow-y-auto pr-2 custom-scrollbar">
@@ -52,7 +52,7 @@ const CategoryBreakdown = ({ activities }) => {
                     </div>
                 )}
             </div>
-            <p className="text-xs text-slate-400 dark:text-slate-500 mt-4 pt-4 border-t border-slate-100 dark:border-slate-700 text-center">
+            <p className="text-xs text-slate-400 dark:text-slate-500 mt-4 pt-4 border-t border-slate-100 dark:border-slate-800 text-center">
                 Based on your total logged activity time.
             </p>
         </div>

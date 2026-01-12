@@ -23,7 +23,7 @@ const ActivityDetails = ({ activity, onClose, onEdit, onDelete, onCreateTask }) 
                 <div className="absolute top-0 right-0 w-64 h-64 bg-blue-50 dark:bg-blue-900/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
 
                 {/* Header */}
-                <div className="p-8 pb-0 relative">
+                <div className="p-6 pb-0 relative">
                     <div className="flex items-start justify-between mb-4">
                         <span className={`px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-wider bg-slate-50 dark:bg-slate-700/50 border border-slate-100 dark:border-slate-600/50 text-slate-600 dark:text-slate-300 flex items-center gap-2`}>
                             <span className={`w-2 h-2 rounded-full ${style.pastelText.replace('text', 'bg').replace('800', '500')}`}></span>
@@ -37,12 +37,12 @@ const ActivityDetails = ({ activity, onClose, onEdit, onDelete, onCreateTask }) 
                         </button>
                     </div>
 
-                    <h2 className="text-3xl font-bold text-slate-800 dark:text-white leading-tight">
+                    <h2 className="text-2xl font-bold text-slate-800 dark:text-white leading-tight">
                         {activity.title}
                     </h2>
                 </div>
 
-                <div className="p-8 space-y-6 relative">
+                <div className="p-6 space-y-5 relative">
                     {/* Time & Date */}
                     <div className="flex items-start gap-4">
                         <div className="p-3 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 rounded-lg shrink-0">
@@ -67,8 +67,8 @@ const ActivityDetails = ({ activity, onClose, onEdit, onDelete, onCreateTask }) 
                     </div>
 
                     {/* Description */}
-                    <div className="flex items-start gap-4 pt-6 border-t border-slate-100 dark:border-slate-700">
-                        <div className="p-3 bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 text-slate-400 dark:text-slate-500 rounded-lg shrink-0">
+                    <div className="flex items-start gap-4 pt-6 border-t border-slate-100 dark:border-slate-800">
+                        <div className="p-3 bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-800 text-slate-400 dark:text-slate-500 rounded-lg shrink-0">
                             <FiAlignLeft size={24} />
                         </div>
                         <div className="flex-1">
@@ -81,7 +81,7 @@ const ActivityDetails = ({ activity, onClose, onEdit, onDelete, onCreateTask }) 
                 </div>
 
                 {/* Footer Actions */}
-                <div className="px-8 py-6 bg-slate-50 dark:bg-slate-900/50 border-t border-slate-100 dark:border-slate-700">
+                <div className="px-6 py-5 bg-slate-50 dark:bg-slate-900/50 border-t border-slate-100 dark:border-slate-800">
                     {isDeleting ? (
                         <div className="bg-white dark:bg-slate-800 p-4 rounded-lg border-2 border-red-50 dark:border-red-900/30 shadow-sm animate-fadeIn">
                             <div className="flex items-center gap-3 text-red-700 dark:text-red-400 font-bold mb-3">
@@ -112,7 +112,7 @@ const ActivityDetails = ({ activity, onClose, onEdit, onDelete, onCreateTask }) 
                                 {onEdit && (
                                     <button
                                         onClick={onEdit}
-                                        className="p-3 bg-white dark:bg-slate-800 border-2 border-slate-100 dark:border-slate-700 text-slate-600 dark:text-slate-400 rounded-lg hover:border-blue-200 dark:hover:border-blue-700 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/30 transition-all"
+                                        className="p-3 bg-white dark:bg-slate-800 border-2 border-slate-100 dark:border-slate-800 text-slate-600 dark:text-slate-400 rounded-lg hover:border-blue-200 dark:hover:border-blue-700 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/30 transition-all"
                                         title="Edit Activity"
                                     >
                                         <FiEdit2 size={20} />
@@ -121,7 +121,7 @@ const ActivityDetails = ({ activity, onClose, onEdit, onDelete, onCreateTask }) 
                                 {onDelete && (
                                     <button
                                         onClick={() => setIsDeleting(true)}
-                                        className="p-3 bg-white dark:bg-slate-800 border-2 border-slate-100 dark:border-slate-700 text-slate-600 dark:text-slate-400 rounded-lg hover:border-red-200 dark:hover:border-red-800 hover:text-red-500 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all"
+                                        className="p-3 bg-white dark:bg-slate-800 border-2 border-slate-100 dark:border-slate-800 text-slate-600 dark:text-slate-400 rounded-lg hover:border-red-200 dark:hover:border-red-800 hover:text-red-500 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all"
                                         title="Delete Activity"
                                     >
                                         <FiTrash2 size={20} />

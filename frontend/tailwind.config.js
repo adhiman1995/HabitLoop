@@ -8,7 +8,7 @@ export default {
     theme: {
         extend: {
             colors: {
-                // Using standard Slate for neutrals
+                // "Midnight" Palette based on reference image
                 slate: {
                     50: '#f8fafc',
                     100: '#f1f5f9',
@@ -16,13 +16,13 @@ export default {
                     300: '#cbd5e1',
                     400: '#94a3b8',
                     500: '#64748b',
-                    600: '#475569',
-                    700: '#334155',
-                    800: '#1e293b',
-                    900: '#0f172a', /* Deep background */
-                    950: '#020617',
+                    600: '#4b5975', // Text secondary
+                    700: '#2a3b55', // Borders - muted blue-grey
+                    800: '#151e32', // Cards - lighter navy
+                    900: '#0b1121', // Main Background - deep navy/black
+                    950: '#020617', // Darkest
                 },
-                // Primary brand color - Blue (Standard)
+                // Primary brand color - Vibrant Blue from image
                 primary: {
                     50: '#eff6ff',
                     100: '#dbeafe',
@@ -30,7 +30,7 @@ export default {
                     300: '#93c5fd',
                     400: '#60a5fa',
                     500: '#3b82f6',
-                    600: '#2563eb',
+                    600: '#2563eb', // Standard Primary
                     700: '#1d4ed8',
                     800: '#1e40af',
                     900: '#1e3a8a',
