@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 import { FiX, FiClock, FiCalendar, FiTag, FiAlignLeft, FiEdit2, FiTrash2, FiAlertCircle, FiCheckSquare, FiCheck } from 'react-icons/fi';
 import { getCategoryStyle, formatTimeRange } from '../utils/helpers';
 
-const ActivityDetails = ({ activity, onClose, onEdit, onDelete, onCreateTask }) => {
+const ActivityDetails = ({ activity, onClose, onEdit, onDelete, onCreateTask, onToggle }) => {
     const [isDeleting, setIsDeleting] = useState(false);
 
     if (!activity) return null;
@@ -107,37 +107,66 @@ const ActivityDetails = ({ activity, onClose, onEdit, onDelete, onCreateTask }) 
                             </div>
                         </div>
                     ) : (
-                        <div className="flex justify-between items-center gap-4">
-                            <div className="flex gap-2">
-                                {onEdit && (
-                                    <button
-                                        onClick={onEdit}
-                                        className="p-3 bg-white dark:bg-slate-800 border-2 border-slate-100 dark:border-slate-800 text-slate-600 dark:text-slate-400 rounded-lg hover:border-blue-200 dark:hover:border-blue-700 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/30 transition-all"
-                                        title="Edit Activity"
-                                    >
-                                        <FiEdit2 size={20} />
-                                    </button>
+                        <div className="flex flex-col gap-4">
+                            {/* Primary Action Button */}
+                            <button
+                                onClick={() => onToggle(activity.id)}
+                                className={`w-full px-6 py-4 font-bold rounded-lg transition-all flex items-center justify-center gap-3 text-lg shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 ${activity.completed
+                                    ? 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 border-2 border-slate-200 dark:border-slate-700'
+                                    : 'bg-blue-600 hover:bg-blue-700 text-white'
+                                    }`}
+                            >
+                                {activity.completed ? (
+                                    <>
+                                        <div className="p-1 rounded-full bg-slate-200 dark:bg-slate-700">
+                                            <FiCheck size={20} />
+                                        </div>
+                                        <span>Completed</span>
+                                    </>
+                                ) : (
+                                    <>
+                                        <div className="p-1 rounded-full bg-blue-400/30">
+                                            <FiCheck size={20} />
+                                        </div>
+                                        <span>Mark as Complete</span>
+                                    </>
                                 )}
-                                {onDelete && (
+                            </button>
+
+                            <div className="flex justify-between items-center pt-2 border-t border-slate-100 dark:border-slate-800">
+                                <div className="flex gap-1">
+                                    {onEdit && (
+                                        <button
+                                            onClick={onEdit}
+                                            className="px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400 rounded-lg transition-colors flex items-center gap-2 group"
+                                            title="Edit Activity"
+                                        >
+                                            <FiEdit2 size={16} className="group-hover:text-blue-500 transition-colors" />
+                                            <span className="text-sm font-medium">Edit</span>
+                                        </button>
+                                    )}
+                                    {onDelete && (
+                                        <button
+                                            onClick={() => setIsDeleting(true)}
+                                            className="px-3 py-2 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400 rounded-lg transition-colors flex items-center gap-2 group"
+                                            title="Delete Activity"
+                                        >
+                                            <FiTrash2 size={16} className="group-hover:text-red-500 transition-colors" />
+                                            <span className="text-sm font-medium">Delete</span>
+                                        </button>
+                                    )}
+                                </div>
+
+                                {onCreateTask && (
                                     <button
-                                        onClick={() => setIsDeleting(true)}
-                                        className="p-3 bg-white dark:bg-slate-800 border-2 border-slate-100 dark:border-slate-800 text-slate-600 dark:text-slate-400 rounded-lg hover:border-red-200 dark:hover:border-red-800 hover:text-red-500 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all"
-                                        title="Delete Activity"
+                                        onClick={onCreateTask}
+                                        className="px-3 py-2 text-sm font-bold text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-all flex items-center gap-2"
                                     >
-                                        <FiTrash2 size={20} />
+                                        <FiCheckSquare size={16} />
+                                        Create Task
                                     </button>
                                 )}
                             </div>
-
-                            {onCreateTask && (
-                                <button
-                                    onClick={onCreateTask}
-                                    className="flex-1 px-6 py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition-all flex items-center justify-center gap-2 group"
-                                >
-                                    <FiCheckSquare className="text-lg group-hover:scale-110 transition-transform" />
-                                    <span>Create Task</span>
-                                </button>
-                            )}
                         </div>
                     )}
                 </div>

@@ -26,13 +26,16 @@ const FilterBar = ({ selectedCategory, onCategoryChange }) => {
                     <button
                         key={category.name}
                         onClick={() => onCategoryChange(category.name)}
-                        className={`px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wide transition-colors flex items-center gap-2 ${selectedCategory === category.name
-                            ? 'bg-blue-600 text-white'
-                            : 'bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-blue-600 dark:hover:text-blue-400'
+                        className={`px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wide transition-all flex items-center gap-2 border ${selectedCategory === category.name
+                            ? `${category.color} ${category.textColor} border-transparent shadow-md scale-105`
+                            : `bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400 border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700`
                             }`}
                     >
-                        {selectedCategory === category.name && <FiCheck />}
-                        {category.name}
+                        {selectedCategory === category.name && <FiCheck strokeWidth={3} />}
+                        <span className={selectedCategory !== category.name ? category.textClass || '' : ''}>{category.name}</span>
+                        {selectedCategory !== category.name && (
+                            <span className={`w-2.5 h-2.5 rounded-sm ${category.color}`}></span>
+                        )}
                     </button>
                 ))}
             </div>

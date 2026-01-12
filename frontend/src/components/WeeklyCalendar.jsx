@@ -137,14 +137,10 @@ const WeeklyCalendar = ({ activities, weekDates, onToggle, onEdit, onDelete, onC
                                                             ${activity.completed ? 'opacity-70 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700' : `${style.pastelBg} ${style.hoverBg} ${style.pastelBorder}`}
                                                         `}
                                                     >
-                                                        <div className="flex justify-between items-start mb-2 shrink-0">
-                                                            <span className={`text-[10px] font-black uppercase tracking-wider px-2 py-1 rounded-lg bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm ${style.pastelText}`}>
-                                                                {activity.category}
-                                                            </span>
-                                                        </div>
+
 
                                                         <div className="space-y-1 flex-1 min-h-0 pt-1">
-                                                            <h4 className={`text-sm font-extrabold leading-tight ${style.pastelText} ${activity.completed ? 'line-through decoration-2 opacity-50' : ''} line-clamp-2`}>
+                                                            <h4 className={`text-sm md:text-base font-extrabold leading-tight ${style.pastelText} ${activity.completed ? 'line-through decoration-2 opacity-50' : ''} line-clamp-2 break-words mb-2`}>
                                                                 {activity.title}
                                                             </h4>
 
@@ -154,26 +150,7 @@ const WeeklyCalendar = ({ activities, weekDates, onToggle, onEdit, onDelete, onC
                                                             </div>
                                                         </div>
 
-                                                        <div className="absolute top-3 right-3 z-20">
-                                                            <button
-                                                                onClick={(e) => {
-                                                                    e.stopPropagation();
-                                                                    if (!isPast) onToggle(activity.id);
-                                                                }}
-                                                                disabled={isPast}
-                                                                className={`w-8 h-8 flex items-center justify-center rounded-lg transition-all duration-200 
-                                                                    ${activity.completed
-                                                                        ? 'bg-blue-600 text-white scale-100 rotate-0'
-                                                                        : (isPast
-                                                                            ? 'bg-slate-200 text-slate-400 cursor-not-allowed'
-                                                                            : 'bg-white/80 backdrop-blur-sm text-slate-300 hover:text-blue-500 hover:bg-white hover:scale-110 active:scale-90 opacity-0 group-hover:opacity-100'
-                                                                        )
-                                                                    }`}
-                                                                title={isPast ? "Past activities are locked" : (activity.completed ? "Mark as incomplete" : "Mark as done")}
-                                                            >
-                                                                <FiCheck size={16} className={`transition-all duration-300 ${activity.completed ? 'stroke-[3px]' : 'stroke-[3px]'}`} />
-                                                            </button>
-                                                        </div>
+
                                                     </div>
                                                 ) : (
                                                     <div

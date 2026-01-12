@@ -443,6 +443,7 @@ const Dashboard = () => {
           <ActivityDetails
             activity={viewingActivity}
             onClose={() => setViewingActivity(null)}
+            onToggle={handleToggleComplete}
             onEdit={() => {
               setViewingActivity(null);
               handleEditActivity(viewingActivity);

@@ -144,7 +144,7 @@ const TasksPage = ({ initialActivityId, onClearActivity }) => {
                 {/* Create Task Button (Resized) */}
                 <button
                     onClick={handleAddRow}
-                    className="px-5 py-2.5 bg-blue-600 text-white rounded-lg font-bold hover:bg-blue-700 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2 group whitespace-nowrap w-full xl:w-auto text-sm"
+                    className="px-6 py-3.5 bg-blue-600 text-white rounded-lg font-bold hover:bg-blue-700 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2 group whitespace-nowrap w-full xl:w-auto text-sm shadow-sm md:h-[52px]" // Explicit height or padding tweak to match filter bar
                 >
                     <FiPlus className="text-xl group-hover:rotate-90 transition-transform" />
                     <span>Create New Task</span>
@@ -292,7 +292,7 @@ const TasksPage = ({ initialActivityId, onClearActivity }) => {
                                                     <button
                                                         onClick={() => handleToggleComplete(task)}
                                                         className={`p-2 rounded-lg transition-all hover:scale-110 border ${task.status === 'Completed'
-                                                            ? 'text-emerald-600 bg-emerald-50 border-emerald-200 hover:bg-emerald-100'
+                                                            ? 'text-emerald-500 bg-slate-100 dark:bg-slate-800 border-slate-200 dark:border-slate-700 hover:text-emerald-600 hover:border-emerald-200'
                                                             : 'text-slate-400 dark:text-slate-500 bg-white dark:bg-slate-700 border-slate-200 dark:border-slate-600 hover:text-emerald-500 hover:border-emerald-200 hover:bg-emerald-50 dark:hover:bg-emerald-900/30'
                                                             }`}
                                                         title={task.status === 'Completed' ? "Mark Incomplete" : "Mark Complete"}
