@@ -161,7 +161,7 @@ const ActivityForm = ({ activity, initialData, weekDates, activities, onSave, on
                                         <button
                                             type="button"
                                             onClick={() => setFormData(prev => ({ ...prev, time_slot: suggestion }))}
-                                            className="px-4 py-2 bg-white border-2 border-amber-200 rounded-lg text-sm font-bold text-amber-800 hover:bg-amber-50 hover:border-amber-300 transition-all flex items-center gap-2 shadow-sm"
+                                            className="px-4 py-2 bg-white border-2 border-amber-200 rounded-lg text-sm font-bold text-amber-800 hover:bg-amber-50 hover:border-amber-300 transition-all flex items-center gap-2"
                                         >
                                             Use {suggestion} <FiCheck className="text-lg" />
                                         </button>
@@ -200,7 +200,7 @@ const ActivityForm = ({ activity, initialData, weekDates, activities, onSave, on
                                     type="button"
                                     onClick={() => setFormData(prev => ({ ...prev, category: cat }))}
                                     className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${formData.category === cat
-                                        ? 'bg-white dark:bg-slate-600 text-blue-600 dark:text-white shadow-md scale-100 ring-2 ring-blue-100 dark:ring-blue-900'
+                                        ? 'bg-white dark:bg-slate-600 text-blue-600 dark:text-white scale-100 ring-2 ring-blue-100 dark:ring-blue-900'
                                         : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-200/50 dark:hover:bg-slate-600/50'
                                         }`}
                                 >
@@ -346,7 +346,7 @@ const ActivityForm = ({ activity, initialData, weekDates, activities, onSave, on
                         <button
                             type="submit"
                             disabled={isSubmitting || !!conflict}
-                            className={`flex-[2] px-6 py-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-500/30 transition-all font-bold text-sm uppercase tracking-wide flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed`}
+                            className={`flex-[2] px-6 py-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all font-bold text-sm uppercase tracking-wide flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed`}
                         >
                             {isSubmitting ? <FiLoader className="animate-spin text-lg" /> : <FiSave className="text-lg" />}
                             <span>{isSubmitting ? 'Saving...' : (activity ? 'Save Changes' : 'Schedule Activity')}</span>

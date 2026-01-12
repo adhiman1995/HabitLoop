@@ -14,7 +14,7 @@ const FilterBar = ({ selectedCategory, onCategoryChange }) => {
                 <button
                     onClick={() => onCategoryChange(null)}
                     className={`px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wide transition-colors flex items-center gap-2 ${selectedCategory === null
-                        ? 'bg-blue-600 text-white shadow-md shadow-blue-200 dark:shadow-blue-900/20'
+                        ? 'bg-blue-600 text-white'
                         : 'bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-blue-600 dark:hover:text-blue-400'
                         }`}
                 >
@@ -27,7 +27,7 @@ const FilterBar = ({ selectedCategory, onCategoryChange }) => {
                         key={category.name}
                         onClick={() => onCategoryChange(category.name)}
                         className={`px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wide transition-colors flex items-center gap-2 ${selectedCategory === category.name
-                            ? 'bg-blue-600 text-white shadow-md shadow-blue-200 dark:shadow-blue-900/20'
+                            ? 'bg-blue-600 text-white'
                             : 'bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-blue-600 dark:hover:text-blue-400'
                             }`}
                     >

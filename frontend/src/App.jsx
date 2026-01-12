@@ -51,8 +51,7 @@ const Dashboard = () => {
   // Dark Mode State
   const [darkMode, setDarkMode] = useState(() => {
     if (typeof window !== 'undefined') {
-      return localStorage.getItem('theme') === 'dark' ||
-        (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      return localStorage.getItem('theme') === 'dark';
     }
     return false;
   });
@@ -348,7 +347,7 @@ const Dashboard = () => {
 
                   <button
                     onClick={handleToday}
-                    className="px-4 py-2 text-sm font-bold text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg transition-all active:scale-95 hover:shadow-sm"
+                    className="px-4 py-2 text-sm font-bold text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg transition-all active:scale-95"
                   >
                     Today
                   </button>
@@ -358,7 +357,7 @@ const Dashboard = () => {
               {currentView === 'activities' && (
                 <button
                   onClick={handleAddActivity}
-                  className="px-8 py-3 bg-blue-600 text-white rounded-lg font-bold shadow-xl shadow-blue-200 hover:bg-blue-700 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3 group whitespace-nowrap"
+                  className="px-8 py-3 bg-blue-600 text-white rounded-lg font-bold hover:bg-blue-700 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3 group whitespace-nowrap"
                 >
                   <FiPlus className="text-xl group-hover:rotate-90 transition-transform" />
                   <span>New Activity</span>

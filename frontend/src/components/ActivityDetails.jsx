@@ -100,7 +100,7 @@ const ActivityDetails = ({ activity, onClose, onEdit, onDelete, onCreateTask }) 
                                 </button>
                                 <button
                                     onClick={onDelete}
-                                    className="flex-1 px-4 py-3 bg-red-500 text-white font-bold rounded-lg hover:bg-red-600 transition-colors shadow-lg shadow-red-500/30"
+                                    className="flex-1 px-4 py-3 bg-red-500 text-white font-bold rounded-lg hover:bg-red-600 transition-colors"
                                 >
                                     Confirm Delete
                                 </button>
@@ -132,7 +132,7 @@ const ActivityDetails = ({ activity, onClose, onEdit, onDelete, onCreateTask }) 
                             {onCreateTask && (
                                 <button
                                     onClick={onCreateTask}
-                                    className="flex-1 px-6 py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition-all shadow-lg shadow-blue-500/20 flex items-center justify-center gap-2 group"
+                                    className="flex-1 px-6 py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition-all flex items-center justify-center gap-2 group"
                                 >
                                     <FiCheckSquare className="text-lg group-hover:scale-110 transition-transform" />
                                     <span>Create Task</span>

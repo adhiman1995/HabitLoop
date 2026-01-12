@@ -130,7 +130,7 @@ const TasksPage = ({ initialActivityId, onClearActivity }) => {
                                 key={status}
                                 onClick={() => setStatusFilter(status)}
                                 className={`px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wide transition-all flex items-center gap-2 ${statusFilter === status
-                                    ? 'bg-blue-600 text-white shadow-md shadow-blue-200 scale-105'
+                                    ? 'bg-blue-600 text-white scale-105'
                                     : 'bg-white text-slate-500 hover:bg-slate-50 hover:text-blue-600'
                                     }`}
                             >
@@ -144,7 +144,7 @@ const TasksPage = ({ initialActivityId, onClearActivity }) => {
                 {/* Create Task Button (Resized) */}
                 <button
                     onClick={handleAddRow}
-                    className="px-5 py-2.5 bg-blue-600 text-white rounded-lg font-bold shadow-lg shadow-blue-200 hover:bg-blue-700 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2 group whitespace-nowrap w-full xl:w-auto text-sm"
+                    className="px-5 py-2.5 bg-blue-600 text-white rounded-lg font-bold hover:bg-blue-700 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2 group whitespace-nowrap w-full xl:w-auto text-sm"
                 >
                     <FiPlus className="text-xl group-hover:rotate-90 transition-transform" />
                     <span>Create New Task</span>
@@ -291,7 +291,7 @@ const TasksPage = ({ initialActivityId, onClearActivity }) => {
                                                 <div className="flex items-center justify-center gap-1">
                                                     <button
                                                         onClick={() => handleToggleComplete(task)}
-                                                        className={`p-2 rounded-lg transition-all hover:scale-110 shadow-sm border ${task.status === 'Completed'
+                                                        className={`p-2 rounded-lg transition-all hover:scale-110 border ${task.status === 'Completed'
                                                             ? 'text-emerald-600 bg-emerald-50 border-emerald-200 hover:bg-emerald-100'
                                                             : 'text-slate-400 bg-white border-slate-200 hover:text-emerald-500 hover:border-emerald-200 hover:bg-emerald-50'
                                                             }`}
@@ -302,7 +302,7 @@ const TasksPage = ({ initialActivityId, onClearActivity }) => {
 
                                                     <button
                                                         onClick={() => handleEditTask(task)}
-                                                        className="p-2 text-blue-500 bg-white border border-slate-200 hover:border-blue-200 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-all hover:scale-110 shadow-sm"
+                                                        className="p-2 text-blue-500 bg-white border border-slate-200 hover:border-blue-200 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-all hover:scale-110"
                                                         title="Edit"
                                                     >
                                                         <FiEdit2 className="text-lg" />
@@ -310,7 +310,7 @@ const TasksPage = ({ initialActivityId, onClearActivity }) => {
 
                                                     <button
                                                         onClick={() => handleDelete(taskId)}
-                                                        className="p-2 text-rose-500 bg-white border border-slate-200 hover:border-rose-200 hover:bg-rose-50 hover:text-rose-600 rounded-lg transition-all hover:scale-110 shadow-sm"
+                                                        className="p-2 text-rose-500 bg-white border border-slate-200 hover:border-rose-200 hover:bg-rose-50 hover:text-rose-600 rounded-lg transition-all hover:scale-110"
                                                         title="Delete"
                                                     >
                                                         <FiTrash2 className="text-lg" />

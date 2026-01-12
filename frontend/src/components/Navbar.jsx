@@ -36,7 +36,7 @@ const Navbar = ({ currentView, onNavigate, user, onLogout }) => {
                                     onClick={() => onNavigate(item.id)}
                                     className={`px-5 py-2.5 rounded-lg text-sm font-bold transition-all flex items-center gap-2
                                         ${isActive
-                                            ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 shadow-sm ring-1 ring-blue-100 dark:ring-blue-800'
+                                            ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 ring-1 ring-blue-100 dark:ring-blue-800'
                                             : 'text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white'
                                         }`}
                                 >

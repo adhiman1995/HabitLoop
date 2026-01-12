@@ -120,7 +120,7 @@ const TaskFormModal = ({ isOpen, onClose, activities, initialActivityId, taskToE
                                     key={status}
                                     onClick={() => setFormData({ ...formData, status })}
                                     className={`py-3 text-sm font-bold rounded-lg transition-all flex items-center justify-center gap-2 ${formData.status === status
-                                        ? 'bg-white dark:bg-slate-600 text-blue-600 dark:text-white shadow-md scale-100'
+                                        ? 'bg-white dark:bg-slate-600 text-blue-600 dark:text-white scale-100'
                                         : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-200/50 dark:hover:bg-slate-600/50'
                                         }`}
                                 >
@@ -182,7 +182,7 @@ const TaskFormModal = ({ isOpen, onClose, activities, initialActivityId, taskToE
                         <button
                             type="submit"
                             disabled={loading}
-                            className="flex-[2] px-6 py-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-500/30 transition-all font-bold text-sm uppercase tracking-wide flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+                            className="flex-[2] px-6 py-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all font-bold text-sm uppercase tracking-wide flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
                         >
                             {loading && <FiLoader className="animate-spin text-lg" />}
                             {taskToEdit ? 'Save Changes' : 'Create Task'}

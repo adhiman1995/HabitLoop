@@ -90,7 +90,7 @@ const WeeklyCalendar = ({ activities, weekDates, onToggle, onEdit, onDelete, onC
                                     >
                                         <div className={`inline-flex flex-col items-center justify-center py-3 px-6 rounded-lg transition-all duration-300
                                             ${isTodayDate
-                                                ? 'bg-blue-600 shadow-lg shadow-blue-300 scale-105'
+                                                ? 'bg-blue-600'
                                                 : 'bg-slate-50 text-slate-500 group-hover:bg-blue-50 group-hover:text-blue-600'
                                             }
                                         `}>
@@ -159,9 +159,9 @@ const WeeklyCalendar = ({ activities, weekDates, onToggle, onEdit, onDelete, onC
                                                                     if (!isPast) onToggle(activity.id);
                                                                 }}
                                                                 disabled={isPast}
-                                                                className={`w-8 h-8 flex items-center justify-center rounded-lg shadow-sm transition-all duration-200 
+                                                                className={`w-8 h-8 flex items-center justify-center rounded-lg transition-all duration-200 
                                                                     ${activity.completed
-                                                                        ? 'bg-blue-600 text-white shadow-blue-200 scale-100 rotate-0'
+                                                                        ? 'bg-blue-600 text-white scale-100 rotate-0'
                                                                         : (isPast
                                                                             ? 'bg-slate-200 text-slate-400 cursor-not-allowed'
                                                                             : 'bg-white/80 backdrop-blur-sm text-slate-300 hover:text-blue-500 hover:bg-white hover:scale-110 active:scale-90 opacity-0 group-hover:opacity-100'
@@ -181,7 +181,7 @@ const WeeklyCalendar = ({ activities, weekDates, onToggle, onEdit, onDelete, onC
                                                         `}
                                                     >
                                                         {!isPast && (
-                                                            <div className="w-10 h-10 rounded-lg bg-blue-600 text-white grid place-items-center shadow-lg shadow-blue-200 transform scale-0 group-hover/cell:scale-100 transition-all duration-300 hover:bg-blue-700">
+                                                            <div className="w-10 h-10 rounded-lg bg-blue-600 text-white grid place-items-center transform scale-0 group-hover/cell:scale-100 transition-all duration-300 hover:bg-blue-700">
                                                                 <FiPlus size={22} />
                                                             </div>
                                                         )}
