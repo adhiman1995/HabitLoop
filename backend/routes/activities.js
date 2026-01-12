@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import express from 'express';
 import jwt from 'jsonwebtoken';
 import Activity from '../models/Activity.js';
+import DailyStats from '../models/DailyStats.js';
 
 const router = express.Router();
 const SECRET_KEY = process.env.JWT_SECRET || 'your_secret_key_12345';
@@ -274,6 +275,52 @@ router.patch('/:id/toggle', async (req, res) => {
         activity.completed = !activity.completed;
         await activity.save();
 
+        // Streak & Points Logic
+        if (activity.completed) {
+            const User = mongoose.model('User');
+            const user = await User.findById(req.userId);
+
+            if (user) {
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+
+                let lastActive = user.lastActiveDate ? new Date(user.lastActiveDate) : null;
+                if (lastActive) lastActive.setHours(0, 0, 0, 0);
+
+                const oneDayMs = 24 * 60 * 60 * 1000;
+
+                // Points for completing an activity
+                const POINTS_PER_ACTIVITY = 10;
+                user.points = (user.points || 0) + POINTS_PER_ACTIVITY;
+
+                // Update Daily Stats (Heatmap)
+                const dateStr = today.toISOString().split('T')[0];
+                await DailyStats.findOneAndUpdate(
+                    { user_id: req.userId, date: dateStr },
+                    { $inc: { count: 1 } },
+                    { upsert: true, new: true }
+                );
+
+                if (!lastActive) {
+                    // First ever activity
+                    user.streak = 1;
+                    user.lastActiveDate = new Date();
+                } else if (today.getTime() === lastActive.getTime()) {
+                    // Already active today, streak keeps same, just update points
+                } else if (today.getTime() - lastActive.getTime() < (oneDayMs + 1000)) { // roughly 1 day diff
+                    // Consecutive day
+                    user.streak = (user.streak || 0) + 1;
+                    user.lastActiveDate = new Date();
+                } else {
+                    // Broken streak
+                    user.streak = 1;
+                    user.lastActiveDate = new Date();
+                }
+
+                await user.save();
+            }
+        }
+
         res.json(activity);
     } catch (error) {
         console.error('Error toggling activity:', error);
@@ -296,6 +343,17 @@ router.delete('/:id', async (req, res) => {
     } catch (error) {
         console.error('Error deleting activity:', error);
         res.status(500).json({ error: 'Failed to delete activity' });
+    }
+});
+
+// Get heatmap stats (scoped to user)
+router.get('/stats/heatmap', async (req, res) => {
+    try {
+        const stats = await DailyStats.find({ user_id: req.userId }).sort({ date: 1 });
+        res.json(stats);
+    } catch (error) {
+        console.error('Error fetching heatmap stats:', error);
+        res.status(500).json({ error: 'Failed to fetch stats' });
     }
 });
 

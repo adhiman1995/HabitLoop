@@ -40,6 +40,7 @@ export const activityAPI = {
 
     // Toggle completion status
     toggleComplete: (id) => api.patch(`/activities/${id}/toggle`),
+    getHeatmap: () => api.get('/activities/stats/heatmap'),
 
     // Delete activity
     delete: (id) => api.delete(`/activities/${id}`),

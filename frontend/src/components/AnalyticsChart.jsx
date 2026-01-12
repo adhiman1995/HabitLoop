@@ -3,12 +3,9 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 
 import { CATEGORIES } from '../utils/helpers';
 
 const AnalyticsChart = ({ activities }) => {
-    // Process data: Count activities per category
     const data = CATEGORIES.map(cat => {
         const count = activities.filter(a => a.category === cat.name).length;
-        // Extract color from the tailwind class string or mapping logic
-        // For simplicity in recharts, we need hex values. 
-        // We'll map the category name to a simplified color palette for the chart
+
         let fill = '#94a3b8'; // default slate-400
         if (cat.name === 'Work') fill = '#3b82f6'; // blue-500
         if (cat.name === 'Personal') fill = '#a855f7'; // purple-500
@@ -22,7 +19,7 @@ const AnalyticsChart = ({ activities }) => {
             activities: count,
             fill: fill
         };
-    }).filter(item => item.activities > 0); // Only show categories with data
+    }).filter(item => item.activities > 0);
 
     if (data.length === 0) {
         return (

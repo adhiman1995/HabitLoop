@@ -2,28 +2,28 @@ import React from 'react';
 import { FiCheckCircle, FiClock, FiActivity, FiTrendingUp } from 'react-icons/fi';
 
 const StatsOverview = ({ activities }) => {
-    // Basic Stats
+
     const totalActivities = activities.length;
     const completedActivities = activities.filter(a => a.completed).length;
     const totalMinutes = activities.reduce((acc, curr) => acc + (parseInt(curr.duration) || 0), 0);
     const totalHours = (totalMinutes / 60).toFixed(1);
 
-    // Advanced KPIs
+
     const completionRate = totalActivities > 0 ? Math.round((completedActivities / totalActivities) * 100) : 0;
     const avgDuration = totalActivities > 0 ? Math.round(totalMinutes / totalActivities) : 0;
 
-    // Top Category Calculation
+
     const categoryCounts = activities.reduce((acc, curr) => {
         acc[curr.category] = (acc[curr.category] || 0) + 1;
         return acc;
     }, {});
     const topCategory = Object.keys(categoryCounts).sort((a, b) => categoryCounts[b] - categoryCounts[a])[0] || '-';
 
-    // Mock Weekly Goal
+
     const weeklyGoal = 20;
     const goalProgress = Math.min(Math.round((totalActivities / weeklyGoal) * 100), 100);
 
-    // Stats Config
+
     const stats = [
         {
             label: 'Weekly Activities',

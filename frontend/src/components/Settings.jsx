@@ -26,7 +26,6 @@ const Settings = ({ user, onRefresh }) => {
     return (
         <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6">
 
-            {/* Profile Section - Full Width */}
             <div className="md:col-span-2 bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
                 <div className="p-6 border-b border-slate-100 flex items-center gap-3">
                     <div className="p-2 bg-primary-50 rounded-lg">
@@ -59,7 +58,7 @@ const Settings = ({ user, onRefresh }) => {
                 </div>
             </div>
 
-            {/* Developer Tools - Disabled by request
+            {/*
             <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden h-full">
                 <div className="p-6 border-b border-slate-100 flex items-center gap-3">
                     <div className="p-2 bg-amber-50 rounded-lg">
@@ -95,7 +94,6 @@ const Settings = ({ user, onRefresh }) => {
             </div>
             */}
 
-            {/* Appearance (Coming Soon) */}
             <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden opacity-70 h-full relative">
                 <div className="absolute top-4 right-4 text-[10px] font-bold tracking-widest text-slate-400 bg-slate-100 px-2 py-1 rounded uppercase">Coming Soon</div>
                 <div className="p-6 border-b border-slate-100 flex items-center gap-3">

@@ -3,9 +3,7 @@ import { formatDate } from '../utils/helpers';
 import { FiCheckCircle, FiClock, FiCalendar } from 'react-icons/fi';
 
 const RecentActivityLog = ({ activities }) => {
-    // Filter for completed activities and sort by date/time descending (most recent first)
-    // Since we don't have a specific 'completedAt' timestamp, we'll use the activity date/time
-    // and assume 'completed' status means it happened.
+
     const recentActivities = activities
         .filter(a => a.completed)
         .sort((a, b) => {
@@ -13,7 +11,7 @@ const RecentActivityLog = ({ activities }) => {
             const dateB = new Date(`${b.date}T${b.startTime}`);
             return dateB - dateA;
         })
-        .slice(0, 5); // Take top 5
+        .slice(0, 5);
 
     return (
         <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">

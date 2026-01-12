@@ -38,7 +38,14 @@ router.post('/register', async (req, res) => {
         res.status(201).json({
             message: 'User registered successfully',
             token,
-            user: { id: newUser._id, name, email }
+            user: {
+                id: newUser._id,
+                name,
+                email,
+                streak: newUser.streak,
+                points: newUser.points,
+                lastActiveDate: newUser.lastActiveDate
+            }
         });
 
     } catch (err) {
@@ -82,12 +89,42 @@ router.post('/login', async (req, res) => {
         res.json({
             message: 'Login successful',
             token,
-            user: { id: user._id, name: user.name, email: user.email }
+            user: {
+                id: user._id,
+                name: user.name,
+                email: user.email,
+                streak: user.streak,
+                points: user.points,
+                lastActiveDate: user.lastActiveDate
+            }
         });
 
     } catch (err) {
         console.error('Login Error:', err);
         res.status(500).json({ error: 'Server error during login' });
+    }
+});
+
+// GET ME (Fetch current user data)
+router.get('/me', async (req, res) => {
+    const token = req.headers['authorization']?.split(' ')[1];
+    if (!token) return res.status(401).json({ error: 'No token provided' });
+
+    try {
+        const decoded = jwt.verify(token, SECRET_KEY);
+        const user = await User.findById(decoded.id);
+        if (!user) return res.status(404).json({ error: 'User not found' });
+
+        res.json({
+            id: user._id,
+            name: user.name,
+            email: user.email,
+            streak: user.streak,
+            points: user.points,
+            lastActiveDate: user.lastActiveDate
+        });
+    } catch (err) {
+        res.status(401).json({ error: 'Invalid token' });
     }
 });
 

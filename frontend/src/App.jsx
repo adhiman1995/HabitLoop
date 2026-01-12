@@ -14,6 +14,9 @@ import Navbar from './components/Navbar';
 import RecentActivityLog from './components/RecentActivityLog';
 import Settings from './components/Settings';
 import StatsOverview from './components/StatsOverview';
+// import StreakRewardWidget from './components/StreakRewardWidget'; // Removed
+import StreakWidget from './components/StreakWidget';
+import HeatmapWidget from './components/HeatmapWidget';
 import CategoryBreakdown from './components/CategoryBreakdown';
 import AnalyticsChart from './components/AnalyticsChart';
 import Footer from './components/Footer';
@@ -30,7 +33,7 @@ import {
 
 // Main Dashboard Component
 const Dashboard = () => {
-  const { user, logout } = useAuth();
+  const { user, logout, refreshUser } = useAuth();
   const [activities, setActivities] = useState([]);
   const [filteredActivities, setFilteredActivities] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -178,6 +181,8 @@ const Dashboard = () => {
     try {
       // 2. Make API call
       await activityAPI.toggleComplete(id);
+      // Refresh user stats (streak/points)
+      await refreshUser();
       // No need to refreshActivities() if successful, as local state is already correct
     } catch (err) {
       // 3. Revert on failure
@@ -188,10 +193,6 @@ const Dashboard = () => {
   };
 
   const handleDeleteActivity = async (id) => {
-    if (!window.confirm('Are you sure you want to delete this activity?')) {
-      return;
-    }
-
     try {
       await activityAPI.delete(id);
       await refreshActivities();
@@ -319,7 +320,14 @@ const Dashboard = () => {
           {currentView === 'dashboard' ? (
             <div className="space-y-8">
               {/* Dashboard View: Analytics & Overview */}
+
               <StatsOverview activities={activities} />
+
+              {/* Side-by-Side Widgets */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <StreakWidget streak={user?.streak} />
+                <HeatmapWidget />
+              </div>
 
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <AnalyticsChart activities={activities} />
@@ -370,6 +378,14 @@ const Dashboard = () => {
         <ActivityDetails
           activity={viewingActivity}
           onClose={() => setViewingActivity(null)}
+          onEdit={() => {
+            setViewingActivity(null);
+            handleEditActivity(viewingActivity);
+          }}
+          onDelete={() => {
+            setViewingActivity(null);
+            handleDeleteActivity(viewingActivity.id);
+          }}
         />
       )}
     </div>

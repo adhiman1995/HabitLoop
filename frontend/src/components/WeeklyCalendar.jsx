@@ -9,7 +9,7 @@ const WeeklyCalendar = ({ activities, weekDates, onToggle, onEdit, onDelete, onC
         return (
             <div className="bg-white rounded-lg border border-slate-200 shadow-sm overflow-hidden animate-pulse">
                 <div className="flex border-b border-slate-200">
-                    {/* Skeleton Header */}
+
                     {DAYS_OF_WEEK.map((day) => (
                         <div key={day} className="flex-1 p-4 text-center border-r border-slate-200 last:border-r-0">
                             <div className="h-12 w-16 bg-slate-200 rounded-xl mx-auto mb-2"></div>
@@ -17,7 +17,7 @@ const WeeklyCalendar = ({ activities, weekDates, onToggle, onEdit, onDelete, onC
                     ))}
                 </div>
                 <div className="p-4 space-y-4">
-                    {/* Skeleton Rows */}
+
                     {[1, 2, 3].map(i => (
                         <div key={i} className="flex gap-4">
                             {DAYS_OF_WEEK.map(d => (
@@ -30,45 +30,42 @@ const WeeklyCalendar = ({ activities, weekDates, onToggle, onEdit, onDelete, onC
         );
     }
 
-    // Filter activities to only this week's relevant ones
-    // This prevents rows from appearing for specific-date activities in other weeks
     const visibleActivities = activities.filter(activity => {
         if (activity.is_recurring) return true;
-        if (!activity.specific_date) return true; // Legacy fallback
+        if (!activity.specific_date) return true;
 
-        // Check if specific_date is in current weekDates
+
         const actDate = new Date(activity.specific_date).toDateString();
         return weekDates.some(date => date.toDateString() === actDate);
     });
 
-    // Group activities by time slot for row-based display
+
     const getActivityForDayAndTime = (dayName, timeSlot, date) => {
         return visibleActivities.find(activity => {
             const isTimeMatch = activity.time_slot === timeSlot;
             if (!isTimeMatch) return false;
 
-            // 1. Recurring Logic (Matches Day Name)
+
             if (activity.is_recurring) {
                 return activity.day_of_week === dayName;
             }
 
-            // 2. Specific Date Logic (Matches Exact Date)
-            // Use local date string comparison to avoid timezone issues for now
+
             if (activity.specific_date) {
                 const activityDate = new Date(activity.specific_date).toDateString();
                 const cellDate = date.toDateString();
                 return activityDate === cellDate;
             }
 
-            // Fallback for legacy data (treat as recurring if no specific date)
+
             return activity.day_of_week === dayName;
         });
     };
 
-    // Get all unique time slots from VISIBLE activities, sorted
+
     const allTimeSlots = [...new Set(visibleActivities.map(a => a.time_slot))].sort();
 
-    // If no activities, show empty state
+
     if (activities.length === 0) {
         return (
             <div className="bg-white rounded-lg border border-slate-200 shadow-sm p-16 text-center">
@@ -83,7 +80,7 @@ const WeeklyCalendar = ({ activities, weekDates, onToggle, onEdit, onDelete, onC
 
     return (
         <div className="bg-white rounded-lg border border-slate-200 shadow-sm overflow-x-auto">
-            <table className="w-full text-left border-collapse min-w-[1000px]">
+            <table className="w-full text-left border-collapse min-w-[1000px] table-fixed">
                 <thead>
                     <tr>
 
@@ -99,7 +96,7 @@ const WeeklyCalendar = ({ activities, weekDates, onToggle, onEdit, onDelete, onC
                             return (
                                 <th
                                     key={day}
-                                    className="p-4 text-center min-w-[160px] sticky top-0 z-20 border-b border-r border-slate-200 last:border-r-0 transition-colors bg-white"
+                                    className="p-4 text-center sticky top-0 z-20 border-b border-r border-slate-200 last:border-r-0 transition-colors bg-white w-1/7"
                                 >
                                     <div className={`inline-flex flex-col items-center justify-center py-2 px-4 rounded-2xl transition-all duration-300
                                         ${isTodayDate ? 'bg-blue-600 shadow-lg shadow-blue-200' : 'hover:bg-slate-50'}
@@ -138,37 +135,35 @@ const WeeklyCalendar = ({ activities, weekDates, onToggle, onEdit, onDelete, onC
                                             ${isPast ? 'bg-slate-50' : 'hover:bg-slate-50'}
                                         `}
                                     >
-                                        <div className={`h-full min-h-[110px] ${isPast ? 'opacity-50 grayscale' : ''}`}>
+                                        <div className={`h-[120px] ${isPast ? 'opacity-50 grayscale' : ''}`}>
                                             {activity ? (
                                                 <div
                                                     onClick={() => onView(activity)}
-                                                    className={`group relative p-4 rounded-xl transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1 cursor-pointer border-2 shadow-sm hover:shadow-md
+                                                    className={`group relative p-3 h-full rounded-xl transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1 cursor-pointer border-2 shadow-sm hover:shadow-md flex flex-col hover:z-50
                                                         ${activity.completed ? 'opacity-60 grayscale-[0.5]' : ''}
                                                         ${style.pastelBg} ${style.hoverBg} ${style.pastelBorder}
                                                     `}
                                                 >
-                                                    {/* Header: Category & Actions */}
-                                                    <div className="flex justify-between items-start mb-3">
-                                                        <span className={`text-[12px] font-black uppercase tracking-wider px-2.5 py-1 rounded-lg bg-white/50 backdrop-blur-sm ${style.pastelText}`}>
+
+                                                    <div className="flex justify-between items-start mb-2 shrink-0">
+                                                        <span className={`text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-lg bg-white/50 backdrop-blur-sm ${style.pastelText}`}>
                                                             {activity.category}
                                                         </span>
-
-                                                        {/* Original Actions Menu removed, now in footer */}
                                                     </div>
 
-                                                    {/* Main Content */}
-                                                    <div className="space-y-1 mb-4">
-                                                        <h4 className={`text-base font-extrabold leading-tight ${style.pastelText} ${activity.completed ? 'line-through decoration-2 opacity-75' : ''}`}>
+
+                                                    <div className="space-y-1 flex-1 min-h-0">
+                                                        <h4 className={`text-sm font-extrabold leading-tight ${style.pastelText} ${activity.completed ? 'line-through decoration-2 opacity-75' : ''} line-clamp-2`}>
                                                             {activity.title}
                                                         </h4>
 
-                                                        <div className={`flex items-center gap-1.5 text-xs font-bold opacity-80 ${style.pastelText}`}>
-                                                            <FiClock size={12} className="shrink-0 opacity-70" />
+                                                        <div className={`flex items-center gap-1.5 text-[10px] font-bold opacity-80 ${style.pastelText}`}>
+                                                            <FiClock size={10} className="shrink-0 opacity-70" />
                                                             <span>{formatTimeRange(activity.time_slot, activity.duration)}</span>
                                                         </div>
                                                     </div>
 
-                                                    <div className="absolute top-4 right-4 z-20">
+                                                    <div className="absolute top-3 right-3 z-20">
                                                         <button
                                                             onClick={(e) => {
                                                                 e.stopPropagation();
@@ -192,7 +187,7 @@ const WeeklyCalendar = ({ activities, weekDates, onToggle, onEdit, onDelete, onC
                                             ) : (
                                                 <div
                                                     onClick={() => !isPast && onCreate && onCreate({ day_of_week: day, time_slot: timeSlot })}
-                                                    className={`w-full h-full min-h-[110px] rounded-[20px] transition-all duration-200 group/cell flex items-center justify-center
+                                                    className={`w-full h-full rounded-[20px] transition-all duration-200 group/cell flex items-center justify-center
                                                         ${isPast ? 'cursor-default' : 'cursor-pointer hover:bg-slate-50 opacity-0 hover:opacity-100'}
                                                     `}
                                                 >

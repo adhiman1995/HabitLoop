@@ -4,13 +4,13 @@ import Logo from './Logo';
 const SplashScreen = () => {
     return (
         <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-slate-50 transition-opacity duration-700">
-            {/* Background Decor */}
+
             <div className="absolute inset-0 overflow-hidden">
                 <div className="absolute -top-[20%] -right-[10%] w-[600px] h-[600px] rounded-full bg-blue-100/50 blur-3xl animate-pulse"></div>
                 <div className="absolute -bottom-[20%] -left-[10%] w-[500px] h-[500px] rounded-full bg-purple-100/50 blur-3xl animate-pulse delay-700"></div>
             </div>
 
-            {/* Main Content */}
+
             <div className="relative flex flex-col items-center animate-fade-in-up">
                 <div className="w-24 h-24 mb-6 relative">
                     <div className="absolute inset-0 bg-blue-500/20 blur-xl rounded-full animate-ping-slow"></div>

@@ -19,14 +19,6 @@ const Logo = ({ className = "w-6 h-6", ...props }) => (
             </linearGradient>
         </defs>
 
-        {/* Background with dark border */}
-        {/* <rect x="56" y="56"
-            width="400" height="400"
-            rx="80"
-            fill="#FFFFFF"
-            stroke="#111827"
-            strokeWidth="8" /> */}
-
         {/* Swirls */}
         <path d="M256 96
            C150 96 96 150 96 256

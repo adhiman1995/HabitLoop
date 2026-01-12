@@ -14,7 +14,7 @@ const Navbar = ({ currentView, onNavigate, user, onLogout }) => {
         <nav className="bg-blue-600 shadow-md sticky top-0 z-40">
             <div className="max-w-[1600px] mx-auto px-4 md:px-8 lg:px-10">
                 <div className="flex items-center justify-between h-16">
-                    {/* Logo */}
+
                     <div className="flex items-center gap-3">
                         <div className="bg-white rounded-lg shadow-sm">
                             <Logo className="w-11 h-11  " />
@@ -24,7 +24,6 @@ const Navbar = ({ currentView, onNavigate, user, onLogout }) => {
                         </span>
                     </div>
 
-                    {/* Navigation Links - Desktop */}
                     <div className="hidden md:flex items-center gap-1">
                         {navItems.map((item) => {
                             const Icon = item.icon;
@@ -47,7 +46,7 @@ const Navbar = ({ currentView, onNavigate, user, onLogout }) => {
                         })}
                     </div>
 
-                    {/* User Profile */}
+
                     <div className="flex items-center gap-4">
                         <div className="flex items-center gap-3 pl-4  border-blue-500">
                             <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-base font-bold text-blue-600 shadow-sm">
@@ -67,9 +66,7 @@ const Navbar = ({ currentView, onNavigate, user, onLogout }) => {
                     </div>
                 </div>
 
-                {/* Mobile Navigation - Bottom Bar (Optional, for now keeping top only or adding secondary mobile menu if needed. 
-                     For simplicity, let's keep it simple top nav. Small screens might need a hamburger menu or scrollable list.) 
-                 */}
+
                 <div className="md:hidden flex items-center justify-between py-2 border-t border-blue-500 overflow-x-auto">
                     {navItems.map((item) => {
                         const Icon = item.icon;

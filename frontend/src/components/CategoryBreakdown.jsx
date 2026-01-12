@@ -2,7 +2,7 @@ import React from 'react';
 import { CATEGORIES } from '../utils/helpers';
 
 const CategoryBreakdown = ({ activities }) => {
-    // Calculate total duration per category
+
     const categoryStats = activities.reduce((acc, activity) => {
         const { category, duration } = activity;
         if (!acc[category]) {
@@ -14,7 +14,6 @@ const CategoryBreakdown = ({ activities }) => {
 
     const totalDuration = Object.values(categoryStats).reduce((sum, val) => sum + val, 0);
 
-    // Sort categories by time spent (descending)
     const sortedCategories = Object.entries(categoryStats)
         .sort(([, a], [, b]) => b - a)
         .map(([key, value]) => ({

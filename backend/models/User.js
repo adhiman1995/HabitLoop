@@ -19,6 +19,18 @@ const userSchema = new mongoose.Schema({
     created_at: {
         type: Date,
         default: Date.now
+    },
+    streak: {
+        type: Number,
+        default: 0
+    },
+    lastActiveDate: {
+        type: Date,
+        default: null
+    },
+    points: {
+        type: Number,
+        default: 0
     }
 });
 

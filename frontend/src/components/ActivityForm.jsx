@@ -23,16 +23,13 @@ const ActivityForm = ({ activity, initialData, weekDates, activities, onSave, on
         }
     }, [activity]);
 
-    // Real-time conflict detection
+
     useEffect(() => {
         if (!activities) return;
 
         const checkConflict = () => {
             const isRec = Array.isArray(formData.day_of_week);
 
-            // Construct probe(s)
-            // If recurring (array), we need to check EACH day.
-            // If single, check provided day.
             const daysToCheck = isRec ? formData.day_of_week : [formData.day_of_week];
 
             for (const day of daysToCheck) {
@@ -46,14 +43,14 @@ const ActivityForm = ({ activity, initialData, weekDates, activities, onSave, on
 
                 const probe = {
                     ...formData,
-                    id: activity ? activity.id : null, // Exclude self
+                    id: activity ? activity.id : null,
                     day_of_week: day,
                     is_recurring: isRec,
                     specific_date: specificDate
                 };
 
                 const conflictingAct = activities.find(existing => {
-                    // Skip self
+
                     if (probe.id && existing.id === probe.id) return false;
                     return doActivitiesOverlap(probe, existing);
                 });
@@ -65,14 +62,14 @@ const ActivityForm = ({ activity, initialData, weekDates, activities, onSave, on
                         day: conflictingAct.day_of_week
                     });
 
-                    // Generate Suggestion based on this conflict
+
                     const bestSlot = suggestNextAvailableSlot(probe, activities);
                     setSuggestion(bestSlot);
-                    return; // Stop at first conflict
+                    return;
                 }
             }
 
-            // No conflict found
+
             setConflict(null);
             setSuggestion(null);
         };
@@ -94,13 +91,11 @@ const ActivityForm = ({ activity, initialData, weekDates, activities, onSave, on
         try {
             const dataToSave = { ...formData };
 
-            // Logic for Specific Date vs Recurring
-            // If it's a single day (string) and we have weekDates context
+
             if (!Array.isArray(dataToSave.day_of_week) && weekDates) {
                 const dayIndex = DAYS_OF_WEEK.indexOf(dataToSave.day_of_week);
                 if (dayIndex !== -1) {
                     const specificDate = weekDates[dayIndex];
-                    // Format as YYYY-MM-DD to stay consistent or just send ISO string
                     dataToSave.specific_date = specificDate.toISOString();
                 }
             }
@@ -239,7 +234,7 @@ const ActivityForm = ({ activity, initialData, weekDates, activities, onSave, on
                                                     setFormData(prev => {
                                                         const currentDays = prev.day_of_week;
                                                         if (currentDays.includes(day)) {
-                                                            // Prevent removing the last day
+
                                                             if (currentDays.length === 1) return prev;
                                                             return { ...prev, day_of_week: currentDays.filter(d => d !== day) };
                                                         } else {
