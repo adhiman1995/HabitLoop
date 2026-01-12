@@ -31,10 +31,10 @@ const Login = ({ onSwitchToRegister }) => {
                 <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] rounded-full bg-purple-100/40 blur-3xl animate-pulse delay-700"></div>
             </div>
 
-            <div className="max-w-md w-full bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/50 overflow-hidden relative z-10 transition-all hover:shadow-blue-200/20">
+            <div className="max-w-md w-full bg-white/80 backdrop-blur-xl rounded-lg shadow-2xl border border-white/50 overflow-hidden relative z-10 transition-all hover:shadow-blue-200/20">
                 <div className="p-8 md:p-10">
                     <div className="text-center mb-8">
-                        <div className="w-16 h-16 mx-auto mb-4 bg-white rounded-2xl shadow-lg shadow-blue-100 flex items-center justify-center p-3 ring-1 ring-blue-50">
+                        <div className="w-16 h-16 mx-auto mb-4 bg-white rounded-lg shadow-lg shadow-blue-100 flex items-center justify-center p-3 ring-1 ring-blue-50">
                             <Logo className="w-full h-full text-blue-600" />
                         </div>
                         <h1 className="text-2xl font-black text-slate-900 tracking-tight mb-2">Welcome Back</h1>
@@ -42,7 +42,7 @@ const Login = ({ onSwitchToRegister }) => {
                     </div>
 
                     {error && (
-                        <div className="mb-6 p-4 bg-rose-50 text-rose-600 text-sm font-semibold rounded-xl border border-rose-100 flex items-center animate-shake">
+                        <div className="mb-6 p-4 bg-rose-50 text-rose-600 text-sm font-semibold rounded-lg border border-rose-100 flex items-center animate-shake">
                             {error}
                         </div>
                     )}
@@ -56,7 +56,7 @@ const Login = ({ onSwitchToRegister }) => {
                                     type="email"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
-                                    className="w-full pl-12 pr-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all text-slate-800 font-semibold placeholder-slate-400"
+                                    className="w-full pl-12 pr-4 py-3 rounded-lg bg-slate-50 border border-slate-200 focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all text-slate-800 font-semibold placeholder-slate-400"
                                     placeholder="name@company.com"
                                     required
                                 />
@@ -71,7 +71,7 @@ const Login = ({ onSwitchToRegister }) => {
                                     type="password"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    className="w-full pl-12 pr-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all text-slate-800 font-semibold placeholder-slate-400"
+                                    className="w-full pl-12 pr-4 py-3 rounded-lg bg-slate-50 border border-slate-200 focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all text-slate-800 font-semibold placeholder-slate-400"
                                     placeholder="••••••••"
                                     required
                                 />
@@ -81,7 +81,7 @@ const Login = ({ onSwitchToRegister }) => {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="w-full py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-lg shadow-blue-500/30 hover:shadow-blue-600/40 hover:-translate-y-0.5 active:translate-y-0 transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none"
+                            className="w-full py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg shadow-lg shadow-blue-500/30 hover:shadow-blue-600/40 hover:-translate-y-0.5 active:translate-y-0 transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none"
                         >
                             {loading ? (
                                 <>

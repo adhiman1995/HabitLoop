@@ -8,7 +8,7 @@ const AnalyticsChart = ({ activities }) => {
 
         let fill = '#94a3b8'; // default slate-400
         if (cat.name === 'Work') fill = '#3b82f6'; // blue-500
-        if (cat.name === 'Personal') fill = '#a855f7'; // purple-500
+        if (cat.name === 'Personal') fill = '#0ea5e9'; // sky-500
         if (cat.name === 'Fitness') fill = '#22c55e'; // green-500
         if (cat.name === 'Learning') fill = '#f59e0b'; // amber-500
         if (cat.name === 'Social') fill = '#ec4899'; // pink-500
@@ -23,14 +23,14 @@ const AnalyticsChart = ({ activities }) => {
 
     if (data.length === 0) {
         return (
-            <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6 flex items-center justify-center h-[300px]">
+            <div className="bg-white rounded-lg border border-slate-200 shadow-sm p-6 flex items-center justify-center h-[300px]">
                 <p className="text-slate-400">Add activities to see your analytics</p>
             </div>
         );
     }
 
     return (
-        <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6 h-full">
+        <div className="bg-white rounded-lg border border-slate-200 shadow-sm p-6 h-full">
             <h3 className="text-lg font-bold text-slate-800 mb-6">Activities by Category</h3>
             <div className="h-[300px] w-full">
                 <ResponsiveContainer width="100%" height="100%">

@@ -46,4 +46,12 @@ export const activityAPI = {
     delete: (id) => api.delete(`/activities/${id}`),
 };
 
+// Task endpoints
+export const taskAPI = {
+    getAll: () => api.get('/tasks'),
+    create: (data) => api.post('/tasks', data),
+    update: (id, data) => api.patch(`/tasks/${id}`, data),
+    delete: (id) => api.delete(`/tasks/${id}`),
+};
+
 export default api;

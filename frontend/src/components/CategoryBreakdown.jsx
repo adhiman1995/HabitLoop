@@ -23,7 +23,7 @@ const CategoryBreakdown = ({ activities }) => {
         }));
 
     return (
-        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 flex flex-col h-full">
+        <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-6 flex flex-col h-full">
             <h3 className="font-bold text-lg text-slate-800 mb-4">Time Distribution</h3>
 
             <div className="space-y-4 flex-1 overflow-y-auto pr-2 custom-scrollbar">

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { FiX, FiSave, FiLoader, FiAlertTriangle, FiCheck } from 'react-icons/fi';
+import { createPortal } from 'react-dom';
+import { FiX, FiSave, FiLoader, FiAlertTriangle, FiCheck, FiType, FiFolder, FiCalendar, FiClock, FiAlignLeft, FiActivity } from 'react-icons/fi';
 import { CATEGORIES, DAYS_OF_WEEK, doActivitiesOverlap, suggestNextAvailableSlot } from '../utils/helpers';
 
 const ActivityForm = ({ activity, initialData, weekDates, activities, onSave, onCancel }) => {
@@ -110,229 +111,274 @@ const ActivityForm = ({ activity, initialData, weekDates, activities, onSave, on
 
     const categories = CATEGORIES.map(c => c.name);
 
-    return (
-        <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-in fade-in duration-200">
-            <div className="bg-white rounded-2xl shadow-xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
-                <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between sticky top-0 bg-white z-10">
-                    <h2 className="text-xl font-bold text-slate-900">
-                        {activity ? 'Edit Activity' : 'New Activity'}
-                    </h2>
+    return createPortal(
+        <div
+            className="fixed top-0 left-0 w-screen h-screen bg-black/60 backdrop-blur-sm flex items-center justify-center z-[9999] p-4 animate-fadeIn"
+            onClick={onCancel}
+        >
+            <div
+                className="bg-white rounded-lg shadow-2xl max-w-2xl w-full p-8 animate-slideUp relative overflow-hidden max-h-[90vh] overflow-y-auto"
+                onClick={(e) => e.stopPropagation()}
+            >
+                {/* Decorative background blob */}
+                <div className="absolute top-0 right-0 w-64 h-64 bg-blue-50 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
+
+                <div className="flex items-center justify-between mb-8 relative">
+                    <div>
+                        <h2 className="text-3xl font-bold text-slate-800">
+                            {activity ? 'Edit Activity' : 'New Activity'}
+                        </h2>
+                        <p className="text-slate-500 mt-1">
+                            {activity ? 'Update activity details below' : 'Schedule a new activity'}
+                        </p>
+                    </div>
                     <button
                         onClick={onCancel}
-                        className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-50 rounded-full transition-colors"
+                        className="p-3 hover:bg-slate-100 rounded-lg transition-colors group"
                     >
-                        <FiX className="text-lg" />
+                        <FiX className="text-xl text-slate-400 group-hover:text-slate-700 transition-colors" />
                     </button>
                 </div>
 
-                <div className="p-6">
-                    <form onSubmit={handleSubmit} className="space-y-6">
-
-                        {/* Conflict Warning */}
-                        {conflict && (
-                            <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 flex items-start gap-3 animate-in slide-in-from-top-2 duration-200">
-                                <FiAlertTriangle className="text-amber-500 text-xl mt-0.5 shrink-0" />
-                                <div className="flex-1">
-                                    <h3 className="text-sm font-bold text-amber-800">
-                                        Time Conflict
-                                    </h3>
-                                    <p className="text-xs text-amber-700 mt-1">
-                                        Overlaps with <span className="font-semibold">"{conflict.title}"</span> on {conflict.day} at {conflict.time}.
-                                    </p>
-
-                                    {suggestion && (
-                                        <div className="mt-3 flex items-center gap-2">
-                                            <span className="text-xs text-amber-700 font-medium">Suggestion:</span>
-                                            <button
-                                                type="button"
-                                                onClick={() => setFormData(prev => ({ ...prev, time_slot: suggestion }))}
-                                                className="px-3 py-1 bg-white border border-amber-300 rounded-lg text-xs font-bold text-amber-800 hover:bg-amber-100 transition-colors flex items-center gap-1 shadow-sm"
-                                            >
-                                                Use {suggestion} <FiCheck />
-                                            </button>
-                                        </div>
-                                    )}
-                                </div>
+                <form onSubmit={handleSubmit} className="space-y-6 relative">
+                    {/* Conflict Warning */}
+                    {conflict && (
+                        <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 flex items-start gap-4 animate-fadeIn">
+                            <div className="p-2 bg-amber-100 rounded-lg shrink-0">
+                                <FiAlertTriangle className="text-amber-600 text-xl" />
                             </div>
-                        )}
+                            <div className="flex-1">
+                                <h3 className="text-sm font-bold text-amber-900">
+                                    Time Conflict Detected
+                                </h3>
+                                <p className="text-sm text-amber-800 mt-1 leading-relaxed">
+                                    This overlaps with <span className="font-semibold">"{conflict.title}"</span> on {conflict.day} at {conflict.time}.
+                                </p>
 
-                        {/* Title Input */}
-                        <div>
-                            <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
-                                Activity Name
-                            </label>
-                            <input
-                                type="text"
-                                name="title"
-                                value={formData.title}
-                                onChange={handleChange}
-                                className="w-full text-lg font-medium px-0 py-2 border-b-2 border-slate-200 focus:border-blue-500 outline-none transition-colors bg-transparent placeholder-slate-300"
-                                placeholder="What are you doing?"
-                                required
-                                autoFocus
-                            />
-                        </div>
-
-                        {/* Category Selection Pill Grid */}
-                        <div>
-                            <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">
-                                Category
-                            </label>
-                            <div className="flex flex-wrap gap-2">
-                                {categories.map(cat => (
-                                    <button
-                                        key={cat}
-                                        type="button"
-                                        onClick={() => setFormData(prev => ({ ...prev, category: cat }))}
-                                        className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all ${formData.category === cat
-                                            ? 'bg-blue-600 text-white shadow-md shadow-blue-200'
-                                            : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-                                            }`}
-                                    >
-                                        {cat}
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
-
-                        {/* Date & Time Row */}
-                        <div className="grid grid-cols-1 gap-4">
-                            <div>
-                                <div className="flex items-center justify-between mb-2">
-                                    <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                                        Day / Frequency
-                                    </label>
-                                    <label className="flex items-center cursor-pointer gap-2">
-                                        <span className="text-xs font-medium text-slate-500">Repeat</span>
-                                        <div className="relative inline-block w-8 h-4 transition duration-200 ease-in-out bg-slate-200 rounded-full cursor-pointer">
-                                            <input
-                                                type="checkbox"
-                                                className="absolute w-8 h-4 opacity-0 cursor-pointer"
-                                                checked={Array.isArray(formData.day_of_week)}
-                                                onChange={(e) => {
-                                                    const isChecked = e.target.checked;
-                                                    setFormData(prev => ({
-                                                        ...prev,
-                                                        day_of_week: isChecked ? [prev.day_of_week] : prev.day_of_week[0] || 'Monday'
-                                                    }));
-                                                }}
-                                            />
-                                            <span
-                                                className={`absolute left-0 inline-block w-4 h-4 bg-white border border-slate-300 rounded-full shadow transition-transform duration-200 ease-in-out ${Array.isArray(formData.day_of_week) ? 'translate-x-4 bg-blue-600 border-blue-600' : 'translate-x-0'}`}
-                                            ></span>
-                                        </div>
-                                    </label>
-                                </div>
-
-                                {Array.isArray(formData.day_of_week) ? (
-                                    <div className="flex flex-wrap gap-2">
-                                        {DAYS_OF_WEEK.map(day => (
-                                            <button
-                                                key={day}
-                                                type="button"
-                                                onClick={() => {
-                                                    setFormData(prev => {
-                                                        const currentDays = prev.day_of_week;
-                                                        if (currentDays.includes(day)) {
-
-                                                            if (currentDays.length === 1) return prev;
-                                                            return { ...prev, day_of_week: currentDays.filter(d => d !== day) };
-                                                        } else {
-                                                            return { ...prev, day_of_week: [...currentDays, day] };
-                                                        }
-                                                    });
-                                                }}
-                                                className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all border ${formData.day_of_week.includes(day)
-                                                    ? 'bg-blue-600 text-white border-blue-600 shadow-md shadow-blue-200'
-                                                    : 'bg-white text-slate-600 border-slate-200 hover:border-blue-400'
-                                                    }`}
-                                            >
-                                                {day.slice(0, 3)}
-                                            </button>
-                                        ))}
+                                {suggestion && (
+                                    <div className="mt-3 flex items-center gap-3">
+                                        <span className="text-xs text-amber-800 font-medium uppercase tracking-wide">Suggested Slot:</span>
+                                        <button
+                                            type="button"
+                                            onClick={() => setFormData(prev => ({ ...prev, time_slot: suggestion }))}
+                                            className="px-4 py-2 bg-white border-2 border-amber-200 rounded-lg text-sm font-bold text-amber-800 hover:bg-amber-50 hover:border-amber-300 transition-all flex items-center gap-2 shadow-sm"
+                                        >
+                                            Use {suggestion} <FiCheck className="text-lg" />
+                                        </button>
                                     </div>
-                                ) : (
+                                )}
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Activity Name */}
+                    <div className="space-y-2">
+                        <label className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-2">
+                            <FiType /> Activity Name <span className="text-rose-500">*</span>
+                        </label>
+                        <input
+                            type="text"
+                            name="title"
+                            value={formData.title}
+                            onChange={handleChange}
+                            className="w-full px-5 py-4 bg-slate-50 border-2 border-slate-100 rounded-lg focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all text-lg font-medium placeholder:text-slate-400"
+                            placeholder="What are you doing?"
+                            required
+                            autoFocus
+                        />
+                    </div>
+
+                    {/* Category Selection */}
+                    <div className="space-y-2">
+                        <label className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-2">
+                            <FiFolder /> Category
+                        </label>
+                        <div className="flex flex-wrap gap-2 p-2 bg-slate-50 border-2 border-slate-100 rounded-lg">
+                            {categories.map(cat => (
+                                <button
+                                    key={cat}
+                                    type="button"
+                                    onClick={() => setFormData(prev => ({ ...prev, category: cat }))}
+                                    className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${formData.category === cat
+                                        ? 'bg-white text-blue-600 shadow-md scale-100 ring-2 ring-blue-100'
+                                        : 'text-slate-500 hover:text-slate-700 hover:bg-slate-200/50'
+                                        }`}
+                                >
+                                    {cat}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Date & Time Row */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="space-y-4">
+                            <div className="flex items-center justify-between">
+                                <label className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-2">
+                                    <FiCalendar /> Day / Frequency
+                                </label>
+                                <label className="flex items-center cursor-pointer gap-2 group">
+                                    <span className="text-xs font-bold text-slate-400 group-hover:text-blue-600 transition-colors">Repeat</span>
+                                    <div className="relative inline-block w-10 h-6 transition duration-200 ease-in-out bg-slate-200 rounded-full cursor-pointer group-hover:bg-slate-300">
+                                        <input
+                                            type="checkbox"
+                                            className="absolute w-full h-full opacity-0 cursor-pointer"
+                                            checked={Array.isArray(formData.day_of_week)}
+                                            onChange={(e) => {
+                                                const isChecked = e.target.checked;
+                                                setFormData(prev => ({
+                                                    ...prev,
+                                                    day_of_week: isChecked ? [prev.day_of_week] : prev.day_of_week[0] || 'Monday'
+                                                }));
+                                            }}
+                                        />
+                                        <span
+                                            className={`absolute left-1 top-1 inline-block w-4 h-4 bg-white rounded-full shadow transition-transform duration-200 ease-in-out ${Array.isArray(formData.day_of_week) ? 'translate-x-4 bg-blue-600' : 'translate-x-0'}`}
+                                        ></span>
+                                    </div>
+                                </label>
+                            </div>
+
+                            {Array.isArray(formData.day_of_week) ? (
+                                <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
+                                    {DAYS_OF_WEEK.map(day => (
+                                        <button
+                                            key={day}
+                                            type="button"
+                                            onClick={() => {
+                                                setFormData(prev => {
+                                                    const currentDays = prev.day_of_week;
+                                                    if (currentDays.includes(day)) {
+                                                        if (currentDays.length === 1) return prev;
+                                                        return { ...prev, day_of_week: currentDays.filter(d => d !== day) };
+                                                    } else {
+                                                        return { ...prev, day_of_week: [...currentDays, day] };
+                                                    }
+                                                });
+                                            }}
+                                            className={`px-2 py-2 rounded-lg text-xs font-bold transition-all border-2 ${formData.day_of_week.includes(day)
+                                                ? 'bg-blue-50 border-blue-200 text-blue-700'
+                                                : 'bg-white border-slate-100 text-slate-500 hover:border-slate-300'
+                                                }`}
+                                        >
+                                            {day.slice(0, 3)}
+                                        </button>
+                                    ))}
+                                </div>
+                            ) : (
+                                <div className="relative">
                                     <select
                                         name="day_of_week"
                                         value={formData.day_of_week}
                                         onChange={handleChange}
-                                        className="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-700 font-medium focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all appearance-none cursor-pointer hover:bg-slate-100"
+                                        className="w-full px-5 py-3 bg-slate-50 border-2 border-slate-100 rounded-lg appearance-none focus:bg-white focus:border-blue-500 outline-none transition-all text-slate-700 font-medium"
                                     >
                                         {DAYS_OF_WEEK.map(day => (
                                             <option key={day} value={day}>{day}</option>
                                         ))}
                                     </select>
-                                )}
-                            </div>
+                                    <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
+                                        <svg className="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" /></svg>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
 
-                            <div>
-                                <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
-                                    Start Time
+                        <div className="space-y-4">
+                            <div className="space-y-2">
+                                <label className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-2">
+                                    <FiClock /> Start Time
                                 </label>
                                 <input
                                     type="time"
                                     name="time_slot"
                                     value={formData.time_slot}
                                     onChange={handleChange}
-                                    className="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-700 font-medium focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all cursor-pointer hover:bg-slate-100"
+                                    className="w-full px-5 py-3 bg-slate-50 border-2 border-slate-100 rounded-lg focus:bg-white focus:border-blue-500 outline-none transition-all text-slate-700 font-mono"
                                     required
                                 />
                             </div>
-                        </div>
 
-                        {/* Duration Slider/Input */}
-                        <div>
-                            <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
-                                Duration ({formData.duration} min)
-                            </label>
-                            <div className="flex items-center gap-4">
-                                <input
-                                    type="range"
-                                    min="15"
-                                    max="180"
-                                    step="15"
-                                    value={formData.duration}
-                                    onChange={(e) => setFormData(prev => ({ ...prev, duration: e.target.value }))}
-                                    className="flex-1 h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
-                                />
-                                <input
-                                    type="number"
-                                    name="duration"
-                                    value={formData.duration}
-                                    onChange={handleChange}
-                                    className="w-20 px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 text-center font-medium focus:border-blue-500 outline-none"
-                                    required
-                                />
+                            <div className="space-y-2">
+                                <label className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-2 justify-between">
+                                    <span>Duration</span>
+                                    <span className="text-blue-600 bg-blue-50 px-2 py-0.5 rounded text-[10px]">{formData.duration} min</span>
+                                </label>
+                                <div className="flex items-center gap-3 bg-slate-50 p-3 rounded-lg border-2 border-slate-100">
+                                    <input
+                                        type="range"
+                                        min="15"
+                                        max="180"
+                                        step="15"
+                                        value={formData.duration}
+                                        onChange={(e) => setFormData(prev => ({ ...prev, duration: e.target.value }))}
+                                        className="flex-1 h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
+                                    />
+                                </div>
                             </div>
                         </div>
+                    </div>
 
-                        {/* Description */}
-                        <div>
-                            <textarea
-                                name="description"
-                                value={formData.description}
-                                onChange={handleChange}
-                                className="w-full px-4 py-3 rounded-xl bg-slate-50 border-0 text-slate-700 placeholder-slate-400 focus:ring-2 focus:ring-blue-500/20 outline-none resize-none transition-all"
-                                rows="2"
-                                placeholder="Add optional notes..."
-                            />
-                        </div>
+                    {/* Description */}
+                    <div className="space-y-2">
+                        <label className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-2">
+                            <FiAlignLeft /> Notes
+                        </label>
+                        <textarea
+                            name="description"
+                            value={formData.description}
+                            onChange={handleChange}
+                            className="w-full px-5 py-4 bg-slate-50 border-2 border-slate-100 rounded-lg focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all resize-none text-slate-600"
+                            rows="2"
+                            placeholder="Add locations, notes, or details..."
+                        />
+                    </div>
 
-                        {/* Actions */}
-                        <div className="flex gap-3 pt-2">
-                            <button
-                                type="submit"
-                                disabled={isSubmitting || !!conflict}
-                                className={`flex-1 py-3 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-700 focus:ring-4 focus:ring-blue-100 transition-all shadow-lg shadow-blue-500/20 flex items-center justify-center gap-2 ${(isSubmitting || conflict) ? 'opacity-75 cursor-not-allowed' : ''}`}
-                            >
-                                {isSubmitting ? <FiLoader className="animate-spin" /> : <FiSave />}
-                                <span>{isSubmitting ? 'Saving...' : (activity ? 'Save Changes' : 'Add to Schedule')}</span>
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div >
-        </div >
+                    {/* Footer Buttons */}
+                    <div className="flex gap-4 pt-4 border-t border-slate-100 mt-8">
+                        <button
+                            type="button"
+                            onClick={onCancel}
+                            className="flex-1 px-6 py-4 border-2 border-slate-200 text-slate-600 rounded-lg hover:bg-slate-50 hover:border-slate-300 transition-all font-bold text-sm uppercase tracking-wide"
+                        >
+                            Cancel
+                        </button>
+                        <button
+                            type="submit"
+                            disabled={isSubmitting || !!conflict}
+                            className={`flex-[2] px-6 py-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-500/30 transition-all font-bold text-sm uppercase tracking-wide flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed`}
+                        >
+                            {isSubmitting ? <FiLoader className="animate-spin text-lg" /> : <FiSave className="text-lg" />}
+                            <span>{isSubmitting ? 'Saving...' : (activity ? 'Save Changes' : 'Schedule Activity')}</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <style jsx>{`
+                @keyframes fadeIn {
+                    from { opacity: 0; }
+                    to { opacity: 1; }
+                }
+                @keyframes slideUp {
+                    from {
+                        opacity: 0;
+                        transform: translateY(20px);
+                    }
+                    to {
+                        opacity: 1;
+                        transform: translateY(0);
+                    }
+                }
+                .animate-fadeIn {
+                    animation: fadeIn 0.15s ease-out forwards;
+                }
+                .animate-slideUp {
+                    animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+                }
+            `}</style>
+        </div>,
+        document.body
     );
 };
 

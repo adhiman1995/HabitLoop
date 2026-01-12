@@ -7,8 +7,9 @@ import FilterBar from './components/FilterBar';
 import WeeklyCalendar from './components/WeeklyCalendar';
 import ActivityForm from './components/ActivityForm';
 import ActivityDetails from './components/ActivityDetails';
+import TaskFormModal from './components/TaskFormModal';
 import { activityAPI } from './services/api';
-import { FiAlertCircle, FiLoader, FiChevronLeft, FiChevronRight, FiCalendar } from 'react-icons/fi';
+import { FiAlertCircle, FiLoader, FiChevronLeft, FiChevronRight, FiCalendar, FiList, FiCheckSquare, FiPlus } from 'react-icons/fi';
 
 import Navbar from './components/Navbar';
 import RecentActivityLog from './components/RecentActivityLog';
@@ -17,6 +18,7 @@ import StatsOverview from './components/StatsOverview';
 // import StreakRewardWidget from './components/StreakRewardWidget'; // Removed
 import StreakWidget from './components/StreakWidget';
 import HeatmapWidget from './components/HeatmapWidget';
+import TasksPage from './pages/TasksPage';
 import CategoryBreakdown from './components/CategoryBreakdown';
 import AnalyticsChart from './components/AnalyticsChart';
 import Footer from './components/Footer';
@@ -40,6 +42,8 @@ const Dashboard = () => {
   const [showForm, setShowForm] = useState(false);
   const [editingActivity, setEditingActivity] = useState(null);
   const [viewingActivity, setViewingActivity] = useState(null);
+  const [showTaskModal, setShowTaskModal] = useState(false);
+  const [preselectedActivityId, setPreselectedActivityId] = useState(null);
   const [formInitialData, setFormInitialData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -208,6 +212,14 @@ const Dashboard = () => {
     setFormInitialData(null);
   };
 
+  const handleCreateTaskFromActivity = () => {
+    if (viewingActivity) {
+      setPreselectedActivityId(viewingActivity.id);
+      setViewingActivity(null);
+      setShowTaskModal(true);
+    }
+  };
+
 
 
   if (showSplash) {
@@ -228,7 +240,7 @@ const Dashboard = () => {
   if (error) {
     return (
       <div className="min-h-screen flex items-center justify-center p-4 bg-slate-50">
-        <div className="bg-white rounded-xl shadow-lg border border-slate-200 p-8 max-w-md text-center">
+        <div className="bg-white rounded-lg shadow-lg border border-slate-200 p-8 max-w-md text-center">
           <FiAlertCircle className="text-red-500 text-6xl mx-auto mb-4" />
           <h2 className="text-slate-800 text-2xl font-bold mb-2">Connection Error</h2>
           <p className="text-slate-600 mb-6">{error}</p>
@@ -246,6 +258,7 @@ const Dashboard = () => {
   const getPageTitle = () => {
     switch (currentView) {
       case 'dashboard': return 'Dashboard';
+      case 'tasks': return 'Task Management';
       case 'activities': return 'My Schedule';
       case 'settings': return 'Settings';
       default: return 'Dashboard';
@@ -255,6 +268,7 @@ const Dashboard = () => {
   const getPageSubtitle = () => {
     switch (currentView) {
       case 'dashboard': return 'Overview of your performance and statistics.';
+      case 'tasks': return 'Track specific tasks linked to your activities.';
       case 'activities': return 'Manage your weekly activity schedule.';
       case 'settings': return 'Manage your account and preferences.';
       default: return '';
@@ -275,32 +289,45 @@ const Dashboard = () => {
       <div className="flex-1 overflow-y-auto relative bg-slate-50/50 flex flex-col">
         <main className="flex-1 p-4 md:p-8 lg:p-10 max-w-[1600px] w-full mx-auto">
           {/* Header Section */}
-          <div className="mb-8 flex flex-col xl:flex-row xl:items-center justify-between gap-6">
+          <div className="mb-10 flex flex-col xl:flex-row xl:items-end justify-between gap-6 pb-2 animate-fadeIn">
             <div>
-              <h1 className="text-2xl md:text-3xl font-bold text-slate-900">
+              <h1 className="text-2xl md:text-3xl font-bold text-slate-800 tracking-tight mb-2">
                 {getPageTitle()}
               </h1>
-              <p className="text-slate-500 mt-1">
+              <p className="text-lg text-slate-500 font-medium max-w-2xl">
                 {getPageSubtitle()}
               </p>
             </div>
 
-            <div className="flex flex-col md:flex-row gap-4">
+            <div className="flex flex-col sm:flex-row items-stretch gap-4">
               {/* Week Navigation - Only Show in Activities Tab */}
               {currentView === 'activities' && (
-                <div className="flex items-center bg-white rounded-lg border border-slate-200 p-1 shadow-sm">
-                  <button onClick={handlePrevWeek} className="p-2 hover:bg-slate-100 rounded-md text-slate-500 transition-colors">
+                <div className="flex items-center bg-white rounded-lg border border-slate-200 p-1.5 shadow-sm">
+                  <button
+                    onClick={handlePrevWeek}
+                    className="p-3 hover:bg-slate-50 rounded-lg text-slate-400 hover:text-blue-600 transition-all active:scale-95"
+                    title="Previous Week"
+                  >
                     <FiChevronLeft className="text-xl" />
                   </button>
-                  <div className="px-4 flex items-center gap-2 font-medium text-slate-700 min-w-[180px] justify-center">
-                    <FiCalendar />
+                  <div className="px-6 flex items-center gap-3 font-bold text-slate-700 min-w-[200px] justify-center text-sm uppercase tracking-wide">
+                    <FiCalendar className="text-blue-500 text-lg" />
                     <span>{formatDate(weekDates[0])} - {formatDate(weekDates[6])}</span>
                   </div>
-                  <button onClick={handleNextWeek} className="p-2 hover:bg-slate-100 rounded-md text-slate-500 transition-colors">
+                  <button
+                    onClick={handleNextWeek}
+                    className="p-3 hover:bg-slate-50 rounded-lg text-slate-400 hover:text-blue-600 transition-all active:scale-95"
+                    title="Next Week"
+                  >
                     <FiChevronRight className="text-xl" />
                   </button>
-                  <div className="w-px h-6 bg-slate-200 mx-1"></div>
-                  <button onClick={handleToday} className="px-3 py-1 text-sm font-medium text-blue-600 hover:bg-blue-50 rounded-md transition-colors">
+
+                  <div className="w-px h-8 bg-slate-100 mx-2"></div>
+
+                  <button
+                    onClick={handleToday}
+                    className="px-4 py-2 text-sm font-bold text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg transition-all active:scale-95 hover:shadow-sm"
+                  >
                     Today
                   </button>
                 </div>
@@ -309,9 +336,10 @@ const Dashboard = () => {
               {currentView === 'activities' && (
                 <button
                   onClick={handleAddActivity}
-                  className="px-6 py-2.5 bg-blue-600 text-white rounded-xl font-bold shadow-lg shadow-blue-500/30 hover:bg-blue-700 transition-all whitespace-nowrap"
+                  className="px-8 py-3 bg-blue-600 text-white rounded-lg font-bold shadow-xl shadow-blue-200 hover:bg-blue-700 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3 group whitespace-nowrap"
                 >
-                  Add New Activity
+                  <FiPlus className="text-xl group-hover:rotate-90 transition-transform" />
+                  <span>New Activity</span>
                 </button>
               )}
             </div>
@@ -337,6 +365,8 @@ const Dashboard = () => {
 
               <RecentActivityLog activities={activities} />
             </div>
+          ) : currentView === 'tasks' ? (
+            <TasksPage />
           ) : currentView === 'settings' ? (
             <Settings user={user} onRefresh={refreshActivities} />
           ) : (
@@ -363,32 +393,52 @@ const Dashboard = () => {
       </div>
 
       {/* Forms & Modals */}
-      {showForm && (
-        <ActivityForm
-          activity={editingActivity}
-          initialData={formInitialData}
-          weekDates={weekDates}
-          activities={activities}
-          onSave={handleSaveActivity}
-          onCancel={handleCancelForm}
-        />
-      )}
+      {
+        showForm && (
+          <ActivityForm
+            activity={editingActivity}
+            initialData={formInitialData}
+            weekDates={weekDates}
+            activities={activities}
+            onSave={handleSaveActivity}
+            onCancel={handleCancelForm}
+          />
+        )
+      }
 
-      {viewingActivity && (
-        <ActivityDetails
-          activity={viewingActivity}
-          onClose={() => setViewingActivity(null)}
-          onEdit={() => {
-            setViewingActivity(null);
-            handleEditActivity(viewingActivity);
-          }}
-          onDelete={() => {
-            setViewingActivity(null);
-            handleDeleteActivity(viewingActivity.id);
-          }}
-        />
-      )}
-    </div>
+      {
+        viewingActivity && (
+          <ActivityDetails
+            activity={viewingActivity}
+            onClose={() => setViewingActivity(null)}
+            onEdit={() => {
+              setViewingActivity(null);
+              handleEditActivity(viewingActivity);
+            }}
+            onDelete={() => {
+              setViewingActivity(null);
+              handleDeleteActivity(viewingActivity.id);
+            }}
+            onCreateTask={handleCreateTaskFromActivity}
+          />
+        )
+      }
+
+      {
+        showTaskModal && (
+          <TaskFormModal
+            isOpen={showTaskModal}
+            onClose={() => setShowTaskModal(false)}
+            activities={activities}
+            initialActivityId={preselectedActivityId}
+            onTaskSaved={() => {
+              setShowTaskModal(false);
+              // Optimistic or real refresh if needed, but tasks are on another page
+            }}
+          />
+        )
+      }
+    </div >
   );
 };
 

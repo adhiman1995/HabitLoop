@@ -3,7 +3,7 @@ import { FiTrendingUp } from 'react-icons/fi';
 
 const StreakWidget = ({ streak = 0 }) => {
     return (
-        <div className="bg-white rounded-[32px] p-8 shadow-sm border border-slate-100 flex flex-col items-center justify-center text-center h-full min-h-[240px]">
+        <div className="bg-white rounded-lg p-8 shadow-sm border border-slate-100 flex flex-col items-center justify-center text-center h-full min-h-[240px]">
             <div className="flex items-center gap-4 mb-6">
                 <div className="relative w-16 h-16 flex items-center justify-center">
                     {/* Flame Icon SVG - Custom matching the image style */}

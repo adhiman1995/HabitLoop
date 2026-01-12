@@ -3,6 +3,7 @@ import cors from 'cors';
 import connectDB from './database.js';
 import authRoutes from './routes/auth.js';
 import activityRoutes from './routes/activities.js';
+import taskRoutes from './routes/tasks.js';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -24,6 +25,7 @@ app.use((req, res, next) => {
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/activities', activityRoutes);
+app.use('/api/tasks', taskRoutes);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {

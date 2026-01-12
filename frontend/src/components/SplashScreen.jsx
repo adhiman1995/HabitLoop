@@ -14,7 +14,7 @@ const SplashScreen = () => {
             <div className="relative flex flex-col items-center animate-fade-in-up">
                 <div className="w-24 h-24 mb-6 relative">
                     <div className="absolute inset-0 bg-blue-500/20 blur-xl rounded-full animate-ping-slow"></div>
-                    <div className="relative bg-white p-4 rounded-2xl shadow-xl shadow-blue-200 ring-1 ring-blue-100">
+                    <div className="relative bg-white p-4 rounded-lg shadow-xl shadow-blue-200 ring-1 ring-blue-100">
                         <Logo className="w-full h-full text-blue-600" />
                     </div>
                 </div>

@@ -14,7 +14,7 @@ const RecentActivityLog = ({ activities }) => {
         .slice(0, 5);
 
     return (
-        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+        <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
             <h3 className="font-bold text-lg text-slate-800 mb-4 flex items-center gap-2">
                 <FiCheckCircle className="text-emerald-500" />
                 Recent Completions

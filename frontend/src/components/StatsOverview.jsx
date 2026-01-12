@@ -39,8 +39,8 @@ const StatsOverview = ({ activities }) => {
             value: totalHours,
             subtext: `Avg ${avgDuration}m/session`,
             icon: FiClock,
-            color: 'text-purple-600',
-            bg: 'bg-purple-50',
+            color: 'text-sky-600',
+            bg: 'bg-sky-50',
             progress: null
         },
         {
@@ -66,7 +66,7 @@ const StatsOverview = ({ activities }) => {
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {stats.map((stat) => (
-                <div key={stat.label} className="bg-white rounded-xl p-5 border border-slate-200 shadow-sm transition-all hover:shadow-md hover:-translate-y-1 relative overflow-hidden group">
+                <div key={stat.label} className="bg-white rounded-lg p-5 border border-slate-200 shadow-sm transition-all hover:shadow-md hover:-translate-y-1 relative overflow-hidden group">
                     <div className="flex items-start justify-between relative z-10">
                         <div>
                             <p className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">{stat.label}</p>
@@ -75,7 +75,7 @@ const StatsOverview = ({ activities }) => {
                             </div>
                             <p className="text-xs text-slate-500 mt-1 font-medium">{stat.subtext}</p>
                         </div>
-                        <div className={`p-3 rounded-xl ${stat.bg} group-hover:scale-110 transition-transform duration-300`}>
+                        <div className={`p-3 rounded-lg ${stat.bg} group-hover:scale-110 transition-transform duration-300`}>
                             <stat.icon className={`text-xl ${stat.color}`} />
                         </div>
                     </div>
