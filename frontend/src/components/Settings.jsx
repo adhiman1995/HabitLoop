@@ -9,10 +9,6 @@ const Settings = ({ user, onRefresh, isDarkMode, toggleTheme }) => {
     const [exporting, setExporting] = useState(false);
 
     // Settings State with localStorage persistence
-    const [weekStartDay, setWeekStartDay] = useState(() => {
-        return localStorage.getItem('weekStartDay') || 'Sunday';
-    });
-
     const [timeFormat, setTimeFormat] = useState(() => {
         return localStorage.getItem('timeFormat') || '12h';
     });
@@ -20,13 +16,6 @@ const Settings = ({ user, onRefresh, isDarkMode, toggleTheme }) => {
     const [defaultView, setDefaultView] = useState(() => {
         return localStorage.getItem('defaultView') || 'dashboard';
     });
-
-    // Persist settings to localStorage
-    useEffect(() => {
-        localStorage.setItem('weekStartDay', weekStartDay);
-        // Dispatch custom event so App.jsx can react immediately
-        window.dispatchEvent(new Event('settings:weekStartChanged'));
-    }, [weekStartDay]);
 
     useEffect(() => {
         localStorage.setItem('timeFormat', timeFormat);
@@ -187,34 +176,6 @@ const Settings = ({ user, onRefresh, isDarkMode, toggleTheme }) => {
                     </div>
                 </div>
                 <div className="p-6 space-y-6">
-                    {/* Week Start Day */}
-                    <div className="flex items-center justify-between">
-                        <div>
-                            <h3 className="font-semibold text-slate-800 dark:text-white mb-1">Week Starts On</h3>
-                            <p className="text-sm text-slate-500 dark:text-slate-400">First day of the week in calendar.</p>
-                        </div>
-                        <div className="flex gap-2">
-                            <button
-                                onClick={() => setWeekStartDay('Sunday')}
-                                className={`px-3 py-1.5 rounded-lg text-sm font-bold transition-all ${weekStartDay === 'Sunday'
-                                    ? 'bg-green-600 text-white'
-                                    : 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600'
-                                    }`}
-                            >
-                                Sun
-                            </button>
-                            <button
-                                onClick={() => setWeekStartDay('Monday')}
-                                className={`px-3 py-1.5 rounded-lg text-sm font-bold transition-all ${weekStartDay === 'Monday'
-                                    ? 'bg-green-600 text-white'
-                                    : 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600'
-                                    }`}
-                            >
-                                Mon
-                            </button>
-                        </div>
-                    </div>
-
                     {/* Default View */}
                     <div>
                         <h3 className="font-semibold text-slate-800 dark:text-white mb-1">Default View</h3>

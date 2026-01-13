@@ -21,7 +21,7 @@ const WeeklyCalendar = ({ activities, weekDates, onToggle, onEdit, onDelete, onC
                     {[1, 2, 3].map(i => (
                         <div key={i} className="flex gap-4">
                             {DAYS_OF_WEEK.map(d => (
-                                <div key={d} className="flex-1 h-32 bg-slate-50 rounded-lg border border-slate-100"></div>
+                                <div key={d} className="flex-1 h-32 bg-slate-50 dark:bg-slate-700/30 rounded-lg border border-slate-100 dark:border-slate-700"></div>
                             ))}
                         </div>
                     ))}
@@ -131,7 +131,7 @@ const WeeklyCalendar = ({ activities, weekDates, onToggle, onEdit, onDelete, onC
                                                     <div
                                                         onClick={() => onView(activity)}
                                                         className={`group relative p-2 h-full rounded-lg transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1 cursor-pointer border shadow-sm hover:shadow-xl flex flex-col hover:z-30
-                                                            ${activity.completed ? 'opacity-70 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700' : `${style.pastelBg} ${style.hoverBg} ${style.pastelBorder} border-opacity-60`}
+                                                            ${activity.completed ? 'opacity-80 bg-slate-400 dark:bg-slate-700 border-slate-400 dark:border-slate-600' : `${style.color} border-transparent shadow-md`}
                                                         `}
                                                     >
 

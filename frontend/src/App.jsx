@@ -3,34 +3,26 @@ import { AuthProvider, useAuth } from './context/AuthContext';
 import Login from './pages/Login';
 import Register from './pages/Register';
 
-import FilterBar from './components/FilterBar';
-import WeeklyCalendar from './components/WeeklyCalendar';
+import { activityAPI } from './services/api';
+import { FiLoader, FiAlertCircle } from 'react-icons/fi';
+
+import Navbar from './components/Navbar';
+import Settings from './components/Settings';
+import TasksPage from './pages/TasksPage';
+import Footer from './components/Footer';
+import SplashScreen from './components/SplashScreen';
 import ActivityForm from './components/ActivityForm';
 import ActivityDetails from './components/ActivityDetails';
 import TaskFormModal from './components/TaskFormModal';
-import { activityAPI } from './services/api';
-import { FiAlertCircle, FiLoader, FiChevronLeft, FiChevronRight, FiCalendar, FiList, FiCheckSquare, FiPlus } from 'react-icons/fi';
 
-import Navbar from './components/Navbar';
-import RecentActivityLog from './components/RecentActivityLog';
-import Settings from './components/Settings';
-import StatsOverview from './components/StatsOverview';
-// import StreakRewardWidget from './components/StreakRewardWidget'; // Removed
-import StreakWidget from './components/StreakWidget';
-import HeatmapWidget from './components/HeatmapWidget';
-import TasksPage from './pages/TasksPage';
-import CategoryBreakdown from './components/CategoryBreakdown';
-import AnalyticsChart from './components/AnalyticsChart';
-import Footer from './components/Footer';
-import SplashScreen from './components/SplashScreen';
+// New Components
+import AppHeader from './components/AppHeader';
+import DashboardView from './pages/DashboardView';
+import ScheduleView from './pages/ScheduleView';
+
 import {
-  DAYS_OF_WEEK,
   getStartOfWeek,
   getWeekDates,
-  getCategoryStyle,
-  formatDate,
-  formatTimeRange,
-  doActivitiesOverlap
 } from './utils/helpers';
 
 // Main Dashboard Component
@@ -216,11 +208,21 @@ const Dashboard = () => {
   const handleToggleComplete = async (id) => {
     // 1. Optimistic Update: Update UI immediately
     const previousActivities = [...activities];
+
+    // Find the new completed state
+    const activityToUpdate = activities.find(a => a.id === id);
+    const newCompletedState = !activityToUpdate?.completed;
+
     setActivities(currentActivities =>
       currentActivities.map(activity =>
-        activity.id === id ? { ...activity, completed: !activity.completed } : activity
+        activity.id === id ? { ...activity, completed: newCompletedState } : activity
       )
     );
+
+    // Also update viewingActivity if it's the one currently open
+    if (viewingActivity && viewingActivity.id === id) {
+      setViewingActivity(prev => ({ ...prev, completed: newCompletedState }));
+    }
 
     try {
       // 2. Make API call
@@ -232,6 +234,10 @@ const Dashboard = () => {
       // 3. Revert on failure
       console.error('Error toggling activity:', err);
       setActivities(previousActivities);
+      // Revert viewingActivity if needed
+      if (viewingActivity && viewingActivity.id === id) {
+        setViewingActivity(prev => ({ ...prev, completed: !newCompletedState }));
+      }
       alert('Failed to update activity. Please try again.');
     }
   };
@@ -295,26 +301,6 @@ const Dashboard = () => {
     );
   }
 
-  const getPageTitle = () => {
-    switch (currentView) {
-      case 'dashboard': return 'Dashboard';
-      case 'tasks': return 'Task Management';
-      case 'activities': return 'My Schedule';
-      case 'settings': return 'Settings';
-      default: return 'Dashboard';
-    }
-  }
-
-  const getPageSubtitle = () => {
-    switch (currentView) {
-      case 'dashboard': return 'Overview of your performance and statistics.';
-      case 'tasks': return 'Track specific tasks linked to your activities.';
-      case 'activities': return 'Manage your weekly activity schedule.';
-      case 'settings': return 'Manage your account and preferences.';
-      default: return '';
-    }
-  }
-
   return (
     <div className="h-screen bg-slate-50 dark:bg-slate-900 flex flex-col overflow-hidden transition-colors duration-300">
       {/* Top Navigation Bar */}
@@ -328,86 +314,24 @@ const Dashboard = () => {
       {/* Main Content Area */}
       <div className="flex-1 overflow-y-auto relative bg-slate-50/50 dark:bg-slate-900 flex flex-col">
         <main className="flex-1 p-4 md:p-8 lg:p-10 max-w-[1600px] w-full mx-auto">
-          {/* Header Section */}
-          <div className="mb-10 flex flex-col xl:flex-row xl:items-end justify-between gap-6 pb-2 animate-fadeIn">
-            <div>
-              <h1 className="text-2xl md:text-2xl font-bold text-slate-800 dark:text-white tracking-tight mb-2">
-                {getPageTitle()}
-              </h1>
-              <p className="text-md text-slate-500 dark:text-slate-400 font-medium max-w-2xl">
-                {getPageSubtitle()}
-              </p>
-            </div>
 
-            <div className="flex flex-col sm:flex-row items-stretch gap-4">
-              {/* Week Navigation - Only Show in Activities Tab */}
-              {currentView === 'activities' && (
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={handlePrevWeek}
-                    className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white transition-all active:scale-95"
-                  >
-                    <FiChevronLeft className="text-2xl" />
-                  </button>
+          {/* Refactored Header Component */}
+          <AppHeader
+            currentView={currentView}
+            currentWeekStart={currentWeekStart}
+            weekDates={weekDates}
+            onPrevWeek={handlePrevWeek}
+            onNextWeek={handleNextWeek}
+            onToday={handleToday}
+            onAddActivity={handleAddActivity}
+          />
 
-                  <div className="flex flex-col items-center px-2">
-                    <span className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-0.5">Current Week</span>
-                    <div className="flex items-center gap-2 text-lg font-black text-slate-800 dark:text-white">
-                      <FiCalendar className="text-blue-500" />
-                      <span>{formatDate(weekDates[0])} - {formatDate(weekDates[6])}</span>
-                    </div>
-                  </div>
-
-                  <button
-                    onClick={handleNextWeek}
-                    className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white transition-all active:scale-95"
-                  >
-                    <FiChevronRight className="text-2xl" />
-                  </button>
-
-                  <div className="w-px h-8 bg-slate-200 dark:bg-slate-700 mx-4 hidden sm:block"></div>
-
-                  <button
-                    onClick={handleToday}
-                    className="hidden sm:block px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 hover:bg-blue-100 dark:hover:bg-blue-900/50 rounded-full transition-all active:scale-95 border border-blue-100 dark:border-blue-800"
-                  >
-                    Today
-                  </button>
-                </div>
-              )}
-
-              {currentView === 'activities' && (
-                <button
-                  onClick={handleAddActivity}
-                  className="px-8 py-3 bg-blue-600 text-white rounded-lg font-bold hover:bg-blue-700 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3 group whitespace-nowrap"
-                >
-                  <FiPlus className="text-xl group-hover:rotate-90 transition-transform" />
-                  <span>New Activity</span>
-                </button>
-              )}
-            </div>
-          </div>
-
+          {/* Dynamic Content Views */}
           {currentView === 'dashboard' ? (
-            <div className="space-y-8">
-              {/* Dashboard View: Analytics & Overview */}
-
-              <StatsOverview activities={activities} />
-
-              {/* Side-by-Side Widgets */}
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <StreakWidget streak={user?.streak} />
-                <HeatmapWidget />
-              </div>
-
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <AnalyticsChart activities={activities} />
-
-                <CategoryBreakdown activities={activities} />
-              </div>
-
-              <RecentActivityLog activities={activities} />
-            </div>
+            <DashboardView
+              activities={activities}
+              user={user}
+            />
           ) : currentView === 'tasks' ? (
             <TasksPage />
           ) : currentView === 'settings' ? (
@@ -418,23 +342,18 @@ const Dashboard = () => {
               toggleTheme={toggleDarkMode}
             />
           ) : (
-            <div className="space-y-6">
-              {/* Schedule View: Calendar & Filters */}
-              <FilterBar
-                selectedCategory={selectedCategory}
-                onCategoryChange={setSelectedCategory}
-              />
-              <WeeklyCalendar
-                activities={filteredActivities}
-                weekDates={weekDates}
-                onToggle={handleToggleComplete}
-                onEdit={handleEditActivity}
-                onDelete={handleDeleteActivity}
-                onCreate={handleCreateActivity}
-                onView={setViewingActivity}
-                isLoading={isLoadingWeek}
-              />
-            </div>
+            <ScheduleView
+              activities={filteredActivities}
+              weekDates={weekDates}
+              selectedCategory={selectedCategory}
+              onCategoryChange={setSelectedCategory}
+              onToggle={handleToggleComplete}
+              onEdit={handleEditActivity}
+              onDelete={handleDeleteActivity}
+              onCreate={handleCreateActivity}
+              onView={setViewingActivity}
+              isLoading={isLoadingWeek}
+            />
           )}
         </main>
         <Footer />

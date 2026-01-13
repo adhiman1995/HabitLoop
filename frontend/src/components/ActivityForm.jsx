@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { FiX, FiSave, FiLoader, FiAlertTriangle, FiCheck, FiType, FiFolder, FiCalendar, FiClock, FiAlignLeft, FiActivity } from 'react-icons/fi';
+import { FiX, FiSave, FiLoader, FiAlertTriangle, FiAlertCircle, FiCheck, FiType, FiFolder, FiCalendar, FiClock, FiAlignLeft, FiActivity } from 'react-icons/fi';
 import { CATEGORIES, DAYS_OF_WEEK, doActivitiesOverlap, suggestNextAvailableSlot } from '../utils/helpers';
 
 const ActivityForm = ({ activity, initialData, weekDates, activities, onSave, onCancel }) => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [conflict, setConflict] = useState(null);
     const [suggestion, setSuggestion] = useState(null);
+    const [validationError, setValidationError] = useState(null);
 
     const [formData, setFormData] = useState({
         title: '',
@@ -89,7 +90,34 @@ const ActivityForm = ({ activity, initialData, weekDates, activities, onSave, on
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsSubmitting(true);
+        setConflict(null); // Clear previous conflict
+        setValidationError(null); // Clear previous validation error
+
         try {
+            // Validate Past Dates
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+
+            const daysToCheck = Array.isArray(formData.day_of_week)
+                ? formData.day_of_week
+                : [formData.day_of_week];
+
+            if (weekDates) {
+                for (const day of daysToCheck) {
+                    const dayIndex = DAYS_OF_WEEK.indexOf(day);
+                    if (dayIndex !== -1) {
+                        const dateToCheck = new Date(weekDates[dayIndex]);
+                        dateToCheck.setHours(0, 0, 0, 0);
+
+                        if (dateToCheck < today) {
+                            setValidationError(`You cannot schedule activities for ${day} as it is in the past.`);
+                            setIsSubmitting(false);
+                            return;
+                        }
+                    }
+                }
+            }
+
             const dataToSave = { ...formData };
 
 
@@ -141,6 +169,23 @@ const ActivityForm = ({ activity, initialData, weekDates, activities, onSave, on
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-5 relative">
+                    {/* Validation Error */}
+                    {validationError && (
+                        <div className="bg-rose-50 border border-rose-200 rounded-lg p-4 flex items-start gap-4 animate-fadeIn">
+                            <div className="p-2 bg-rose-100 rounded-lg shrink-0">
+                                <FiAlertCircle className="text-rose-600 text-xl" />
+                            </div>
+                            <div className="flex-1">
+                                <h3 className="text-sm font-bold text-rose-900">
+                                    Invalid Date
+                                </h3>
+                                <p className="text-sm text-rose-800 mt-1 leading-relaxed">
+                                    {validationError}
+                                </p>
+                            </div>
+                        </div>
+                    )}
+
                     {/* Conflict Warning */}
                     {conflict && (
                         <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 flex items-start gap-4 animate-fadeIn">

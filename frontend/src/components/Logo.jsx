@@ -9,24 +9,20 @@ const Logo = ({ className = "h-10 w-auto", ...props }) => (
         preserveAspectRatio="xMidYMid meet"
         {...props}
     >
-        <defs>
-            <linearGradient id="infinityGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="#0B2463" />
-                <stop offset="100%" stopColor="#3B82F6" />
-            </linearGradient>
-        </defs>
-
-        {/* Infinity Symbol - Gradient Stroke */}
-        {/* A smooth lemniscate curve */}
+        {/* Left Ring - Cyan */}
         <path
-            d="M118 32
-               C118 48 148 48 148 32
-               S128 16 118 32
-               S88 48 88 32
-               S108 16 118 32Z"
-            stroke="url(#infinityGradient)"
+            d="M118 32 C108 48 88 48 88 32 S108 16 118 32"
+            stroke="#06b6d4"
             strokeWidth="10"
-            fill="none"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+        />
+
+        {/* Right Ring - Blue */}
+        <path
+            d="M118 32 C118 48 148 48 148 32 S128 16 118 32"
+            stroke="#3b82f6"
+            strokeWidth="10"
             strokeLinecap="round"
             strokeLinejoin="round"
         />

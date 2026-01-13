@@ -1,10 +1,6 @@
-// Dynamic DAYS_OF_WEEK based on user preference
 export const getDaysOfWeek = () => {
-    const weekStartDay = typeof window !== 'undefined' ? localStorage.getItem('weekStartDay') : 'Sunday';
-    if (weekStartDay === 'Monday') {
-        return ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-    }
-    return ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    // Default to Monday start
+    return ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 };
 
 // Keep static version for backward compatibility
@@ -19,14 +15,14 @@ export const DAYS_OF_WEEK = [
 ];
 
 export const CATEGORIES = [
-    { name: 'Work', color: 'bg-blue-600', textColor: 'text-white', neoColor: 'bg-blue-100 text-blue-800 border-none', softBg: 'bg-blue-50', borderClass: 'border-l-blue-600', pastelBg: 'bg-blue-50 dark:bg-blue-900/40', pastelBorder: 'border-blue-200 dark:border-blue-800', pastelText: 'text-blue-700 dark:text-blue-300', pastelIcon: 'text-blue-600 dark:text-blue-400', hoverBg: 'hover:bg-blue-100 dark:hover:bg-blue-900/60' },
-    { name: 'Personal', color: 'bg-purple-600', textColor: 'text-white', neoColor: 'bg-purple-100 text-purple-800 border-none', softBg: 'bg-purple-50', borderClass: 'border-l-purple-600', pastelBg: 'bg-purple-50 dark:bg-purple-900/40', pastelBorder: 'border-purple-200 dark:border-purple-800', pastelText: 'text-purple-700 dark:text-purple-300', pastelIcon: 'text-purple-600 dark:text-purple-400', hoverBg: 'hover:bg-purple-100 dark:hover:bg-purple-900/60' },
-    { name: 'Fitness', color: 'bg-emerald-500', textColor: 'text-white', neoColor: 'bg-emerald-100 text-emerald-800 border-none', softBg: 'bg-emerald-50', borderClass: 'border-l-emerald-500', pastelBg: 'bg-emerald-50 dark:bg-emerald-900/40', pastelBorder: 'border-emerald-200 dark:border-emerald-800', pastelText: 'text-emerald-700 dark:text-emerald-300', pastelIcon: 'text-emerald-600 dark:text-emerald-400', hoverBg: 'hover:bg-emerald-100 dark:hover:bg-emerald-900/60' },
-    { name: 'Learning', color: 'bg-amber-500', textColor: 'text-white', neoColor: 'bg-amber-100 text-amber-800 border-none', softBg: 'bg-amber-50', borderClass: 'border-l-amber-500', pastelBg: 'bg-amber-50 dark:bg-amber-900/40', pastelBorder: 'border-amber-200 dark:border-amber-800', pastelText: 'text-amber-800 dark:text-amber-300', pastelIcon: 'text-amber-600 dark:text-amber-400', hoverBg: 'hover:bg-amber-100 dark:hover:bg-amber-900/60' },
-    { name: 'Social', color: 'bg-rose-500', textColor: 'text-white', neoColor: 'bg-rose-100 text-rose-800 border-none', softBg: 'bg-rose-50', borderClass: 'border-l-rose-500', pastelBg: 'bg-rose-50 dark:bg-rose-900/40', pastelBorder: 'border-rose-200 dark:border-rose-800', pastelText: 'text-rose-700 dark:text-rose-300', pastelIcon: 'text-rose-600 dark:text-rose-400', hoverBg: 'hover:bg-rose-100 dark:hover:bg-rose-900/60' },
-    { name: 'Health', color: 'bg-cyan-500', textColor: 'text-white', neoColor: 'bg-cyan-100 text-cyan-800 border-none', softBg: 'bg-cyan-50', borderClass: 'border-l-cyan-500', pastelBg: 'bg-cyan-50 dark:bg-cyan-900/40', pastelBorder: 'border-cyan-200 dark:border-cyan-800', pastelText: 'text-cyan-700 dark:text-cyan-300', pastelIcon: 'text-cyan-600 dark:text-cyan-400', hoverBg: 'hover:bg-cyan-100 dark:hover:bg-cyan-900/60' },
-    { name: 'Other', color: 'bg-slate-500', textColor: 'text-white', neoColor: 'bg-slate-100 text-slate-700 border-none', softBg: 'bg-slate-50', borderClass: 'border-l-slate-500', pastelBg: 'bg-slate-50 dark:bg-slate-700/50', pastelBorder: 'border-slate-300 dark:border-slate-600', pastelText: 'text-slate-700 dark:text-slate-300', pastelIcon: 'text-slate-500 dark:text-slate-400', hoverBg: 'hover:bg-slate-100 dark:hover:bg-slate-700/70' },
-    { name: 'Creative', color: 'bg-fuchsia-500', textColor: 'text-white', neoColor: 'bg-fuchsia-100 text-fuchsia-800 border-none', softBg: 'bg-fuchsia-50', borderClass: 'border-l-fuchsia-500', pastelBg: 'bg-fuchsia-50 dark:bg-fuchsia-900/40', pastelBorder: 'border-fuchsia-200 dark:border-fuchsia-800', pastelText: 'text-fuchsia-700 dark:text-fuchsia-300', pastelIcon: 'text-fuchsia-600 dark:text-fuchsia-400', hoverBg: 'hover:bg-fuchsia-100 dark:hover:bg-fuchsia-900/60' },
+    { name: 'Work', color: 'bg-[#5C6BC0]', textColor: 'text-white', neoColor: 'bg-indigo-100 text-indigo-800 border-none', softBg: 'bg-indigo-50', borderClass: 'border-l-indigo-500', pastelBg: 'bg-indigo-50 dark:bg-indigo-900/40', pastelBorder: 'border-indigo-200 dark:border-indigo-800', pastelText: 'text-indigo-700 dark:text-indigo-300', pastelIcon: 'text-indigo-500 dark:text-indigo-400', hoverBg: 'hover:bg-[#3F51B5]' },
+    { name: 'Personal', color: 'bg-[#AB47BC]', textColor: 'text-white', neoColor: 'bg-purple-100 text-purple-800 border-none', softBg: 'bg-purple-50', borderClass: 'border-l-purple-500', pastelBg: 'bg-purple-50 dark:bg-purple-900/40', pastelBorder: 'border-purple-200 dark:border-purple-800', pastelText: 'text-purple-700 dark:text-purple-300', pastelIcon: 'text-purple-500 dark:text-purple-400', hoverBg: 'hover:bg-[#8E24AA]' },
+    { name: 'Fitness', color: 'bg-[#26A69A]', textColor: 'text-white', neoColor: 'bg-teal-100 text-teal-800 border-none', softBg: 'bg-teal-50', borderClass: 'border-l-teal-500', pastelBg: 'bg-teal-50 dark:bg-teal-900/40', pastelBorder: 'border-teal-200 dark:border-teal-800', pastelText: 'text-teal-700 dark:text-teal-300', pastelIcon: 'text-teal-500 dark:text-teal-400', hoverBg: 'hover:bg-[#00897B]' },
+    { name: 'Learning', color: 'bg-[#FF7043]', textColor: 'text-white', neoColor: 'bg-orange-100 text-orange-800 border-none', softBg: 'bg-orange-50', borderClass: 'border-l-orange-500', pastelBg: 'bg-orange-50 dark:bg-orange-900/40', pastelBorder: 'border-orange-200 dark:border-orange-800', pastelText: 'text-orange-800 dark:text-orange-300', pastelIcon: 'text-orange-500 dark:text-orange-400', hoverBg: 'hover:bg-[#F4511E]' },
+    { name: 'Social', color: 'bg-[#EC407A]', textColor: 'text-white', neoColor: 'bg-pink-100 text-pink-800 border-none', softBg: 'bg-pink-50', borderClass: 'border-l-pink-500', pastelBg: 'bg-pink-50 dark:bg-pink-900/40', pastelBorder: 'border-pink-200 dark:border-pink-800', pastelText: 'text-pink-700 dark:text-pink-300', pastelIcon: 'text-pink-500 dark:text-pink-400', hoverBg: 'hover:bg-[#D81B60]' },
+    { name: 'Health', color: 'bg-[#29B6F6]', textColor: 'text-white', neoColor: 'bg-sky-100 text-sky-800 border-none', softBg: 'bg-sky-50', borderClass: 'border-l-sky-500', pastelBg: 'bg-sky-50 dark:bg-sky-900/40', pastelBorder: 'border-sky-200 dark:border-sky-800', pastelText: 'text-sky-700 dark:text-sky-300', pastelIcon: 'text-sky-500 dark:text-sky-400', hoverBg: 'hover:bg-[#039BE5]' },
+    { name: 'Other', color: 'bg-[#78909C]', textColor: 'text-white', neoColor: 'bg-slate-100 text-slate-700 border-none', softBg: 'bg-slate-50', borderClass: 'border-l-slate-400', pastelBg: 'bg-slate-50 dark:bg-slate-700/50', pastelBorder: 'border-slate-300 dark:border-slate-600', pastelText: 'text-slate-700 dark:text-slate-300', pastelIcon: 'text-slate-500 dark:text-slate-400', hoverBg: 'hover:bg-[#546E7A]' },
+    { name: 'Creative', color: 'bg-[#8D6E63]', textColor: 'text-white', neoColor: 'bg-stone-100 text-stone-800 border-none', softBg: 'bg-stone-50', borderClass: 'border-l-stone-500', pastelBg: 'bg-stone-50 dark:bg-stone-900/40', pastelBorder: 'border-stone-200 dark:border-stone-800', pastelText: 'text-stone-700 dark:text-stone-300', pastelIcon: 'text-stone-500 dark:text-stone-400', hoverBg: 'hover:bg-[#6D4C41]' },
 ];
 
 export const getCategoryStyle = (categoryName) => {
@@ -166,17 +162,9 @@ export const getStartOfWeek = (date = new Date()) => {
     const d = new Date(date);
     const day = d.getDay(); // 0 = Sunday, 1 = Monday, ...
 
-    // Check user's week start preference
-    const weekStartDay = typeof window !== 'undefined' ? localStorage.getItem('weekStartDay') : 'Sunday';
-
-    let diff;
-    if (weekStartDay === 'Monday') {
-        // Monday start: adjust to find Monday
-        diff = d.getDate() - day + (day === 0 ? -6 : 1);
-    } else {
-        // Sunday start: day is already the offset from Sunday
-        diff = d.getDate() - day;
-    }
+    // Monday start: adjust to find Monday
+    // If Sunday (0), go back 6 days. Else go back (day - 1) days.
+    const diff = d.getDate() - day + (day === 0 ? -6 : 1);
 
     const startDay = new Date(d.setDate(diff));
     startDay.setHours(0, 0, 0, 0);
