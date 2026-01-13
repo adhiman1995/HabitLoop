@@ -24,6 +24,8 @@ const Settings = ({ user, onRefresh, isDarkMode, toggleTheme }) => {
     // Persist settings to localStorage
     useEffect(() => {
         localStorage.setItem('weekStartDay', weekStartDay);
+        // Dispatch custom event so App.jsx can react immediately
+        window.dispatchEvent(new Event('settings:weekStartChanged'));
     }, [weekStartDay]);
 
     useEffect(() => {

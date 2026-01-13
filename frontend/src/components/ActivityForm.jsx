@@ -219,7 +219,7 @@ const ActivityForm = ({ activity, initialData, weekDates, activities, onSave, on
                                 </label>
                                 <label className="flex items-center cursor-pointer gap-2 group">
                                     <span className="text-xs font-bold text-slate-400 group-hover:text-blue-600 transition-colors">Repeat</span>
-                                    <div className="relative inline-block w-10 h-6 transition duration-200 ease-in-out bg-slate-200 rounded-full cursor-pointer group-hover:bg-slate-300">
+                                    <div className={`relative inline-block w-10 h-6 transition duration-200 ease-in-out rounded-full cursor-pointer ${Array.isArray(formData.day_of_week) ? 'bg-blue-600' : 'bg-slate-300 dark:bg-slate-600 group-hover:bg-slate-400 dark:group-hover:bg-slate-500'}`}>
                                         <input
                                             type="checkbox"
                                             className="absolute w-full h-full opacity-0 cursor-pointer"
@@ -233,55 +233,52 @@ const ActivityForm = ({ activity, initialData, weekDates, activities, onSave, on
                                             }}
                                         />
                                         <span
-                                            className={`absolute left-1 top-1 inline-block w-4 h-4 bg-white rounded-full shadow transition-transform duration-200 ease-in-out ${Array.isArray(formData.day_of_week) ? 'translate-x-4 bg-blue-600' : 'translate-x-0'}`}
+                                            className={`absolute left-1 top-1 inline-block w-4 h-4 bg-white rounded-full shadow transition-transform duration-200 ease-in-out ${Array.isArray(formData.day_of_week) ? 'translate-x-4' : 'translate-x-0'}`}
                                         ></span>
                                     </div>
                                 </label>
                             </div>
 
-                            {Array.isArray(formData.day_of_week) ? (
-                                <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
-                                    {DAYS_OF_WEEK.map(day => (
+                            <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
+                                {DAYS_OF_WEEK.map(day => {
+                                    const isRecurring = Array.isArray(formData.day_of_week);
+                                    const isSelected = isRecurring
+                                        ? formData.day_of_week.includes(day)
+                                        : formData.day_of_week === day;
+
+                                    return (
                                         <button
                                             key={day}
                                             type="button"
                                             onClick={() => {
                                                 setFormData(prev => {
-                                                    const currentDays = prev.day_of_week;
-                                                    if (currentDays.includes(day)) {
-                                                        if (currentDays.length === 1) return prev;
-                                                        return { ...prev, day_of_week: currentDays.filter(d => d !== day) };
+                                                    const isRec = Array.isArray(prev.day_of_week);
+
+                                                    if (isRec) {
+                                                        // Multi-select logic
+                                                        const currentDays = prev.day_of_week;
+                                                        if (currentDays.includes(day)) {
+                                                            if (currentDays.length === 1) return prev; // Prevent empty selection
+                                                            return { ...prev, day_of_week: currentDays.filter(d => d !== day) };
+                                                        } else {
+                                                            return { ...prev, day_of_week: [...currentDays, day] };
+                                                        }
                                                     } else {
-                                                        return { ...prev, day_of_week: [...currentDays, day] };
+                                                        // Single-select logic
+                                                        return { ...prev, day_of_week: day };
                                                     }
                                                 });
                                             }}
-                                            className={`px-2 py-2 rounded-lg text-xs font-bold transition-all border-2 ${formData.day_of_week.includes(day)
+                                            className={`px-2 py-2 rounded-lg text-xs font-bold transition-all border-2 ${isSelected
                                                 ? 'bg-blue-50 dark:bg-blue-900/30 border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300'
                                                 : 'bg-white dark:bg-slate-700 border-slate-100 dark:border-slate-600 text-slate-500 dark:text-slate-400 hover:border-slate-300 dark:hover:border-slate-500'
                                                 }`}
                                         >
                                             {day.slice(0, 3)}
                                         </button>
-                                    ))}
-                                </div>
-                            ) : (
-                                <div className="relative">
-                                    <select
-                                        name="day_of_week"
-                                        value={formData.day_of_week}
-                                        onChange={handleChange}
-                                        className="w-full px-5 py-2.5 bg-slate-50 dark:bg-slate-900 border-2 border-slate-100 dark:border-slate-800 rounded-lg appearance-none focus:bg-white dark:focus:bg-slate-800 focus:border-blue-500 dark:focus:border-blue-500 outline-none transition-all text-slate-700 dark:text-white font-medium"
-                                    >
-                                        {DAYS_OF_WEEK.map(day => (
-                                            <option key={day} value={day}>{day}</option>
-                                        ))}
-                                    </select>
-                                    <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
-                                        <svg className="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" /></svg>
-                                    </div>
-                                </div>
-                            )}
+                                    );
+                                })}
+                            </div>
                         </div>
 
                         <div className="space-y-4">

@@ -88,20 +88,17 @@ const WeeklyCalendar = ({ activities, weekDates, onToggle, onEdit, onDelete, onC
                                 return (
                                     <th
                                         key={day}
-                                        className="p-3 text-center sticky top-0 z-20 border-b border-r border-slate-200 dark:border-slate-700 last:border-r-0 bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm w-1/7 group"
+                                        className="py-3 px-1 text-center sticky top-0 z-20 border-b border-r border-slate-200 dark:border-slate-700 last:border-r-0 bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm w-1/7 group"
                                     >
-                                        <div className={`inline-flex flex-col items-center justify-center py-2 px-5 rounded-lg transition-all duration-300
+                                        <div className={`inline-flex items-center justify-center py-3 px-3 rounded-lg transition-all duration-300
                                             ${isTodayDate
                                                 ? 'bg-blue-600'
                                                 : 'bg-slate-50 dark:bg-slate-700 text-slate-500 dark:text-slate-300 group-hover:bg-blue-50 dark:group-hover:bg-blue-900/30 group-hover:text-blue-600 dark:group-hover:text-blue-400'
                                             }
                                         `}>
-                                            <div className={`text-[10px] font-black uppercase tracking-widest mb-1 ${isTodayDate ? 'text-blue-200' : 'text-slate-400 dark:text-slate-500 group-hover:text-blue-400'}`}>
-                                                {day.substring(0, 3)}
-                                            </div>
-                                            <div className={`text-2xl font-black ${isTodayDate ? 'text-white' : 'text-slate-800 dark:text-white group-hover:text-blue-700 dark:group-hover:text-blue-400'}`}>
-                                                {date.getDate()}
-                                            </div>
+                                            <span className={`text-sm font-bold whitespace-nowrap ${isTodayDate ? 'text-white' : 'text-slate-700 dark:text-slate-200 group-hover:text-blue-700 dark:group-hover:text-blue-400'}`}>
+                                                {day.substring(0, 3)}, {date.getDate()} {date.toLocaleString('default', { month: 'short' })}
+                                            </span>
                                         </div>
                                     </th>
                                 );
@@ -125,26 +122,26 @@ const WeeklyCalendar = ({ activities, weekDates, onToggle, onEdit, onDelete, onC
                                     return (
                                         <td
                                             key={day}
-                                            className={`p-3 align-top transition-all duration-300 border-b border-r border-slate-200 dark:border-slate-700 last:border-r-0
+                                            className={`p-2 align-top transition-all duration-300 border-b border-r border-slate-200 dark:border-slate-700 last:border-r-0
                                                 ${isPast ? 'bg-slate-50/50 dark:bg-slate-900/50' : 'hover:bg-slate-50 dark:hover:bg-slate-700/20'}
                                             `}
                                         >
-                                            <div className={`h-[120px] ${isPast ? 'opacity-60 grayscale-[0.3]' : ''}`}>
+                                            <div className={`h-[90px] ${isPast ? 'opacity-60 grayscale-[0.3]' : ''}`}>
                                                 {activity ? (
                                                     <div
                                                         onClick={() => onView(activity)}
-                                                        className={`group relative p-4 h-full rounded-lg transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1 cursor-pointer border-2 shadow-sm hover:shadow-xl flex flex-col hover:z-30
-                                                            ${activity.completed ? 'opacity-70 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700' : `${style.pastelBg} ${style.hoverBg} ${style.pastelBorder}`}
+                                                        className={`group relative p-2 h-full rounded-lg transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1 cursor-pointer border shadow-sm hover:shadow-xl flex flex-col hover:z-30
+                                                            ${activity.completed ? 'opacity-70 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700' : `${style.pastelBg} ${style.hoverBg} ${style.pastelBorder} border-opacity-60`}
                                                         `}
                                                     >
 
 
-                                                        <div className="space-y-1 flex-1 min-h-0 pt-1">
-                                                            <h4 className={`text-sm md:text-base font-extrabold leading-tight ${style.pastelText} ${activity.completed ? 'line-through decoration-2 opacity-50' : ''} line-clamp-2 break-words mb-2`}>
+                                                        <div className="space-y-0.5 flex-1 min-h-0 pt-0.5">
+                                                            <h4 className={`text-xs md:text-sm font-medium leading-tight text-white drop-shadow-md ${activity.completed ? 'line-through decoration-2 opacity-50' : ''} line-clamp-2 break-words mb-1`}>
                                                                 {activity.title}
                                                             </h4>
 
-                                                            <div className={`flex items-center gap-1.5 text-xs font-bold opacity-90 ${style.pastelText} mt-auto`}>
+                                                            <div className={`flex items-center gap-1 text-xs font-medium opacity-90 text-white drop-shadow-md mt-auto`}>
                                                                 <FiClock size={12} className="shrink-0" />
                                                                 <span>{formatTimeRange(activity.time_slot, activity.duration)}</span>
                                                             </div>
@@ -160,8 +157,8 @@ const WeeklyCalendar = ({ activities, weekDates, onToggle, onEdit, onDelete, onC
                                                         `}
                                                     >
                                                         {!isPast && (
-                                                            <div className="w-10 h-10 rounded-lg bg-blue-600 text-white grid place-items-center transform scale-0 group-hover/cell:scale-100 transition-all duration-300 hover:bg-blue-700">
-                                                                <FiPlus size={22} />
+                                                            <div className="w-8 h-8 rounded-lg bg-blue-600 text-white grid place-items-center transform scale-0 group-hover/cell:scale-100 transition-all duration-300 hover:bg-blue-700">
+                                                                <FiPlus size={18} />
                                                             </div>
                                                         )}
                                                     </div>

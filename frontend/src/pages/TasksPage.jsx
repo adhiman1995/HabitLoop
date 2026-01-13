@@ -61,7 +61,7 @@ const TasksPage = ({ initialActivityId, onClearActivity }) => {
             const taskId = editingTask.id || editingTask._id;
             setTasks(prev => prev.map(t => (t.id || t._id) === taskId ? savedTask : t));
         } else {
-            setTasks([...tasks, savedTask]);
+            setTasks([savedTask, ...tasks]);
         }
         setEditingTask(null);
     };
