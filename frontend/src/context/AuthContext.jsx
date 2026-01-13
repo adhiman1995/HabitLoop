@@ -8,14 +8,36 @@ export const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        // Check for stored token on startup
-        const storedToken = localStorage.getItem('token');
-        const storedUser = localStorage.getItem('user');
+        const initAuth = async () => {
+            const storedToken = localStorage.getItem('token');
+            const storedUser = localStorage.getItem('user');
 
-        if (storedToken && storedUser) {
-            setUser(JSON.parse(storedUser));
-        }
-        setLoading(false);
+            if (storedToken && storedUser) {
+                setUser(JSON.parse(storedUser));
+                // Validate the token with the backend
+                try {
+                    await refreshUser();
+                } catch (error) {
+                    // If refresh failed (likely 401), the interceptor or logout logic will handle it,
+                    // but we should ensure we don't leave a stale user if it was a hard failure not caught by interceptor yet
+                    console.error("Session validation failed", error);
+                }
+            }
+            setLoading(false);
+        };
+
+        initAuth();
+
+        // Listen for 401 Unauthorized events from api.js
+        const handleUnauthorized = () => {
+            logout();
+        };
+
+        window.addEventListener('auth:unauthorized', handleUnauthorized);
+
+        return () => {
+            window.removeEventListener('auth:unauthorized', handleUnauthorized);
+        };
     }, []);
 
     const login = async (email, password) => {

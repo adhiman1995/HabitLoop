@@ -43,8 +43,14 @@ app.use((err, req, res, next) => {
     res.status(500).json({ error: 'Internal server error' });
 });
 
+// Keep-Alive Service to prevent free server sleep
+import KeepAliveService from './services/KeepAliveService.js';
+
 // Start server
 app.listen(PORT, () => {
     console.log(`🚀 Server running on http://localhost:${PORT}`);
     console.log(`📊 API available at http://localhost:${PORT}/api`);
+
+    // Start Keep-Alive Service
+    KeepAliveService.start();
 });

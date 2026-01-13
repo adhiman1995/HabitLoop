@@ -18,6 +18,18 @@ api.interceptors.request.use((config) => {
     return config;
 });
 
+// Add response interceptor to handle 401 errors globally
+api.interceptors.response.use(
+    (response) => response,
+    (error) => {
+        if (error.response && error.response.status === 401) {
+            // Dispatch a custom event that AuthContext can listen to
+            window.dispatchEvent(new Event('auth:unauthorized'));
+        }
+        return Promise.reject(error);
+    }
+);
+
 export const activityAPI = {
     // Get all activities with optional filters
     getAll: (filters = {}) => {
