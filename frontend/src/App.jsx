@@ -262,14 +262,7 @@ const Dashboard = () => {
 
 
   if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50">
-        <div className="text-center">
-          <FiLoader className="text-blue-600 text-6xl animate-spin mx-auto mb-4" />
-          <p className="text-slate-700 text-xl font-medium">Loading activities...</p>
-        </div>
-      </div>
-    );
+    return <SplashScreen message="Loading activities..." />;
   }
 
   if (error) {

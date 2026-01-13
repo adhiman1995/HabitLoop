@@ -1,7 +1,7 @@
 import React from 'react';
 import Logo from './Logo';
 
-const SplashScreen = () => {
+const SplashScreen = ({ message }) => {
     return (
         <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-slate-50 dark:bg-slate-900 transition-opacity duration-700">
 
@@ -26,6 +26,12 @@ const SplashScreen = () => {
                 <div className="h-1 w-32 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden mt-4">
                     <div className="h-full bg-blue-500 rounded-full w-1/2 animate-shimmer-slide"></div>
                 </div>
+
+                {message && (
+                    <p className="mt-4 text-slate-500 dark:text-slate-400 font-medium animate-pulse">
+                        {message}
+                    </p>
+                )}
             </div>
         </div>
     );
