@@ -279,29 +279,6 @@ const Settings = ({ user, onRefresh, isDarkMode, toggleTheme }) => {
             </div>
 
         </div>
-            
-            {/* Critical Restart Modal */ }
-    {
-        restarting && (
-            <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[9999] flex items-center justify-center animate-fadeIn">
-                <div className="bg-white dark:bg-slate-800 rounded-2xl p-8 max-w-sm w-full text-center shadow-2xl border border-slate-200 dark:border-slate-700">
-                    <div className="w-16 h-16 bg-blue-50 dark:bg-blue-900/30 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <FiLoader className="text-3xl text-blue-600 dark:text-blue-400 animate-spin" />
-                    </div>
-                    <h2 className="text-2xl font-bold text-slate-800 dark:text-white mb-2">
-                        Restarting Application
-                    </h2>
-                    <p className="text-slate-500 dark:text-slate-400 mb-6">
-                        Applying critical changes...
-                    </p>
-                    <div className="text-4xl font-black text-blue-600 dark:text-blue-400 font-mono">
-                        {countdown}s
-                    </div>
-                </div>
-            </div>
-        )
-    }
-        </div >
     );
 };
 
