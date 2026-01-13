@@ -113,16 +113,7 @@ const Dashboard = () => {
     return localStorage.getItem('defaultView') || 'dashboard';
   });
 
-  // Splash Screen State
-  const [showSplash, setShowSplash] = useState(true);
 
-  // Manage Splash Screen Timing
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowSplash(false);
-    }, 2500); // Show splash for at least 2.5 seconds
-    return () => clearTimeout(timer);
-  }, []);
 
   // Fetch activities on mount
   useEffect(() => {
@@ -268,9 +259,7 @@ const Dashboard = () => {
 
 
 
-  if (showSplash) {
-    return <SplashScreen />;
-  }
+
 
   if (loading) {
     return (
@@ -414,13 +403,19 @@ const Dashboard = () => {
 const AppContent = () => {
   const { user, loading } = useAuth();
   const [view, setView] = useState('login'); // 'login' or 'register'
+  const [showSplash, setShowSplash] = useState(true);
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50">
-        <FiLoader className="text-blue-600 text-4xl animate-spin" />
-      </div>
-    );
+  useEffect(() => {
+    // Ensure splash screen shows for at least 2 seconds
+    const timer = setTimeout(() => {
+      setShowSplash(false);
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Show splash if we are still loading OR if we are within the minimum display time
+  if (loading || showSplash) {
+    return <SplashScreen />;
   }
 
   if (!user) {
