@@ -47,9 +47,9 @@ const Dashboard = () => {
       if (storedTheme) {
         return storedTheme === 'dark';
       }
-      return window.matchMedia('(prefers-color-scheme: dark)').matches;
+      return true; // Default to Dark Mode
     }
-    return false;
+    return true;
   });
 
   // Apply Dark Mode Class

@@ -25,6 +25,21 @@ const Settings = ({ user, onRefresh, isDarkMode, toggleTheme }) => {
         localStorage.setItem('defaultView', defaultView);
     }, [defaultView]);
 
+    const [restarting, setRestarting] = useState(false);
+    const [countdown, setCountdown] = useState(5);
+
+    useEffect(() => {
+        let interval;
+        if (restarting && countdown > 0) {
+            interval = setInterval(() => {
+                setCountdown((prev) => prev - 1);
+            }, 1000);
+        } else if (restarting && countdown === 0) {
+            window.location.reload();
+        }
+        return () => clearInterval(interval);
+    }, [restarting, countdown]);
+
     const handleGenerateData = async () => {
         if (!window.confirm('This will add random activities to your schedule. Continue?')) return;
 
@@ -32,12 +47,14 @@ const Settings = ({ user, onRefresh, isDarkMode, toggleTheme }) => {
         try {
             await generateDummyData((percent) => setProgress(percent));
             await onRefresh();
-            alert('Demo data successfully generated!');
+
+            // Trigger Auto-Restart
+            setRestarting(true);
         } catch (error) {
             console.error(error);
             alert('Failed to generate data.');
-        } finally {
             setGenerating(false);
+        } finally {
             setProgress(0);
         }
     };
@@ -262,6 +279,29 @@ const Settings = ({ user, onRefresh, isDarkMode, toggleTheme }) => {
             </div>
 
         </div>
+            
+            {/* Critical Restart Modal */ }
+    {
+        restarting && (
+            <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[9999] flex items-center justify-center animate-fadeIn">
+                <div className="bg-white dark:bg-slate-800 rounded-2xl p-8 max-w-sm w-full text-center shadow-2xl border border-slate-200 dark:border-slate-700">
+                    <div className="w-16 h-16 bg-blue-50 dark:bg-blue-900/30 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <FiLoader className="text-3xl text-blue-600 dark:text-blue-400 animate-spin" />
+                    </div>
+                    <h2 className="text-2xl font-bold text-slate-800 dark:text-white mb-2">
+                        Restarting Application
+                    </h2>
+                    <p className="text-slate-500 dark:text-slate-400 mb-6">
+                        Applying critical changes...
+                    </p>
+                    <div className="text-4xl font-black text-blue-600 dark:text-blue-400 font-mono">
+                        {countdown}s
+                    </div>
+                </div>
+            </div>
+        )
+    }
+        </div >
     );
 };
 
