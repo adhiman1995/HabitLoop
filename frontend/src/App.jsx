@@ -286,6 +286,7 @@ const Dashboard = () => {
   return (
     <div className="h-screen bg-slate-50 dark:bg-slate-900 flex flex-col overflow-hidden transition-colors duration-300">
       {/* Top Navigation Bar */}
+      {/* Top Navigation Bar */}
       <Navbar
         currentView={currentView}
         onNavigate={setCurrentView}

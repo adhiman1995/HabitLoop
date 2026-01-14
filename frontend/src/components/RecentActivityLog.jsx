@@ -1,6 +1,5 @@
 import React from 'react';
-import { formatDate } from '../utils/helpers';
-import { FiCheckCircle, FiClock, FiCalendar } from 'react-icons/fi';
+import { FiCheckCircle } from 'react-icons/fi';
 
 const RecentActivityLog = ({ activities }) => {
 
@@ -14,54 +13,42 @@ const RecentActivityLog = ({ activities }) => {
         .slice(0, 5);
 
     return (
-        <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-slate-200 dark:border-slate-800 p-6 transition-colors">
+        <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-slate-200 dark:border-slate-800 p-6 transition-colors h-full">
             <h3 className="font-bold text-lg text-slate-800 dark:text-white mb-4 flex items-center gap-2">
                 <FiCheckCircle className="text-emerald-500" />
-                Recent Completions
+                Recent Activity Completed
             </h3>
 
-            <div className="overflow-x-auto">
-                <table className="w-full text-left text-sm text-slate-600 dark:text-slate-300">
-                    <thead className="bg-slate-50 dark:bg-slate-700/50 text-slate-500 dark:text-slate-400 uppercase font-medium text-xs">
-                        <tr>
-                            <th className="px-4 py-3 rounded-l-lg">Activity</th>
-                            <th className="px-4 py-3">Category</th>
-                            <th className="px-4 py-3">Date</th>
-                            <th className="px-4 py-3 rounded-r-lg text-right">Duration</th>
-                        </tr>
-                    </thead>
-                    <tbody className="divide-y divide-slate-100 dark:divide-slate-700">
-                        {recentActivities.length > 0 ? (
-                            recentActivities.map((activity) => (
-                                <tr key={activity.id} className="hover:bg-slate-50 dark:hover:bg-slate-700/30 transition-colors">
-                                    <td className="px-4 py-3 font-medium text-slate-900 dark:text-white">
-                                        {activity.title}
-                                    </td>
-                                    <td className="px-4 py-3">
-                                        <span className="inline-block px-2 py-1 rounded-full text-xs font-semibold bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300">
-                                            {activity.category}
-                                        </span>
-                                    </td>
-                                    <td className="px-4 py-3">
-                                        {formatDate(new Date(activity.date))}
-                                    </td>
-                                    <td className="px-4 py-3 text-right font-medium">
-                                        {activity.duration}m
-                                    </td>
-                                </tr>
-                            ))
-                        ) : (
-                            <tr>
-                                <td colSpan="4" className="px-4 py-8 text-center text-slate-400 italic">
-                                    No completed activities yet. Start tracking!
-                                </td>
-                            </tr>
-                        )}
-                    </tbody>
-                </table>
+            <div className="space-y-3">
+                {recentActivities.length > 0 ? (
+                    recentActivities.map((activity) => (
+                        <div
+                            key={activity.id}
+                            className="flex items-start gap-3 p-3 bg-slate-50 dark:bg-slate-700/30 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700/50 transition-colors"
+                        >
+                            <div className="p-1.5 bg-emerald-100 dark:bg-emerald-900/30 rounded-lg">
+                                <FiCheckCircle className="text-emerald-500 text-sm" />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                                <p className="text-sm font-medium text-slate-800 dark:text-white truncate">
+                                    {activity.title}
+                                </p>
+                                <span className="inline-block mt-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-slate-200 dark:bg-slate-600 text-slate-600 dark:text-slate-300">
+                                    {activity.category}
+                                </span>
+                            </div>
+                        </div>
+                    ))
+                ) : (
+                    <div className="text-center py-8 text-slate-400 dark:text-slate-500">
+                        <FiCheckCircle className="text-3xl mx-auto mb-2 opacity-50" />
+                        <p className="text-sm">No completed activities yet</p>
+                    </div>
+                )}
             </div>
         </div>
     );
 };
 
 export default RecentActivityLog;
+

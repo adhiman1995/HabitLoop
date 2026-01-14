@@ -1,5 +1,5 @@
-import React from 'react';
-import { FiChevronLeft, FiChevronRight, FiCalendar, FiPlus } from 'react-icons/fi';
+import React, { useState, useEffect } from 'react';
+import { FiChevronLeft, FiChevronRight, FiCalendar, FiPlus, FiClock } from 'react-icons/fi';
 import { formatDate } from '../utils/helpers';
 
 const AppHeader = ({
@@ -11,6 +11,21 @@ const AppHeader = ({
     onToday,
     onAddActivity
 }) => {
+    const [currentTime, setCurrentTime] = useState(new Date());
+
+    useEffect(() => {
+        const timer = setInterval(() => setCurrentTime(new Date()), 1000);
+        return () => clearInterval(timer);
+    }, []);
+
+    const formatTime = (date) => {
+        return date.toLocaleTimeString('en-US', {
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: true
+        });
+    };
 
     const getPageTitle = () => {
         switch (currentView) {
@@ -44,6 +59,22 @@ const AppHeader = ({
             </div>
 
             <div className="flex flex-col sm:flex-row items-stretch gap-4">
+                {/* Digital Clock - Only on Dashboard */}
+                {currentView === 'dashboard' && (
+                    <div className="flex items-center gap-2 sm:gap-3 px-3 sm:px-5 py-2 sm:py-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm">
+                        <div className="p-1.5 sm:p-2 bg-blue-50 dark:bg-blue-900/30 rounded-lg">
+                            <FiClock className="text-blue-500 text-base sm:text-xl" />
+                        </div>
+                        <div className="flex flex-col">
+                            <span className="text-lg sm:text-2xl font-mono font-bold text-slate-800 dark:text-white tracking-wider">
+                                {formatTime(currentTime)}
+                            </span>
+                            <span className="text-[9px] sm:text-[10px] text-slate-400 dark:text-slate-500 uppercase tracking-widest">
+                                {currentTime.toLocaleDateString('en-US', { weekday: 'long' })}
+                            </span>
+                        </div>
+                    </div>
+                )}
                 {/* Week Navigation - Only Show in Activities Tab */}
                 {currentView === 'activities' && (
                     <div className="flex items-center gap-2">
